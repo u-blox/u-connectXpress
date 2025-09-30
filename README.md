@@ -16,6 +16,28 @@ The source code lives in a private repository.
 
 ## 📜 Recent Release Notes
 
+## [2.0.0] - 2024-12-17
+### Improvements
+- Wi-Fi: Roaming settings `AT+UWSROS` can be changed without reboot.
+- Bluetooth: AT+UBTB disconnects the ACL connection after the bonding procedure is completed. If the ACL connection was established before the bonding procedure it will not be disconnected.
+- Application: Added optional parameter to set Identity during EAP-TLS authentication in `AT+UWSSE` command.
+- Application: Added support for backslash escape codes for special characters.
+- Application: Added support for persistent UDP sockets in `AT+USOP` and `AT+USOPCR`.
+- Application: Increased max simultaneous sockets from 3 → 6.
+
+### Fixed
+- Connection issue against some servers due to TLS handshake failure. (UCS_DEV_2-1111)
+- Reset when sending LE notify/indicate to unsupported characteristic (UCS_DEV_2-1142)
+- Strings without quotes wrongly accepted (UCS_DEV_2-1152)
+- Incorrect `OK` response on exit from transparent mode (UCS_DEV_2-1187)
+- AT+UTMP prevented entering command mode with escape sequence (UCS_DEV_2-1195)
+- Baudrates higher than 115200 (AT+USYUS) and auto sleep (AT+UPMPSL=1) can be configured even if it is not a supported combination. This results in problems waking up from sleep mode (UCS_DEV_2-1196)
+- Reset when using TCP (UCS_DEV_2-1200)
+- Wi-Fi network down (+UEWSND) sometimes arrives before link down (+UEWLD) (UCS_DEV_2-1223)
+
+### Changed behavior
+- All AT string parameters must now be enclosed in quotation marks.
+
 ## [1.2.0] - 2024-10-18
 ### Improvements
 - Wi-Fi: Roaming between Wi-Fi access points based-on Received Signal Strength Indicator, RSSI.
