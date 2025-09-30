@@ -16,6 +16,18 @@ The source code lives in a private repository.
 
 ## 📜 Recent Release Notes
 
+## [1.2.0] - 2024-10-18
+### Improvements
+- Wi-Fi: Roaming between Wi-Fi access points based-on Received Signal Strength Indicator, RSSI.
+- Application: Auto sleep mode for optimizing consumption depending on configuration and activity.
+
+### Fixed
+- Could accept unauthenticated bonding even when configured to demand authenticated bonding (UCS_DEV_2-1067)
+- Ping fails if sent both from the module and to the module at the same time (UCS_DEV_2-1075)
+- Wi-Fi station could end up with the wrong color LED if disconnect was sent during an ongoing connection attempt (UCS_DEV_2-1133)
+- Throughput reduced over time when sending data in one direction over a TCP socket (UCS_DEV_2-1127)
+- Module crashes during automatic reconnect to a Wi-Fi Access Point (UCS_DEV_2-1130)
+
 ## [1.0.0] - 2024-05-15
 - Platform: NORA-W36
 ### Improvements
