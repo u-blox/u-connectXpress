@@ -1,22 +1,8 @@
-# 📦 u-connectXpress Releases
+# Changelog
 
-This repository is dedicated to **releases of u-connectXpress** — binaries, manuals, and changelogs for each supported platform.
-The source code lives in a private repository.
+All notable changes to the u-connectXpress software relevant for `NORA-W36` will be documented in this file.
 
----
-
-## 🔖 Latest Release
-
-[![GitHub release](https://img.shields.io/github/v/release/u-blox/u-connectXpress?sort=semver)](https://github.com/u-blox/u-connectXpress/releases/latest)
-
-**Download the latest release assets here:**
-[Releases page](https://github.com/u-blox/u-connectXpress/releases/latest)
-
----
-
-## 📜 Recent Release Notes
-
-## [3.0.0] - 2025-06-27
+# [3.0.0] - 2025-06-27
 ### Improvements
 - Application: Added HTTP client (UCS_DEV_2-393)
 - Network: Added `AT+USOB` (Socket Bind) command (UCS_DEV_2-1353)
@@ -44,6 +30,14 @@ The source code lives in a private repository.
 - Bluetooth: Missing support for SPS write without response and notification (UCS_DEV_2-1336)
 - Wi-Fi: Wrong `authentication_suites` shown for EAP in scan results (UCS_DEV_2-1461)
 
+### Known limitations
+- Wi-Fi: Crash may occur when AP is brought down while station is associating (UCS_DEV_2-595)
+- Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- Bluetooth: Crash if >8 characteristics used on one GATT service (UCS_DEV_2-1468)
+
+---
+
 ## [2.0.0] - 2024-12-17
 ### Improvements
 - Wi-Fi: Roaming settings `AT+UWSROS` can be changed without reboot.
@@ -63,8 +57,16 @@ The source code lives in a private repository.
 - Reset when using TCP (UCS_DEV_2-1200)
 - Wi-Fi network down (+UEWSND) sometimes arrives before link down (+UEWLD) (UCS_DEV_2-1223)
 
+### Known limitations
+- Wi-Fi: Crash may occur when AP is brought down while station is associating (UCS_DEV_2-595)
+- Security: EAP-TLS fails with certificates >2048 bytes (UCS_DEV_2-812)
+- Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+
 ### Changed behavior
 - All AT string parameters must now be enclosed in quotation marks.
+
+---
 
 ## [1.2.0] - 2024-10-18
 ### Improvements
@@ -78,8 +80,18 @@ The source code lives in a private repository.
 - Throughput reduced over time when sending data in one direction over a TCP socket (UCS_DEV_2-1127)
 - Module crashes during automatic reconnect to a Wi-Fi Access Point (UCS_DEV_2-1130)
 
+### Known limitations
+- Wi-Fi: Crash may occur when AP is brought down while station is associating (UCS_DEV_2-595)
+- Security: EAP-TLS fails with certificates >2048 bytes (UCS_DEV_2-812)
+- Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- Connection issue against some servers due to TLS handshake failure. (UCS_DEV_2-1111)
+
+### Changed behavior
+
+---
+
 ## [1.0.0] - 2024-05-15
-- Platform: NORA-W36
 ### Improvements
 - NORA-W36 introduced
 ### Known limitations
@@ -87,19 +99,3 @@ The source code lives in a private repository.
 - Security: EAP-TLS fails with certificates >2048 bytes (UCS_DEV_2-812)
 - Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
 - Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
-
-
-> For complete changelogs, see each release’s notes in the [Releases tab](https://github.com/u-blox/u-connectXpress/releases).
-
----
-
-## 📖 Documentation
-
-- AT manual is included with each release
-
----
-
-## ℹ️ About
-
-- **This repo**: Public distribution of stable builds and documentation
-
