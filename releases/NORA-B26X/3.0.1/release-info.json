@@ -1,0 +1,13 @@
+{
+    "product": "NORA-B26X",
+    "version": "3.0.1-001",
+    "release_version": "3.0.1",
+    "build_timestamp": "2025-08-13T12:16:07Z",
+    "firmware":     {
+        "filename": "NORA-B26X-SW-3.0.1-001.bin",
+        "path": "releases/NORA-B26X/3.0.1/NORA-B26X-SW-3.0.1-001.bin",
+        "signed": true,
+        "signed_by": "hrehpsho",
+        "hardware_tested": true
+    }
+}
