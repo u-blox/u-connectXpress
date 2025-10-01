@@ -16,6 +16,24 @@ The source code lives in a private repository.
 
 ## 📜 Recent Release Notes
 
+# [3.1.0] - 2025-09-28
+
+- Platform: NORA-W36
+
+### Improvements
+- Bluetooth: Support up to 23 characteristics with notification, indication (UCS_DEV_2-1529)
+- Security: Support for TLS 1.3 added
+- Security: Mbed TLS upgraded to version 3.6.4
+    Note! Server Name Identification is now enforced by default during Server Authentication, even for TLS 1.2. This may cause problems if using an old certificate without the server name included. See AT+USETE0 for how to turn this off.
+- MQTT: `AT+UMQRB` MQTT Read Binary now supports reading up to 5000 bytes (UCS_DEV_2-1460)
+
+### Fixed
+- HTTP client: Get Body feature not working with TLS and string mode (UCS_DEV_2-1509)
+- HTTP client: Fixed POST truncation between requests by resetting contentLength after request completion (UCS_DEV_2-1524)
+- Bluetooth: Crash if >8 characteristics used on one GATT service (UCS_DEV_2-1468)
+- System: Escape sequence not working after AT+USYUS (UCS_DEV_2-1469)
+- System: Escape sequence (+++) leaks as payload (UCS_DEV_2-1489)
+
 ## [3.0.1] 2025-08-13
 
 - Platform: NORA-B26
@@ -33,38 +51,6 @@ The source code lives in a private repository.
 - SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
 - Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
 - Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
-
-## [3.0.0] - 2025-06-27
-
-- Platform: NORA-W36
-
-### Improvements
-- Application: Added HTTP client (UCS_DEV_2-393)
-- Network: Added `AT+USOB` (Socket Bind) command (UCS_DEV_2-1353)
-- Network: Added support for Persistent Socket in `AT+USOL` and `AT+USOB` (UCS_DEV_2-1333)
-- Network: Added SNTP support (UCS_DEV_2-1356)
-- Security: Added `AT+USECD` (Security Certificates Details) command (UCS_DEV_2-1357)
-- Wi-Fi: Added `AT+UWCL` (Wi-Fi Channel List) command (UCS_DEV_2-1177)
-
-### Changed behavior
-- Network: `AT+USOL` (Socket Listen) split into `AT+USOL` and `AT+USOB` (UCS_DEV_2-1419)
-- Network: Changed response to `AT+USOPL?` (Socket Persistent List) (UCS_DEV_2-1363)
-- Wi-Fi: Added more domains in `AT+UWRD` (Wi-Fi Regulatory Domains) (UCS_DEV_2-1206)
-- Bluetooth: Renamed advertise commands:
-  - `AT+UBTA` → `AT+UBTAL` (Legacy Enable)
-  - `AT+UBTAD` → `AT+UBTADL` (Legacy Data)
-  - `AT+UBTDA` → `AT+UBTAD` (Directed Advertisement)
-
-### Fixed
-- Bluetooth: Encryption not used when reconnecting to bonded device (UCS_DEV_2-1417)
-- Application: Memory leak during MQTT publish (UCS_DEV_2-1429)
-- Security: EAP-TLS connection failed with certificates >2048 bytes (UCS_DEV_2-812)
-- Wi-Fi: Adaptivity not enabled (UCS_DEV_2-1330)
-- Application: `AT+UMQPS` and `AT+UMQPB` returned OK too early (UCS_DEV_2-1362)
-- Bluetooth: Module crash during SPS data transmission in buffered receive mode with `AT+USPSRM`(UCS_DEV_2-1347)
-- Bluetooth: Missing support for SPS write without response and notification (UCS_DEV_2-1336)
-- Wi-Fi: Wrong `authentication_suites` shown for EAP in scan results (UCS_DEV_2-1461)
-
 
 > For complete changelogs, see each release’s notes in the [Releases tab](https://github.com/u-blox/u-connectXpress/releases).
 
