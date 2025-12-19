@@ -1,0 +1,3069 @@
+config:
+  HAS_SETTINGS: 1
+  HAS_AT_SERVER: 1
+  PROD_START_BOOTLOADER_CMD: 1
+  PROD_DEVICE_DATA_RW_CMD: 1
+  PROD_PHY_AT_CMD: 0
+  HAS_TX_BLE_TX_POWER_SETTING: 1
+  HAS_COORDINATOR: 1
+  HAS_WIFI: 0
+  HAS_BLE: 1
+  DEFAULT_BLE_MODE: 3
+  DEFAULT_BLE_CHARACTERISTICS_LENGTH: 244
+  DEFAULT_BAUDRATE: 115200
+  DEFAULT_FLOW_CONTROL: 0
+  HAS_SYSTEM_COMMON: 1
+  BAUDRATE_VALUES: 1200,2400,4800,9600,14400,28800,31250,38400,56000,57600,76800,115200,230400,250000,460800,921600,1000000
+  FLOW_CTRL_ENABLED: 1
+  FLOW_CTRL_DISABLED: 0
+  HAS_SYSTEM: 1
+  HAS_RADIO_COEX: 1
+  HAS_SYSTIME: 0
+  HAS_CHIP_DIE_TEMP_SENSOR: 1
+  HAS_SYSTEM_INTERFACE: 1
+  HAS_BLE_CODED_PHY: 1
+  HAS_BLE_EXT_ADV: 1
+  HAS_GAP_CENTRAL: 1
+  HAS_CHANNEL_SOUNDING: 0
+  MAX_BLE_CENTRAL_CONNECTION_COUNT: 6
+  MAX_BLE_PERIPHERAL_CONNECTION_COUNT: 2
+  MAX_BLE_ADV_DATA_LEN: 28
+  MAX_BLE_SCAN_RSP_DATA_LEN: 31
+  MAX_BLE_EXT_ADV_DATA_LEN: 226
+  MAX_IDX_BLE_EXT_ADV: 0
+  MAX_BLE_BONDED_DEVICE_COUNT: 30
+  MAX_BLE_GATT_SERVER_CCCD_CHAR_COUNT: 23
+  HAS_GATT_CLIENT: 1
+  HAS_GATT_SERVER: 1
+  HAS_SERVICE_CHANGE_INDICATION: 0
+  HAS_SPS: 1
+  SPS_RX_BUFFER_SIZE: 8192
+  HAS_POWER_MANAGER: 0
+  HAS_EXTENDED_SLEEP_MODES: 1
+  HAS_SLEEP_CMD: 1
+  HAS_DEEP_SLEEP_CMD: 1
+  HAS_TRANSPARENT_MODE_PERSISTENT: 1
+  HAS_COORDINATOR_SHARED_LOW: 1
+  HAS_COORDINATOR_SHARED_HIGH: 0
+  HAS_COORDINATOR_DEDICATED: 0
+  COORDINATOR_SHARED_LOW_PRIORITY: 7
+  COORDINATOR_SHARED_LOW_STACK_SIZE: 1024
+  COORDINATOR_SHARED_LOW_NAME: coordinatorLow
+  COORDINATOR_SHARED_LOW_MODULE_COUNT: 1
+  COORDINATOR_SHARED_HIGH_PRIORITY: 2
+  COORDINATOR_SHARED_HIGH_STACK_SIZE: 1024
+  COORDINATOR_SHARED_HIGH_NAME: coordinatorHigh
+  COORDINATOR_SHARED_HIGH_MODULE_COUNT: 1
+  COORDINATOR_DEDICATED_MODULE_COUNT: 1
+  APP_U_CONNECT_XPRESS: 1
+  HAS_SECURITY_CHECK: 1
+  HAS_SOCKET: 0
+  MUTEX_DEADLOCK_DETECTION: 0
+  UCXLOG: 0
+  LOG_USE_ANSI_COLOR: 1
+  EARLY_WATCHDOG: 0
+  DEFAULT_BLE_TX_POWER_DBM: 8
+  PRODUCT: NORA-B26
+command_groups:
+  General:
+    urcs:
+      +STARTUP:
+        brief: Startup indication
+        api_name: Startup
+        desc: Indicates the startup of the device and that it is ready to receive
+          commands.
+        notes: The +STARTUP URC can be customized using the AT+CSGT command.
+    commands:
+      AT:
+        brief: Attention
+        desc: Attention command that determines the presence of a Data Communication
+          Equipment (DCE).
+        syntax:
+          AT:
+            api_name: Attention
+            desc: Attention command.
+      AT+CGMI:
+        brief: Manufacturer identification
+        desc: Read a text string that identifies the manufacturer.
+        syntax:
+          AT+CGMI:
+            desc: Read manufacturer text string.
+            responses:
+              <manufacturer>:
+                desc: "Successful read response.\nNote: The manufacturer string is\
+                  \ returned without any response prefix.\n"
+      AT+GMI:
+        brief: Manufacturer identification
+        desc: Read a text string that identifies the manufacturer.
+        syntax:
+          AT+GMI:
+            api_name: GetManufacturerIdentification
+            desc: Read manufacturer text string.
+            responses:
+              <manufacturer>:
+                desc: "Successful read response.\nNote: The manufacturer string is\
+                  \ returned without any response prefix.\n"
+      AT+CGMM:
+        brief: Model identification
+        desc: Read a text string that identifies the device model.
+        syntax:
+          AT+CGMM:
+            desc: Read device model.
+            responses:
+              <device_model>:
+                desc: "Successful read response.\nNote: The device_model string is\
+                  \ returned without any response prefix.\n"
+      AT+GMM:
+        brief: Model identification
+        desc: Read a text string that identifies the device model.
+        syntax:
+          AT+GMM:
+            api_name: GetDeviceModelIdentification
+            desc: Read device model.
+            responses:
+              <device_model>:
+                desc: "Successful read response.\nNote: The device_model string is\
+                  \ returned without any response prefix.\n"
+      AT+CGMR:
+        brief: Software version identification
+        desc: Read a text string that identifies the software version of the module.
+        syntax:
+          AT+CGMR:
+            desc: Read software version.
+            responses:
+              <version>:
+                desc: "Successful read response.\nNote: The version string is returned\
+                  \ without any response prefix.\n"
+      AT+GMR:
+        brief: Software version identification
+        desc: Read a text string that identifies the software version of the module.
+        syntax:
+          AT+GMR:
+            api_name: GetSoftwareVersion
+            desc: Read software version.
+            responses:
+              <version>:
+                desc: "Successful read response.\nNote: The version string is returned\
+                  \ without any response prefix.\n"
+      AT+CGSN:
+        brief: Serial number
+        desc: Read the product serial number.
+        syntax:
+          AT+CGSN:
+            desc: Read serial number.
+            responses:
+              <serial_number>:
+                desc: "Successful read response.\nNote: The serial_number string is\
+                  \ returned without any response prefix.\n"
+      AT+GSN:
+        brief: Serial number
+        desc: Read the product serial number.
+        syntax:
+          AT+GSN:
+            api_name: GetSerialNumber
+            desc: Read serial number.
+            responses:
+              <serial_number>:
+                desc: "Successful read response.\nNote: The serial_number string is\
+                  \ returned without any response prefix.\n"
+      ATI:
+        brief: Identification information
+        desc: Read identification information.
+        syntax:
+          ATI9:
+            api_name: GetIdentInfo
+            desc: Read identification information.
+            responses:
+              <application_version>,<unique_identifier>:
+                desc: "Successful read response.\nNote: The application_version and\
+                  \ unique_identifier strings are returned without any response prefix.\n"
+          ATI0:
+            api_name: GetTypeCode
+            desc: Read type code.
+            responses:
+              <type_code>:
+                desc: "Successful read response.\nNote: The type_code string is returned\
+                  \ without any response prefix.\n"
+        parameters:
+          application_version:
+            type: string
+            desc: Application version.
+          unique_identifier:
+            type: string
+            desc: Unique identifier.
+          type_code:
+            type: string
+            desc: Type code for the module.
+      AT+CSGT:
+        brief: Greeting Text
+        desc: "Configures and activates/deactivates the greeting text.\nThe configuration\
+          \ change in the greeting text will be applied at the subsequent boot.\n\
+          When active, the greeting text is sent at boot once. The default greeting\
+          \ text is +STARTUP.\n"
+        syntax:
+          AT+CSGT=<greeting_mode>[,<text>]:
+            api_name: SetGreetingText
+            storable: true
+            requires_reboot: true
+            desc: Set the greeting text and mode.
+          AT+CSGT?:
+            api_name: GetGreetingText
+            desc: Read the greeting text.
+            responses:
+              +CSGT:<greeting_mode>,<text>:
+                desc: Successful read response.
+        parameters:
+          greeting_mode:
+            type: enumerator
+            values:
+              off:
+                value: 0
+                desc: Turn off the greeting text.
+              on:
+                value: 1
+                desc: Turn on the greeting text.
+          text:
+            desc: "The greeting text.\nNote: Can not be an empty string.\n"
+            type: string
+            length: 1..49
+    parameters:
+      device_model:
+        type: string
+        desc: Device model
+      serial_number:
+        type: string
+        desc: Serial number.
+      manufacturer:
+        type: string
+        desc: Manufacturer ("u-blox").
+      version:
+        type: string
+        desc: Version.
+  System:
+    type_prefix: sys
+    parameters:
+      baud_rate:
+        type: integer
+        desc: Baudrate
+        default: U_CONFIG_DEFAULT_BAUDRATE
+        valid_values: 1200,2400,4800,9600,14400,28800,31250,38400,56000,57600,76800,115200,230400,250000,460800,921600,1000000
+      slot:
+        type: enumerator
+        values:
+          firmware_slot1:
+            desc: Slot 1.
+            value: 0
+          firmware_slot2:
+            desc: Slot 2.
+            value: 1
+    desc: System AT commands
+    commands:
+      AT+CPWROFF:
+        brief: Module switch off
+        syntax:
+          AT+CPWROFF:
+            api_name: Reboot
+            desc: Reboot the DCE.
+      AT+USYIIS:
+        visibility: hidden
+        brief: Invalidate Image slot
+        desc: Invalidates selected firmware slot.
+        syntax:
+          AT+USYIIS:
+            desc: Invalidate the currently active firmware slot.
+          AT+USYIIS=<slot>:
+            desc: Invalidate the firmware image from the given slot.
+      AT+USYFWU:
+        visibility: hidden
+        brief: Firmware Update
+        desc: Force start of the boot loader. The boot loader will start at the defined
+          baud rate.
+        syntax:
+          AT+USYFWU=<bootloader_mode>,<baud_rate>[,<flow_control>]:
+            desc: Force start of the boot loader.
+        parameters:
+          bootloader_mode:
+            type: bootloader_mode
+          flow_control:
+            type: integer
+            default: U_CONFIG_DEFAULT_FLOW_CONTROL
+            valid_values: 0..1
+      AT+USYFWUS:
+        brief: Firmware Update using serial port
+        desc: "Start serial port firmware upgrade. The module will indicate that it\
+          \ is ready to receive\nthe new firmware by regularly sending the XModem\
+          \ start byte C until either an XModem transfer has started,\nor a timeout\
+          \ has occurred\n"
+        syntax:
+          AT+USYFWUS=<baud_rate>[,<flow_control>]:
+            api_name: StartSerialFirmwareUpdate
+            desc: Start firmware upgrade on the serial port with provided settings
+          AT+USYFWUS:
+            api_name: StartSerialFirmwareUpdateDefault
+            desc: Start firmware upgrade on the serial port with default settings,
+              baudrate 115200 and no flow control
+        parameters:
+          flow_control:
+            type: integer
+            default: 0
+            valid_values: 0..1
+      AT+USYBL:
+        brief: Start the boot loader command line interface
+        desc: Force start of the boot loader. The boot loader will start at the defined
+          baud rate.
+        syntax:
+          AT+USYBL=<baud_rate>[,<flow_control>]:
+            api_name: StartBootLoader
+            desc: Force start of the boot loader.
+          AT+USYBL:
+            api_name: StartBootLoaderDefault
+            desc: Force start of the boot loader with default settings. Baudrate 115200
+              and flow control off.
+        parameters:
+          flow_control:
+            type: integer
+            default: 0
+            valid_values: 0..1
+      AT&W:
+        brief: Store current configuration
+        desc: Store the current configuration to flash
+        syntax:
+          AT&W:
+            api_name: StoreConfiguration
+            desc: Write the current configuration to flash. The configuration is stored
+              immediately when AT&W is issued.
+      AT+USYCI:
+        visibility: hidden
+        brief: Crash Information
+        syntax:
+          AT+USYCI?:
+            desc: Read information about the latest crash
+            responses:
+              +USYCI:<crash_type>,<task_name>,<file_name>,<line_nr>,<fw_version>:
+                desc: Assert information
+              +USYCI:<crash_type>,<task_name>,<fw_version>:
+                desc: Stack overflow information
+              +USYCI:<crash_type>,<task_name>,<fw_version>,<reg_string>:
+                desc: Watchdog information
+        parameters:
+          crash_type:
+            type: string
+          task_name:
+            type: string
+          file_name:
+            type: string
+          line_nr:
+            type: integer
+          fw_version:
+            type: string
+          reg_string:
+            type: string
+      AT+USYA:
+        visibility: hidden
+        brief: Assert
+        syntax:
+          AT+USYA=<failure_type>:
+            desc: Trigger a software failure in module to test the functionality
+        parameters:
+          failure_type:
+            type: enumerator
+            values:
+              null_pointer:
+                desc: Null pointer
+                value: 0
+              watchdog:
+                desc: Watchdog
+                value: 1
+              assert:
+                desc: Assert
+                value: 2
+              stack_overflow:
+                desc: Stack overflow
+                value: 5
+      AT+USYLA:
+        brief: Local Address
+        syntax:
+          AT+USYLA=<interface_id>:
+            api_name: GetLocalAddress
+            desc: Get interface address
+            responses:
+              +USYLA:<address>:
+                desc: Successful read response
+          AT+USYLA=<interface_id>,<address>:
+            api_name: SetLocalAddress
+            desc: Set interface address
+            requires_reboot: true
+            storable: true
+        parameters:
+          interface_id:
+            type: interface_id
+          address:
+            desc: MAC address of the interface id. If the address is set to 000000000000,
+              the local address will be restored to factory-programmed value. The
+              least significant bit of the first octet of the address must be 0.
+            type: mac_addr
+      AT+USYFR:
+        brief: Factory Restore
+        syntax:
+          AT+USYFR:
+            api_name: FactoryReset
+            requires_reboot: true
+            storable: true
+            desc: "The module is completely restored to factory defaults. All settings\
+              \ are reset to default values.\nAll certificates and Bluetooth bonding\
+              \ information will be removed.\n"
+      AT+USYDS:
+        brief: Default Settings
+        syntax:
+          AT+USYDS:
+            api_name: DefaultSettings
+            requires_reboot: true
+            storable: true
+            desc: "Reset all settings to default values.\nCertificates and Bluetooth\
+              \ bonding information will be left untouched.\n"
+      AT+USYUS:
+        brief: Uart Settings
+        syntax:
+          AT+USYUS=<baud_rate>[,<flow_control>[,<change_after_confirm>]]:
+            storable: true
+            api_name: SetUartSettings
+            desc: Configure new UART settings that will be used after restart. Baudrates
+              above 4000000 bps can be set, but are unsupported. If the flow_control
+              parameter is omitted then no flow control will be used. If change_after_confirm
+              is not provided the baudrate will be changed only after a store and
+              reboot.
+          AT+USYUS?:
+            api_name: GetUartSettings
+            desc: Reads current UART settings from the module
+            responses:
+              +USYUS:<baud_rate>,<flow_control>:
+                desc: Successful read response
+        parameters:
+          flow_control:
+            type: integer
+            valid_values: 0..1
+            desc: "0: No flow control\n1: Use CTS/RTS flow control\n"
+          change_after_confirm:
+            type: integer
+            valid_values: 0..1
+            desc: "0: Switch baudrate after reboot. When set ${ref:AT&W} must be called.\n\
+              1: Switch baudrate directly after status OK have been sent.\n"
+      AT+USYSWDD:
+        visibility: hidden
+        brief: SWD interface Disable
+        syntax:
+          AT+USYSWDD:
+            desc: Disable SWD interface.
+      AT+USYSWDS:
+        visibility: hidden
+        brief: SWD interface State
+        syntax:
+          AT+USYSWDS?:
+            desc: Read SWD interface state.
+            responses:
+              +USYSWDS:<state>:
+                desc: SWD interface state response.
+        parameters:
+          state:
+            desc: SWD interface state
+            type: enumerator
+            values:
+              disabled:
+                desc: SWD interface is disabled
+                value: 0
+              enabled:
+                desc: SWD interface is enabled
+                value: 1
+      AT+USYAIS:
+        visibility: hidden
+        brief: Active Image Slot.
+        syntax:
+          AT+USYAIS=<slot>:
+            desc: Set active slot.
+          AT+USYAIS?:
+            desc: Read active slot.
+            responses:
+              +USYAIS:<slot>:
+                desc: Response with current active slot.
+      AT+USYLAOTP:
+        brief: Local Address in OTP
+        visibility: hidden
+        syntax:
+          AT+USYLAOTP=<interface_id>,<mac_addr>:
+            desc: Write local address for the specified interface to OTP.
+        parameters:
+          interface_id:
+            type: interface_id
+            desc: Interface Id to program the mac for. Only BT and Wi-Fi station allowed.
+              AP will be Wi-Fi station + 1
+          mac_addr:
+            type: mac_addr
+            desc: Address to program
+      AT+USYEC:
+        brief: Error Code
+        syntax:
+          AT+USYEC?:
+            api_name: GetLastErrorCode
+            desc: Read the last error code
+            responses:
+              +USYEC:<error_code>:
+                desc: Latest error code
+        parameters:
+          error_code:
+            desc: Error code
+            type: integer
+      AT+USYEE:
+        brief: Extended Error codes on/off
+        syntax:
+          AT+USYEE=<extended_errors>:
+            storable: true
+            api_name: SetExtendedError
+            desc: Enable or disable extended error codes
+          AT+USYEE?:
+            api_name: GetExtendedError
+            desc: Read extended error codes enabled/disabled
+            responses:
+              +USYEE:<extended_errors>:
+                desc: Extended error codes setting
+        parameters:
+          extended_errors:
+            desc: Extended error codes setting
+            type: enumerator
+            values:
+              off:
+                desc: (Factory default) Extended error codes will not be displayed
+                value: 0
+              on:
+                desc: Extended error code will be displayed on every error
+                value: 1
+      AT+USYUA:
+        brief: Upload Alerts
+        visibility: hidden
+        syntax:
+          AT+USYUA:
+            desc: Upload alerts to DevAlert
+      ATE:
+        brief: Echo On/Off
+        desc: This command configures whether or not the module echoes the characters
+          received from the host.
+        syntax:
+          ATE0:
+            storable: true
+            api_name: SetEchoOff
+            desc: Set echo off
+          ATE1:
+            storable: true
+            api_name: SetEchoOn
+            desc: Set echo on
+          ATE?:
+            api_name: GetEcho
+            desc: Read current echo setting
+            responses:
+              <echo_on>:
+                desc: Current echo setting
+        parameters:
+          echo_on:
+            type: enumerator
+            values:
+              off:
+                desc: Module does not echo the characters
+                value: 0
+              on:
+                desc: (Factory default) Module echoes the characters
+                value: 1
+      ATS:
+        brief: S-registers
+        desc: Used to set different configuration parameters
+        syntax:
+          ATS2=<escape_char>:
+            storable: true
+            api_name: SetEscSequenceChar
+            desc: Write escape character. This settings change the decimal value of
+              the escape character used by some modes, such as transparent mode for
+              example, to detect an escape sequence and exit.
+          ATS2?:
+            api_name: GetEscSequenceChar
+            desc: Read escape character
+            responses:
+              <escape_char>:
+                desc: Current escape character
+          ATS3=<line_term>:
+            storable: true
+            api_name: SetLineTermChar
+            desc: Write line termination character. This setting changes the decimal
+              value of the character recognized by the DCE from the DTE to terminate
+              an incoming command line. It is also generated by the DCE as part of
+              the header, trailer, and terminator for result codes and information
+              text along with the S4 parameter. The previous value of S3 is used to
+              determine the command line termination character for entry of the command
+              line containing the S3 setting command. However, the result code issued
+              shall use the value of S3 as set during the processing of the command
+              line. For example, if S3 was previously set to 13 and the command line
+              "ATS3=30" is issued, the command line shall be terminated with a CR,
+              character (13), but the result code issued will use the character with
+              the ordinal value 30 instead of the CR.
+          ATS3?:
+            api_name: GetLineTermChar
+            desc: Read line termination character
+            responses:
+              <line_term>:
+                desc: Current line termination character
+          ATS4=<resp_format>:
+            storable: true
+            api_name: SetRspFormatChar
+            desc: Write response format character. This setting changes the decimal
+              value of the character generated by the DCE as part of the header, trailer,
+              and terminator for result codes and information text, along with the
+              S3 parameter. If the value of S4 is changed in a command line, the result
+              code issued in response to that command line will use the new value
+              of S4.
+          ATS4?:
+            api_name: GetRspFormatChar
+            desc: Read response format character
+            responses:
+              <resp_format>:
+                desc: Current response format character
+          ATS5=<backspace>:
+            storable: true
+            api_name: SetBackspaceChar
+            desc: Writes backspace character. This setting changes the decimal value
+              of the character recognized by the DCE as a request to delete from the
+              command line, the immediately preceding character.
+          ATS5?:
+            api_name: GetBackspaceChar
+            desc: Read backspace character
+            responses:
+              <backspace>:
+                desc: Current backspace character
+        parameters:
+          line_term:
+            type: integer
+            desc: 'Command line termination character. Factory default: 13'
+            valid_values: 0..127
+          resp_format:
+            type: integer
+            desc: 'Response format character. Factory default: 10'
+            valid_values: 0..127
+          backspace:
+            type: integer
+            desc: 'Backspace character. Factory default: 8'
+            valid_values: 0..127
+          escape_char:
+            type: integer
+            desc: 'Escape character. Factory default: 43'
+            valid_values: 0..127
+      AT+UTMES:
+        brief: Transparent mode escape sequence settings
+        syntax:
+          AT+UTMES=<pre_timeout>,<post_timeout>,<escape_timeout>:
+            api_name: SetEscSequenceSettings
+            desc: Configures the transparent mode escape sequence settings.
+          AT+UTMES?:
+            api_name: GetEscSequenceSettings
+            desc: Reads current transparent mode escape sequence settings.
+            responses:
+              +UTMES:<pre_timeout>,<post_timeout>,<escape_timeout>:
+                desc: Successful read response
+        parameters:
+          pre_timeout:
+            type: integer
+            desc: 'Minimum time (ms) of no data activity required before the escape
+              sequence is sent. Factory default: 1000'
+            valid_values: 50..5000
+          post_timeout:
+            type: integer
+            desc: 'Minimum time (ms) of no data activity required after the escape
+              sequence is sent. Factory default: 1000'
+            valid_values: 50..5000
+          escape_timeout:
+            type: integer
+            desc: 'Maximum time interval (ms) between escape characters. Factory default:
+              200'
+            valid_values: 50..5000
+      AT+USYRC:
+        brief: Radio Coexistence
+        visibility: hidden
+        syntax:
+          AT+USYRC=<enable_coex>:
+            api_name: SetRadioCoex
+            storable: true
+            desc: Enable or disable radio coexistence.
+          AT+USYRC?:
+            api_name: GetRadioCoex
+            desc: Read radio coexistence setting.
+            responses:
+              +USYRC:<enable_coex>:
+                desc: Radio coexistence setting
+        parameters:
+          enable_coex:
+            type: enumerator
+            values:
+              off:
+                desc: Radio coexistence is disabled
+                value: 0
+                default: true
+              on:
+                desc: Radio coexistence is enabled
+                value: 1
+            desc: Enable or disable radio coexistence.
+      AT+USCT:
+        brief: Chip Die Temperature
+        experimental: true
+        syntax:
+          AT+USCT?:
+            api_name: GetChipDieTemp
+            desc: Read chip die temperature.
+            responses:
+              +USCT:<temperature>:
+                desc: Chip die temperature response
+        parameters:
+          temperature:
+            desc: Chip die temperature in tenth of Celsius degrees. Divide by 10 to
+              get degrees.
+            type: integer
+  Bluetooth:
+    type_prefix: bt
+    desc: "Bluetooth commands\n\nNORA-B26 supports up to 6 connections as BLE central\
+      \ and 2 as peripheral.\n"
+    parameters:
+      conn_handle:
+        type: integer
+        desc: Connection handle of the Bluetooth low energy connection.
+      bd_addr:
+        type: bd_addr
+        desc: Bluetooth device address of the remote device.
+      rssi:
+        type: integer
+        desc: Received signal strength in dBm.
+      bond_status:
+        desc: Bonding status
+        type: enumerator
+        values:
+          bonding_succeeded:
+            value: 0
+            desc: Bonding procedure succeeded.
+          bonding_failed_timeout:
+            value: 1
+            desc: Bonding procedure failed due to page timeout.
+          bonding_failed_auth:
+            value: 2
+            desc: Bonding failed because of authentication or pairing failed. This
+              could be due to incorrect PIN/passkey.
+          bonding_failed_mitm:
+            value: 3
+            desc: Bonding failed because the protection against Man-In-The-Middle
+              attack could not be guaranteed; the generated link key was too weak.
+          bonding_failed_peer_lost_bond:
+            value: 4
+            desc: Bonding failed because peer have lost the bonding info. Use ${ref:AT+UBTUB}
+              to delete the local bond to allow re-bonding.
+      numeric_value:
+        desc: Numeric value.
+        type: integer
+        valid_values: 0..999999
+      confirm:
+        type: enumerator
+        values:
+          no:
+            value: 0
+            desc: Deny bonding.
+          yes:
+            value: 1
+            desc: Confirm bonding.
+      tx_phy:
+        type: integer
+        desc:
+        - 'Requested PHY for Transmitter:'
+        - '0: Let other side decide'
+        - 'OR a bit field with bits:'
+        - 'Bit 0: 1 Mbps preferred'
+        - 'Bit 1: 2 Mbps preferred'
+        - 'Bit 2: Coded PHY'
+        - 'Bit 3: Coded PHY type. 0: Use S8 coding, 1: Use S2 coding'
+        valid_values: 0..15
+      rx_phy:
+        desc:
+        - Requested PHY for Receiver
+        - '0: Let other side decide'
+        - 'OR a bit field with bits:'
+        - 'Bit 0: 1 Mbps preferred'
+        - 'Bit 1: 2 Mbps preferred'
+        - 'Bit 2: Coded PHY'
+        valid_values: 0..7
+        type: integer
+      phy_status:
+        desc: "Bluetooth status codes:\n0: Success\n0x01-0xFF: Error, see Bluetooth\
+          \ Core Specifications, Vol 2, Part D.\n"
+        type: integer
+        valid_values: 0..255
+      config_id:
+        desc: Configuration id
+        type: integer
+        valid_values: 200..200
+      connect_sps:
+        desc: "Should start a SPS connection when ACL link is up. \nInteger Boolean\
+          \ flag  0 = No, 1 = Yes\n"
+        type: integer
+        valid_values: 0..1
+      int_dBm:
+        type: integer
+        desc: TX power level in dBm, integer part.
+        valid_values: -20..20
+      decimal_dBm:
+        type: integer
+        desc: TX power level in dBm, decimal part.
+        valid_values: 0..99
+      device_name:
+        type: string
+        desc: Name of the discovered device.
+      data_type:
+        type: enumerator
+        desc: Type of advertising data received.
+        values:
+          scan_response:
+            desc: Scan response data.
+            value: 0
+          advertise_data:
+            desc: Advertise data.
+            value: 1
+          extended_advertise_data:
+            desc: Extended advertise data.
+            value: 2
+      data:
+        type: byte_array
+        desc: Complete advertise/scan response data received from the remote device.
+      discovery_type:
+        type: enumerator
+        values:
+          all:
+            desc: All with no filter. Displays all found devices; devices can be displayed
+              multiple times.
+            value: 0
+          all_no_duplicates:
+            desc: General inquiry. Displays devices in General or Limited discoverability
+              mode; each device is displayed only once.
+            value: 1
+      discovery_mode:
+        type: enumerator
+        default: 0
+        values:
+          active:
+            desc: Active discovery.
+            value: 0
+          passive:
+            desc: Passive, no scan response data will be received.
+            value: 1
+      discovery_length:
+        type: integer
+        desc: 'Timeout measured in milliseconds. Time range: 10 ms - 40 s'
+        valid_values: 10..40000
+        default: 5000
+    urcs:
+      +UEBTC:<conn_handle>,<bd_addr>:
+        api_name: Connect
+        brief: Event Bluetooth Connected
+        desc: Event indicating successful Bluetooth connection.
+      +UEBTDC:<conn_handle>:
+        api_name: Disconnect
+        brief: Event Bluetooth Disconnected
+        desc: Event indicating a disconnected Bluetooth connection.
+      +UEBTB:<bd_addr>,<bond_status>:
+        api_name: BondStatus
+        brief: Event Bluetooth Bond status
+        desc: Event indicates that a bonding procedure is completed.
+      +UEBTUC:<bd_addr>,<numeric_value>:
+        api_name: UserConfirmation
+        brief: Event Bluetooth User Confirmation
+        desc: This event is used while bonding with IO capability DisplayYesNo. This
+          event indicates that the user confirmation of a numeric value is required.
+      +UEBTUPD:<bd_addr>,<numeric_value>:
+        api_name: PasskeyEntry
+        brief: Event Bluetooth Passkey entry
+        desc: This event is used to indicate to the user that a passkey has to be
+          entered on the remote device during a bonding procedure with the IO capability
+          DisplayOnly.
+      +UEBTUPE:<bd_addr>:
+        api_name: PasskeyRequest
+        brief: Event Bluetooth Passkey request
+        desc: This event is used during bonding with IO capability KeyboardOnly to
+          indicate that a passkey is required from the user. User should respond to
+          this event with the ${ref:AT+UBTUPE} command.
+      +UEBTPHYU:<conn_handle>,<phy_status>,<tx_phy>,<rx_phy>:
+        api_name: PhyUpdate
+        brief: Event Bluetooth PHY update
+        desc: This event informs the result of a PHY update procedure. It may be generated
+          as a result of the command ${ref:AT+UBTPHYR} or as a successful event, if
+          the operation has been initiated by the remote peer.
+      +UEBTBGD:<bd_addr>,<rssi>,<device_name>,<data_type>,<data>:
+        api_name: BackgroundDiscovery
+        brief: Event Bluetooth Background Discovery
+        desc: This event is generated during background discovery when a device is
+          found. The format matches ${ref:AT+UBTD} responses.
+    commands:
+      AT+UBTM:
+        brief: Bluetooth Mode
+        desc: Set and read Bluetooth Mode.
+        syntax:
+          AT+UBTM=<mode>:
+            api_name: SetMode
+            storable: true
+            requires_reboot: true
+            desc: Set Bluetooth Mode.
+          AT+UBTM?:
+            api_name: GetMode
+            desc: Read Bluetooth Mode.
+            responses:
+              +UBTM:<mode>:
+                desc: Successful read response.
+        parameters:
+          mode:
+            type: mode
+      AT+UBTC:
+        brief: Bluetooth Connect
+        desc: Make an ACL connection to a remote device with defined protocol type.
+          Unsolicited events ${ref:+UEBTC} or ${ref:+UEBTDC} will be sent out to confirm
+          the connection establishment.
+        syntax:
+          AT+UBTC=<bd_addr>:
+            api_name: Connect
+            desc: Initiate connection.
+      AT+UBTP:
+        brief: Bluetooth Persistent
+        syntax:
+          AT+UBTP=<bd_addr>,<connect_sps>:
+            storable: true
+            requires_reboot: true
+            desc:
+            - Configure an ACL link with automatic re-connection. As opposed to ${ref:AT+UBTC},
+              this command will not initiate a connection directly but is used for
+              storing a connection configuration persistently so that the link is
+              automatically setup on boot.
+            responses:
+              +UBTP:<config_id>:
+                desc: Successful write response, returning a configuration id identifying
+                  the configuration
+      AT+UBTPR:
+        brief: Bluetooth Persistent Remove
+        desc: Remove a Persistent Bluetooth Connection configuration
+        syntax:
+          AT+UBTPR=<config_id>:
+            storable: true
+            desc: Removes a persistent bluetooth connection configuration
+            notes: The corresponding link will be automatically disconnected
+      AT+UBTPL:
+        brief: Bluetooth Persistent List
+        desc: List all configured persistent bluetooth connections
+        syntax:
+          AT+UBTPL?:
+            desc: List the currently configured Persistent Bluetooth Connections
+            responses:
+              +UBTPL:<config_id>,<bd_addr>,<connect_sps>:
+                desc: Successful read response
+      AT+UBTDC:
+        brief: Bluetooth Disconnect
+        desc: Used to close an ACL connection.
+        syntax:
+          AT+UBTDC=<conn_handle>:
+            api_name: Disconnect
+            desc: Close an existing ACL connection.
+      AT+UBTLN:
+        brief: Bluetooth Local Name
+        desc: Set the BLE local name used in the default scan response data and in
+          the Generic Access Profile service.
+        syntax:
+          AT+UBTLN?:
+            api_name: GetLocalName
+            desc: Reads the local Bluetooth device name.
+            responses:
+              +UBTLN:<device_name>:
+                desc: Successful read response.
+          AT+UBTLN=<device_name>:
+            api_name: SetLocalName
+            storable: true
+            desc: Writes the local Bluetooth device name.
+        parameters:
+          device_name:
+            type: string
+            length: 0..29
+            desc: Default local name is the MODEL-xxxxxx where xxxxxx are the last
+              3 bytes of the device MAC address in hexadecimal format. If the local
+              name is set to "" it is cleared but will revert to the default name
+              after a restart.
+      AT+UBTHCI:
+        visibility: hidden
+        brief: Bluetooth HCI logging
+        desc: Enable HCI logging on the module.
+        syntax:
+          AT+UBTHCI:
+            desc: Enable HCI logging.
+      AT+UBTD:
+        brief: Bluetooth Discovery
+        desc: Performs a discovery procedure to find any advertising devices in the
+          vicinity.
+        syntax:
+          AT+UBTD:
+            api_name: DiscoveryDefault
+            multiline_response: true
+            desc: Start discovery using default parameters
+            responses:
+              +UBTD:<bd_addr>,<rssi>,<device_name>,<data_type>,<data>:
+                desc: This response is sent for every found device. If no name is
+                  found, <device_name> is an empty string, if <mode> is set to Active,
+                  both Scan responses and Advertisements will be shown.
+          AT+UBTD=<discovery_type>[,<discovery_mode>[,<discovery_length>]]:
+            api_name: Discovery
+            multiline_response: true
+            desc: Start discovery.
+            responses:
+              +UBTD:<bd_addr>,<rssi>,<device_name>,<data_type>,<data>:
+                desc: This response is sent for every found device. If no name is
+                  found, <device_name> is an empty string, if <mode> is set to Active,
+                  both Scan responses and Advertisements will be shown.
+      AT+UBTBGD:
+        brief: Bluetooth Background Discovery
+        desc: Start a background discovery. Use together with ${ref:AT+UBTSS2} to
+          connect to directed advertisements during scanning. If only interested in
+          connecting to directed advertisements, use ${ref:AT+UBTSS2} together with
+          output_events to not output discovery events.
+        syntax:
+          AT+UBTBGD:
+            api_name: BgDiscoveryDefaultStart
+            desc: Start background discovery
+          AT+UBTBGD=<discovery_type>[,<discovery_mode>[,<output_events>]]:
+            api_name: BgDiscoveryStart
+            desc: Start background discovery
+        parameters:
+          output_events:
+            type: enumerator
+            values:
+              disabled:
+                value: 0
+                desc: Disable output events during background discovery
+              enabled:
+                value: 1
+                desc: Enable output events during background discovery
+      AT+UBTBGDS:
+        brief: Bluetooth Background Discovery Stop
+        desc: Stop background discovery.
+        syntax:
+          AT+UBTBGDS:
+            api_name: BgDiscoveryStop
+            desc: Stop background discovery
+      AT+UBTRSS:
+        brief: Bluetooth RSSI
+        desc: Returns the current received RSSI for a specified Bluetooth connection.
+        syntax:
+          AT+UBTRSS=<conn_handle>:
+            api_name: GetRssi
+            desc: Returns the current RSSI for a specified Bluetooth connection.
+            responses:
+              +UBTRSS:<rssi>:
+                desc: Successful response.
+      AT+UBTCL:
+        brief: Bluetooth Connection List
+        desc: List all active Bluetooth low energy ACl connections.
+        syntax:
+          AT+UBTCL:
+            api_name: ListConnections
+            multiline_response: true
+            desc: List all Bluetooth low energy ACL connections.
+            responses:
+              +UBTCL:<conn_handle>,<bd_addr>:
+                desc: Sent for every connection.
+      AT+UBTCST:
+        brief: Bluetooth Connection Status
+        desc: "Read negotiated properties of a Bluetooth low energy ACL connection.\n\
+          Some of the properties are a result of negotiation when a connections is\
+          \ set up, and this command gives the possibility\nto see what properties\
+          \ the connection actually uses.\n"
+        syntax:
+          AT+UBTCST=<conn_handle>:
+            api_name: ListConnectionStatus
+            multiline_response: true
+            desc: Read all properties of an existing Bluetooth low energy ACL connection.
+            responses:
+              +UBTCST:<prop_id>,<status_val>:
+                desc: One response for each prop_id.
+          AT+UBTCST=<conn_handle>,<prop_id>:
+            api_name: GetConnectionStatus
+            desc: Read a specific property of an existing Bluetooth low energy ACL
+              connection.
+            responses:
+              +UBTCST:<prop_id>,<status_val>:
+                at_client_ignore_params:
+                - prop_id
+                desc: Successful read response.
+        parameters:
+          status_val:
+            type: integer
+            desc: Value of the preceding property.
+          prop_id:
+            type: enumerator
+            values:
+              connection_interval:
+                desc: "Connection interval used on this connection.\n Range: 6 to\
+                  \ 3200\n Time = status_val * 1.25 ms\n Time range: 7.5 ms to 4000\
+                  \ ms\n"
+                value: 0
+              peripheral_latency:
+                desc: 'Peripheral latency for the connection in number of connection
+                  events. Range: 0 to 499'
+                value: 1
+              supervision_timeout:
+                desc: 'Supervision timeout (in ms) for this connections. Range: 100
+                  ms to 32000 ms'
+                value: 2
+              mtu_size:
+                desc: MTU size for this connections.
+                value: 3
+              pdu_tx_payload_length:
+                desc: Data Channel TX PDU Payload Length.
+                value: 4
+              pdu_rx_payload_length:
+                desc: Data Channel RX PDU Payload Length.
+                value: 5
+              data_length_extension:
+                desc: 'Data Length Extension state. 0: Data Length Extension Off \
+                  1: Data Length Extension On'
+                value: 6
+              local_role:
+                desc: 'Local role in this connection. 1: Low Energy Central \ 2: Low
+                  Energy Peripheral'
+                value: 7
+              tx_phy:
+                desc: "TX Phy used in this connection\nBit 0: 1 Mbps\nBit 1: 2 Mbps\n\
+                  Bit 2: Coded\n"
+                value: 8
+              rx_phy:
+                desc: "RX Phy used in this connection\nBit 0: 1 Mbps\nBit 1: 2 Mbps\n\
+                  Bit 2: Coded\n"
+                value: 9
+      AT+UBTA:
+        brief: Read which advertisements are currently running
+        syntax:
+          AT+UBTA?:
+            api_name: GetAdvertiseInformation
+            desc: Read the current advertisements
+            responses:
+              +UBTA:<legacy_adv>,<directed_adv>,<extended_adv_list>:
+                desc: Successful read
+        parameters:
+          legacy_adv:
+            type: enumerator
+            values:
+              disabled:
+                desc: Legacy Advertisement Not Running
+                value: 0
+              enabled:
+                desc: Legacy Advertisement Running
+                value: 1
+          directed_adv:
+            type: enumerator
+            values:
+              disabled:
+                desc: Directed Advertisement Not Running
+                value: 0
+              enabled:
+                desc: Directed Advertisement Running
+                value: 1
+          extended_adv_list:
+            type: int_list
+            length: 0..1
+            desc: List of indexes currently being used for extended advertisements
+      AT+UBTADL:
+        brief: Bluetooth Advertisement Data Legacy
+        desc:
+        - Command for setting custom legacy advertise data in Bluetooth low energy.
+          Maximum of 28 bytes.
+        - Any custom advertising data will be appended to the default mandatory flags
+          field.
+        - Note that the AT command ${ref:AT+UBTD} supports scan modes that can be
+          used to see the complete advertising data.
+        - This is useful when testing the advertise data set with the AT+UBTALD. By
+          default, the service UUID for the u-blox Serial Port Service is part of
+          the advertising data.
+        syntax:
+          AT+UBTADL=<adv_data>:
+            storable: true
+            api_name: SetLegacyAdvertiseData
+            desc: Write custom advertising data.
+          AT+UBTADL?:
+            api_name: GetLegacyAdvertiseData
+            desc: Read custom advertising data.
+            responses:
+              +UBTADL:<adv_data>:
+                desc: Successful read response.
+        parameters:
+          adv_data:
+            type: byte_array
+            length: 3..28
+      AT+UBTADLC:
+        brief: Bluetooth Advertising Data Legacy Clear
+        desc: Clear the custom advertise data, i.e.use the default value when advertising
+        syntax:
+          AT+UBTADLC:
+            api_name: ClearLegacyAdvertiseData
+            desc: Clear the custom legacy advertise data.
+      AT+UBTADE:
+        brief: Bluetooth Advertising Data Extended
+        desc: "Command for setting extended advertising data in Bluetooth low energy.\
+          \ Maximum of 226 bytes.\nAny custom advertising data will be appended to\
+          \ the default mandatory flags field.\n"
+        syntax:
+          AT+UBTADE=<index>,<adv_data>:
+            storable: true
+            api_name: SetExtendedAdvertiseData
+            desc: Write custom advertising data for configuration index.
+          AT+UBTADE=<index>:
+            api_name: GetExtendedAdvertiseData
+            desc: Read custom advertising data for configuration index.
+            responses:
+              +UBTADE:<index>,<adv_data>:
+                desc: Successful read response.
+        parameters:
+          index:
+            type: integer
+            valid_values: 0..0
+          adv_data:
+            type: byte_array
+            length: 3..226
+      AT+UBTADEC:
+        brief: Bluetooth Advertising Data Extended Clear
+        desc: Clear the custom extended advertise data, i.e. use to the default value
+          during extended advertising
+        syntax:
+          AT+UBTADEC=<index>:
+            api_name: ClearExtendedAdvertiseData
+            desc: Clear the extended advertise data for the specified index.
+        parameters:
+          index:
+            type: integer
+            valid_values: 0..0
+      AT+UBTAE:
+        brief: Bluetooth Advertise Extended
+        desc: Start extended advertisement for the specified configuration
+        syntax:
+          AT+UBTAE=<indexes_to_advertise>:
+            storable: true
+            api_name: ExtendedAdvertisementStart
+            desc: Start advertisements for the specified index(es).
+        parameters:
+          indexes_to_advertise:
+            type: int_list
+            length: 1..2
+      AT+UBTAED:
+        brief: Bluetooth Advertise Extended Disable
+        desc: Stop extended advertisements
+        syntax:
+          AT+UBTAED:
+            api_name: ExtendedAdvertisementStopAll
+            desc: Stop any running extended advertisements
+          AT+UBTAED=<index>:
+            api_name: ExtendedAdvertisementStop
+            desc: "Stop extended advertisements for the specified index\n"
+        parameters:
+          index:
+            type: integer
+            valid_values: 0..0
+      AT+UBTASD:
+        brief: Bluetooth Advertisement Scan Data
+        desc: Command for setting custom scan response data in Bluetooth low energy.
+          Any custom scan response data will override the default scan response data.
+          By default, the local name is part of the scan response data.
+        syntax:
+          AT+UBTASD=<scan_rsp_data>:
+            storable: true
+            api_name: SetScanResponseData
+            desc: Write custom scan response data.
+          AT+UBTASD?:
+            api_name: GetScanResponseData
+            desc: Read custom scan response data.
+            responses:
+              +UBTASD:<scan_rsp_data>:
+                desc: Successful read response.
+        parameters:
+          scan_rsp_data:
+            type: byte_array
+            length: 1..31
+      AT+UBTASDC:
+        brief: Bluetooth Scan Data Clear
+        desc: Clear the custom scan response data, i.e. use the default value when
+          advertising
+        syntax:
+          AT+UBTASDC:
+            api_name: ClearScanResponseData
+            desc: Clear the custom scan response data.
+      AT+UBTAL:
+        brief: Bluetooth Advertise Legacy Enable
+        desc: Start legacy advertisement if not started
+        syntax:
+          AT+UBTAL:
+            storable: true
+            api_name: LegacyAdvertisementStart
+            desc: Start legacy advertisement if not started.
+      AT+UBTALD:
+        brief: Bluetooth Advertise Legacy Disable
+        desc: Stop legacy advertisement if started
+        syntax:
+          AT+UBTALD:
+            storable: true
+            api_name: LegacyAdvertisementStop
+            desc: Stop legacy advertisement if started.
+      AT+UBTAD:
+        brief: Bluetooth Directed Advertisement
+        desc: Start a directed advertisement to a given Bluetooth Address
+        syntax:
+          AT+UBTAD=<bd_addr>[,<timeout>]:
+            api_name: DirectedAdvertisementStart
+            desc: "Starts directed advertisements to Bluetooth Address.\nBy default\
+              \ the timeout is 1280 ms, and uses High Duty Cycle Advertising. A timeout\
+              \ greater than this will result in\nLow Duty Cycle Advertising as High\
+              \ Duty Cycle Advertising has a limited use of only 1280 ms. Setting\
+              \ timeout to 0 will let the\ndevice advertise indefinitely in Low Duty\
+              \ Cycle mode.\n"
+        parameters:
+          timeout:
+            type: integer
+            desc: Timeout for Directed Advertisements.
+            default: 1280
+      AT+UBTADD:
+        brief: Bluetooth Advertise Directed Disable
+        desc: Stop any ongoing directed advertisement
+        syntax:
+          AT+UBTADD:
+            api_name: DirectedAdvertisementStop
+            desc: "Stop directed advertisements.\n"
+      AT+UBTCS:
+        brief: Bluetooth Connection Settings
+        desc: Get and set connection related settings
+        syntax:
+          AT+UBTCS0=<connection_interval_minimum>:
+            storable: true
+            api_name: SetConnectionIntervalMin
+            desc: Write connection interval minimum.
+          AT+UBTCS0?:
+            api_name: GetConnectionIntervalMin
+            desc: Read Connection Interval minium.
+            responses:
+              +UBTCS0:<connection_interval_minimum>:
+                desc: Successful read of connection interval minimum.
+          AT+UBTCS1=<connection_interval_maximum>:
+            storable: true
+            api_name: SetConnectionIntervalMax
+            desc: Write connection interval maximum.
+          AT+UBTCS1?:
+            api_name: GetConnectionIntervalMax
+            desc: Read Connection Interval maximum.
+            responses:
+              +UBTCS1:<connection_interval_maximum>:
+                desc: Successful read of connection interval maximum.
+          AT+UBTCS2=<connection_peripheral_latency>:
+            storable: true
+            api_name: SetConnectionPeripheralLatency
+            desc: Write connection peripheral latency.
+          AT+UBTCS2?:
+            api_name: GetConnectionPeripheralLatency
+            desc: Read connection peripheral latency.
+            responses:
+              +UBTCS2:<connection_peripheral_latency>:
+                desc: Successful read of connection peripheral latency.
+          AT+UBTCS3=<connection_linkloss_timeout>:
+            storable: true
+            api_name: SetConnectionLinklossTimeout
+            desc: Write connection linkloss timeout.
+          AT+UBTCS3?:
+            api_name: GetConnectionLinklossTimeout
+            desc: Read connection linkloss timeout.
+            responses:
+              +UBTCS3:<connection_linkloss_timeout>:
+                desc: Successful read of connection linkloss timeout.
+          AT+UBTCS4=<preferred_tx_phy>:
+            storable: true
+            api_name: SetPreferredTxPhy
+            desc: Write Preferred TX PHY.
+          AT+UBTCS4?:
+            api_name: GetPreferredTxPhy
+            desc: Read Preferred TX PHY.
+            responses:
+              +UBTCS4:<preferred_tx_phy>:
+                desc: Successful read of Preferred TX PHY.
+          AT+UBTCS5=<preferred_rx_phy>:
+            storable: true
+            api_name: SetPreferredRxPhy
+            desc: Write Preferred RX PHY.
+          AT+UBTCS5?:
+            api_name: GetPreferredRxPhy
+            desc: Read Preferred RX PHY.
+            responses:
+              +UBTCS5:<preferred_rx_phy>:
+                desc: Successful read of Preferred RX PHY.
+          AT+UBTCS?:
+            desc: Read all Bluetooth Configuration param values.
+            responses:
+              +UBTCS:<param>,<value>:
+                desc: Successful read response for AT+UBTCS.
+        parameters:
+          connection_interval_minimum:
+            desc: "Connection interval minimum (must be <= Connection interval maximum).\
+              \ Final results will be a result of negotiation between devices.\n Default:\
+              \ 24.\n Calculation: connection_interval_minimum * 1.25. ms"
+            type: integer
+            valid_values: 6..3200
+            default: 24
+          connection_interval_maximum:
+            desc: "Connection interval maximum (must be >= Connection interval minimum).\
+              \ Final results will be a result of negotiation between devices.\n Default:\
+              \ 40.\n Calculation: connection_interval_maximum * 1.25 ms."
+            type: integer
+            valid_values: 6..3200
+            default: 40
+          connection_peripheral_latency:
+            desc: "Connection peripheral latency.\n Default: 0\n Calculation: Number\
+              \ of connection events."
+            type: integer
+            default: 0
+            valid_values: 0..500
+          connection_linkloss_timeout:
+            desc: "Connection linkloss timeout.\n Default: 2000\n Calculation: connection_linkloss_timeout\
+              \ ms"
+            type: integer
+            default: 2000
+            valid_values: 100..32000
+          preferred_tx_phy:
+            desc:
+            - Preferred Transmitter PHY
+            - '0: Let other side decide'
+            - 'OR a bit field with bits:'
+            - 'Bit 0: 1 Mbps preferred'
+            - 'Bit 1: 2 Mbps preferred'
+            - 'Bit 2: Coded PHY'
+            - 'Bit 3: Coded PHY type. 0: Use S8 coding, 1: Use S2 coding'
+            valid_values: 0..15
+            type: integer
+            default: 0
+          preferred_rx_phy:
+            desc:
+            - Preferred PHY for Receiver
+            - '0: Let other side decide'
+            - 'OR a bit field with bits:'
+            - 'Bit 0: 1 Mbps preferred'
+            - 'Bit 1: 2 Mbps preferred'
+            - 'Bit 2: Coded PHY'
+            valid_values: 0..15
+            type: integer
+            default: 0
+          param:
+            desc: Connection parameter.
+            type: enumerator
+            values:
+              connection_interval_min:
+                desc: Connection interval minimum.
+                value: 0
+              connection_interval_max:
+                desc: Connection interval maximum.
+                value: 1
+              connection_peripheral_latency:
+                desc: Connection peripheral latency.
+                value: 2
+              connection_linkloss_timeout:
+                desc: Connection linkloss timeout.
+                value: 3
+              preferred_tx_phy:
+                desc: Preferred Transmitter PHY
+                value: 4
+              preferred_rx_phy:
+                desc: Preferred Receiver PHY
+                value: 5
+          value:
+            desc: Value of connection parameter.
+            type: integer
+            valid_values: 0..65535
+      AT+UBTALS:
+        brief: Bluetooth Advertisement Legacy Settings
+        desc: Get and Set Advertisement Legacy Settings.
+        syntax:
+          AT+UBTALS=<advertisement_interval_minimum>,<advertisement_interval_maximum>:
+            api_name: SetLegacyAdvertisementConfig
+            desc: Configure advertisement parameters for legacy advertisements
+          AT+UBTALS?:
+            api_name: GetLegacyAdvertisementConfig
+            desc: Read advertisement parameters for legacy advertisements
+            responses:
+              +UBTALS:<advertisement_interval_minimum>,<advertisement_interval_maximum>:
+                desc: Successful read of advertisement configuration.
+        parameters:
+          advertisement_interval_minimum:
+            desc: "Advertising interval minimum (must be <= Advertising interval maximum.\
+              \ \n Default: 1600.\n Calculation: advertisement_interval_minimum *\
+              \ 0.625 ms)"
+            type: integer
+            valid_values: 32..16384
+            default: 1600
+          advertisement_interval_maximum:
+            desc: "Advertising interval maximum (must be >= Advertising interval minimum.\
+              \ \n Default: 2000.\n Calculation: advertisement_interval_maximum *\
+              \ 0.625 ms)"
+            type: integer
+            valid_values: 32..16384
+            default: 2000
+      AT+UBTSS:
+        brief: Bluetooth Scan Settings
+        desc: Get and Set Scan Settings.
+        syntax:
+          AT+UBTSS0=<scan_interval>:
+            api_name: SetScanInterval
+            desc: Write scan interval.
+          AT+UBTSS0?:
+            api_name: GetScanInterval
+            desc: Read scan Interval.
+            responses:
+              +UBTSS0:<scan_interval>:
+                desc: Successful read of scan interval.
+          AT+UBTSS1=<scan_window>:
+            api_name: SetScanWindow
+            desc: Write scan window.
+          AT+UBTSS1?:
+            api_name: GetScanWindow
+            desc: Read scan Interval.
+            responses:
+              +UBTSS1:<scan_window>:
+                desc: Successful read of scan window.
+          AT+UBTSS?:
+            desc: Read all scanning parameter setting values.
+            responses:
+              +UBTSS:<scan_param>,<value>:
+                desc: Successful read response for AT+UBTSS?.
+        parameters:
+          scan_interval:
+            desc: "Scan interval (must be >= Scan window. \n Default: 160.\n Calculation:\
+              \ scan_interval * 0.625 ms)"
+            type: integer
+            valid_values: 16..16384
+            default: 160
+          scan_window:
+            desc: "Scan window (must be <= Scan interval. \n Default: 128.\n Calculation:\
+              \ scan_interval * 0.625 ms)"
+            type: integer
+            valid_values: 16..16384
+            default: 128
+          value:
+            desc: Value of scan parameter.
+            type: integer
+            valid_values: 0..65535
+          scan_param:
+            desc: Scan parameter.
+            type: enumerator
+            values:
+              scan_interval:
+                desc: Scan interval.
+                value: 0
+              scan_window:
+                desc: Scan window.
+                value: 1
+      AT+UBTSS2:
+        brief: Bluetooth Scan Directed Advertisements
+        desc: Configure whether to connect to directed advertisements during scanning.
+          This setting is used together with ${ref:AT+UBTBGD} to enable connecting
+          to directed advertisements while performing background scanning.
+        syntax:
+          AT+UBTSS2=<connect_to_directed_adv>:
+            storable: true
+            api_name: SetConnectToDirectedAdv
+            desc: Enable or disable connecting to directed advertisements during scanning.
+          AT+UBTSS2?:
+            api_name: GetConnectToDirectedAdv
+            desc: Read connect to directed advertisements setting.
+            responses:
+              +UBTSS2:<connect_to_directed_adv>:
+                desc: Successful read response.
+        parameters:
+          connect_to_directed_adv:
+            desc: 'Enable (1) or disable (0) connecting to directed advertisements
+              during scanning. Default: 0.'
+            type: integer
+            valid_values: 0..1
+            default: 0
+      AT+UBTIOC:
+        brief: Bluetooth I/O Capabilities
+        desc: Set Bluetooth I/O Capabilities, this impacts the possible bonding procedure
+          between devices.
+        syntax:
+          AT+UBTIOC=<io_cap>:
+            storable: true
+            api_name: SetIoCapabilities
+            desc: Set I/O Capabilities
+          AT+UBTIOC?:
+            api_name: GetIoCapabilities
+            desc: Read I/O Capabilities
+            responses:
+              +UBTIOC:<io_cap>:
+                desc: Successful read response for AT+UBTIOC?.
+        parameters:
+          io_cap:
+            default: 0
+            type: enumerator
+            values:
+              no_input_no_output:
+                desc: Set I/O Capabilities to No Input No Output.
+                value: 0
+              display_only:
+                desc: Set I/O Capabilities to Display Only.
+                value: 1
+              display_yes_no:
+                desc: Set I/O Capabilities to Display Yes/No
+                value: 2
+              keyboard_only:
+                desc: Set I/O Capabilities to Keyboard Only.
+                value: 3
+              keyboard_display:
+                desc: Set I/O Capabilities to Keyboard Display.
+                value: 4
+      AT+UBTBSM:
+        brief: Bluetooth Bond Security Mode
+        desc: "Set the minimum security mode required when bonding. This command works\
+          \ together with ${ref:AT+UBTIOC} to determine the bonding procedure used.\n\
+          The module will try to use the highest level possible based on the settings\
+          \ of this command, ${ref:AT+UBTIOC} and the capabilities of the remote device.\n\
+          If the remote device does not support the required security level, the bonding\
+          \ procedure will fail.\n"
+        syntax:
+          AT+UBTBSM=<security_mode>:
+            storable: true
+            api_name: SetSecurityMode
+            desc: Writes the security mode
+          AT+UBTBSM?:
+            api_name: GetSecurityMode
+            desc: Reads the security mode
+            responses:
+              +UBTBSM:<security_mode>:
+                desc: Successful read response for AT+UBTBSM?
+        parameters:
+          security_mode:
+            type: security_mode
+      AT+UBTPM:
+        brief: Bluetooth Pairing Mode
+        desc: Enable or disable pairing.
+        syntax:
+          AT+UBTPM=<pairing_mode>:
+            storable: true
+            api_name: SetPairingMode
+            desc: Writes the pairing mode.
+          AT+UBTPM?:
+            api_name: GetPairingMode
+            desc: Read current pairing mode.
+            responses:
+              +UBTPM:<pairing_mode>:
+                desc: Successful read response for AT+UBTPM?
+        parameters:
+          pairing_mode:
+            type: enumerator
+            default: 0
+            values:
+              disable:
+                desc: Disable pairing mode.
+                value: 0
+              enable:
+                desc: Enable pairing mode.
+                value: 1
+      AT+UBTUC:
+        brief: Bluetooth User Confirmation
+        desc: The user confirmation is used together with IO capability DisplayYesNo
+          to respond to a user confirmation request (${ref:+UEBTUC}). The command
+          shall be used only after ${ref:+UEBTUC} has been received.
+        syntax:
+          AT+UBTUC=<bd_addr>,<confirm>:
+            api_name: UserConfirmation
+            desc: Respond to +UEUBTUC and confirm/deny bonding.
+      AT+UBTUPE:
+        brief: User passkey entry
+        desc: The user passkey entry is used together with IO capability KeyboardOnly
+          to respond on a user passkey entry request (${ref:+UEBTUPE}). This command
+          shall be used only after ${ref:+UEBTUPE} has been received.
+        syntax:
+          AT+UBTUPE=<bd_addr>,<confirm>[,<passkey>]:
+            api_name: UserPasskeyEntry
+            desc: Respond to +UEBTUPE event and confirm/deny bonding.
+        parameters:
+          passkey:
+            type: integer
+            desc: Passkey used to confirm bonding, if confirm is set to no, this can
+              be omitted.
+            valid_values: 0..999999
+      AT+UBTB:
+        brief: Bluetooth Bond
+        desc: Performs a GAP bond procedure with another Bluetooth device. For some
+          I/O Capabilities, user interaction is required during the bonding procedure.
+          The procedure to use is determined by the I/O Capabilities and security
+          mode. The maximum number of stored bonds is 30 for NORA-B26.
+        syntax:
+          AT+UBTB=<bd_addr>:
+            api_name: Bond
+            desc: Initiate bonding. To perform the bonding, the remote device must
+              be in a pairable and connectable mode. Bond Event ${ref:+UEBTB} is generated
+              once the bond is complete.
+      AT+UBTUB:
+        brief: Bluetooth Unbond
+        desc: Unbond from a previously bonded device.
+        notes: These AT commands will remove the bond from the local device only.
+        syntax:
+          AT+UBTUB=<bd_addr>:
+            api_name: Unbond
+            desc: Removes a single previously bonded device.
+          AT+UBTUB:
+            api_name: UnbondAll
+            desc: Removes all previously bonded devices.
+      AT+UBTBDL:
+        brief: Bluetooth Bonded Devices List
+        desc: Reads the list of bonded devices.
+        syntax:
+          AT+UBTBDL:
+            desc: Read list of bonded devices.
+            api_name: ListBondedDevices
+            multiline_response: true
+            responses:
+              +UBTBDL:<bd_addr>:
+                desc: This response is sent for every found device.
+      AT+UBTDIS:
+        brief: Bluetooth Device Information Service
+        desc: Write and read the module's Device Information Service (DIS) characteristics.
+        syntax:
+          AT+UBTDIS=<char_id>,<char_value>:
+            storable: true
+            desc: Set a characteristic value.
+            api_name: SetDeviceInfoServiceChar
+          AT+UBTDIS=<char_id>:
+            desc: Read a characteristic value.
+            api_name: GetDeviceInfoServiceChar
+            responses:
+              +UBTDIS:<char_id>,<char_value>:
+                at_client_ignore_params:
+                - char_id
+                desc: Successful read response.
+          AT+UBTDIS?:
+            desc: Read all individual characteristic of the Device Information Service
+              characteristics.
+            api_name: ListDeviceInfoServiceChars
+            multiline_response: true
+            responses:
+              +UBTDIS:<char_id>,<char_value>:
+                desc: Successful read response.
+        parameters:
+          char_id:
+            type: enumerator
+            values:
+              manufacturer_name:
+                desc: Manufacturer name string. Maximum length of the custom string
+                  is 31 characters.
+                value: 0
+              model_name:
+                desc: Model name string. Maximum length of the custom string is 20
+                  characters.
+                value: 1
+              firmware_revision:
+                desc: Firmware revision string. Maximum length of the custom string
+                  is 20 characters.
+                value: 2
+              software_revision:
+                desc: Software revision string. Maximum length of the custom string
+                  is 20 characters.
+                value: 3
+          char_value:
+            type: string
+            desc: Value of Device Information Service characteristic.
+      AT+UBTPHYR:
+        brief: Bluetooth PHY Request
+        desc: "Request a new PHY configuration for a connection. If tx PHY or rx PHY\
+          \ is 0, the module will select PHYs\nbased on the peer requirements on that\
+          \ specific direction. If the peer does not support the PHY update procedure,\n\
+          then the resulting ${ref:+UEBTPHYU} event will have a error status other\
+          \ than success.\n"
+        syntax:
+          AT+UBTPHYR=<conn_handle>,<tx_phy>,<rx_phy>:
+            api_name: RequestPhy
+            desc: Requests a Bluetooth Low Energy PHY update.
+          AT+UBTPHYR=<conn_handle>:
+            api_name: GetPhy
+            desc: Reads current PHYs for a connection.
+            responses:
+              +UBTPHYR:<conn_handle>,<tx_phy>,<rx_phy>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: Successful read response.
+      AT+UBTMOP:
+        brief: Bluetooth Max Output Power
+        desc: "Set or read the Bluetooth Max Output Power for all operations including\
+          \ advertising, scanning, and connections.\nThe output power is specified\
+          \ in dBm.\nThe valid range is from -20 dBm to +20 dBm but the actual supported\
+          \ range may vary between different products.\n"
+        syntax:
+          AT+UBTMOP=<int_dBm>:
+            api_name: SetMaxOutputPower
+            storable: true
+            requires_reboot: true
+            desc: Set the Bluetooth Max Output Power level.
+          AT+UBTMOP?:
+            api_name: GetMaxOutputPower
+            desc: "Read current Bluetooth Max Output Power level. Will return error\
+              \ if the Bluetooth Max Output Power has not been set\nand the default\
+              \ power level is used.\n"
+            responses:
+              +UBTMOP:<int_dBm>:
+                desc: Successful read response.
+      AT+UBTMOPC:
+        brief: Bluetooth Max Output Power Clear
+        desc: "Clear any previously set Bluetooth Max Output Power level, and revert\
+          \ to the default Max Output Power level.\n"
+        syntax:
+          AT+UBTMOPC:
+            api_name: ClearMaxOutputPower
+            storable: true
+            requires_reboot: true
+            desc: Clear any previously set max Bluetooth Max Output Power level.
+  GATT client:
+    desc: GATT Client
+    parameters:
+      conn_handle:
+        type: integer
+        desc: Bluetooth Low Energy connection handle.
+      value_handle:
+        type: integer
+        desc: Attribute handle of the characteristic value.
+      hex_data:
+        type: byte_array
+        desc: Characteristic data in hexadecimal form. For example, 070809AABBCC
+      uuid:
+        type: byte_array
+        desc: UUID of attribute. Either 16-bit or 128-bit.
+      start_handle:
+        type: integer
+        desc: Service start handle.
+      end_handle:
+        type: integer
+        desc: Service end handle.
+    urcs:
+      +UEBTGCN:<conn_handle>,<value_handle>,<hex_data>:
+        brief: Event GATT Client Notification
+        api_name: Notification
+        desc: GATT Client Notification. This event is received when the remote side
+          sends a notification.
+      +UEBTGCI:<conn_handle>,<value_handle>,<hex_data>:
+        brief: Event GATT Client Indication
+        api_name: Indication
+        desc: GATT Client Indication. This event is received when the remote side
+          sends an indication.
+    commands:
+      AT+UBTGPSD:
+        brief: GATT Primary Services Discover
+        desc: List all GATT services on the GATT server.
+        syntax:
+          AT+UBTGPSD=<conn_handle>:
+            api_name: DiscoverPrimaryServices
+            desc: Discover all primary services on the remote device.
+            multiline_response: true
+            responses:
+              +UBTGPSD:<conn_handle>,<start_handle>,<end_handle>,<uuid>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: This response is sent for each service found.
+      AT+UBTGPSDU:
+        brief: GATT Primary Services Discover by UUID
+        desc: Discovers all primary services by UUID on the remote device.
+        syntax:
+          AT+UBTGPSDU=<conn_handle>,<uuid>:
+            api_name: DiscoverPrimaryServicesByUuid
+            desc: Start discovery.
+            multiline_response: true
+            responses:
+              +UBTGPSDU:<conn_handle>,<start_handle>,<end_handle>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: This response is sent for each service found.
+      AT+UBTGSCD:
+        brief: GATT Service Characteristics Discover
+        desc: This command will list all characteristics belonging to a service on
+          the GATT server.
+        syntax:
+          AT+UBTGSCD=<conn_handle>,<start>,<end>:
+            desc: Discover all characteristics of a service.
+            api_name: DiscoverServiceChars
+            multiline_response: true
+            responses:
+              +UBTGSCD:<conn_handle>,<attr_handle>,<properties>,<value_handle>,<uuid>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: This response is sent for each characteristic found.
+        parameters:
+          start:
+            type: integer
+            desc: Service start handle.
+          end:
+            type: integer
+            desc: Service end handle.
+          attr_handle:
+            type: integer
+            desc: Attribute handle of the characteristic
+          properties:
+            type: byte_array
+            desc: Bit mask describing the properties of the characteristic
+      AT+UBTGCDD:
+        brief: GATT Characteristic Descriptors Discover
+        desc: Discover Characteristics Descriptors. This command will list all descriptors
+          of a characteristic on the GATT server.
+        syntax:
+          AT+UBTGCDD=<conn_handle>,<value_handle>,<char_end_handle>:
+            api_name: DiscoverCharDescriptors
+            desc: Discover all descriptors of a characteristic.
+            multiline_response: true
+            responses:
+              +UBTGCDD:<conn_handle>,<char_handle>,<desc_handle>,<uuid>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: This response is sent for each descriptor found.
+        parameters:
+          char_handle:
+            type: integer
+            desc: Characteristic handle.
+          char_end_handle:
+            type: integer
+            desc: End handle of characteristic to which descriptor discovery is being
+              performed.
+          desc_handle:
+            type: integer
+            desc: Descriptor handle.
+      AT+UBTGR:
+        brief: GATT Read
+        desc: Read a characteristic value.
+        syntax:
+          AT+UBTGR=<conn_handle>,<value_handle>:
+            api_name: Read
+            desc: Reads the characteristic; all bytes included.
+            responses:
+              +UBTGR:<conn_handle>,<value_handle>,<hex_data>:
+                at_client_ignore_params:
+                - conn_handle
+                - value_handle
+                desc: Successful read response.
+      AT+UBTGRU:
+        brief: GATT Read characteristic by UUID
+        desc: Read GATT characteristic values by UUID.
+        syntax:
+          AT+UBTGRU=<conn_handle>,<start>,<end>,<uuid>:
+            api_name: ReadByUuid
+            desc: Read all the characteristics by UUID. It will read all the bytes
+              in each characteristic.
+            responses:
+              +UBTGRU:<conn_handle>,<value_handle>,<hex_data>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: Successful read response.
+        parameters:
+          start:
+            type: integer
+            desc: Start handle.
+          end:
+            type: integer
+            desc: End handle.
+      AT+UBTGW:
+        brief: GATT Write
+        desc: Write a characteristic value.
+        syntax:
+          AT+UBTGW=<conn_handle>,<value_handle>,<hex_data>:
+            api_name: Write
+            desc: Write the characteristic value.
+      AT+UBTGCCW:
+        brief: GATT Client Configuration Write
+        desc: Write characteristic configuration to enable notifications or indications.
+        syntax:
+          AT+UBTGCCW=<conn_handle>,<desc_handle>,<config>:
+            api_name: ConfigWrite
+            desc: Writes the client characteristic configuration.
+        parameters:
+          desc_handle:
+            type: integer
+            desc: Descriptor handle.
+          config:
+            type: enumerator
+            values:
+              none:
+                value: 0
+                desc: None
+              enable_notifications:
+                value: 1
+                desc: Enable notifications
+              enable_indications:
+                value: 2
+                desc: Enable indications
+              enable_not_ind:
+                value: 3
+                desc: Enable notifications and indications
+      AT+UBTGWNR:
+        brief: GATT Write with No Response
+        desc: Write the characteristic with no response message from the remote side.
+        syntax:
+          AT+UBTGWNR=<conn_handle>,<value_handle>,<hex_data>:
+            api_name: WriteNoRsp
+            desc: Write characteristic.
+      AT+UBTGWL:
+        brief: GATT Write long
+        desc: Write a long characteristic.
+        syntax:
+          AT+UBTGWL=<conn_handle>,<value_handle>,<hex_data>,<reliable>,<flag>,<offset>:
+            api_name: WriteLong
+            desc: Write long characteristic.
+        parameters:
+          reliable:
+            type: enumerator
+            values:
+              no:
+                value: 0
+                desc: Not reliable
+              yes:
+                value: 1
+                desc: Reliable
+          flag:
+            type: enumerator
+            values:
+              final_data:
+                value: 0
+                desc: Final data
+              more_data:
+                value: 1
+                desc: More data
+              cancel:
+                value: 2
+                desc: Cancel data writing
+          offset:
+            type: integer
+  GATT Server:
+    desc: GATT Server
+    parameters:
+      read_security:
+        type: enumerator
+        values:
+          none:
+            value: 1
+            desc: No encryption required.
+          unauthenticated:
+            value: 2
+            desc: Unauthenticated encryption required.
+          authenticated:
+            value: 3
+            desc: Authenticated encryption required.
+      properties:
+        type: byte_array
+        desc: "Property value (a bit field):\nBroadcast: 0x01 - If set, it allows\
+          \ broadcasts of the Characteristic Value using Characteristic Configuration\
+          \ Descriptor.\nRead: 0x02 - If set, it allows reads of the Characteristic\
+          \ Value.\nWrite Without Response: 0x04 - If set, it allows writing of the\
+          \ Characteristic Value without response.\nWrite: 0x08 - If set, it allows\
+          \ writing of the Characteristic Value with response.\nNotify: 0x10 - If\
+          \ set, it allows notifications of a characteristic value.\nIndicate: 0x20\
+          \ - If set, it allows indication of a characteristic value with acknowledgement.\n\
+          Authenticated Signed Writes: 0x40 - If set, it allows signed writes to the\
+          \ characteristic value.\nReserved Bit: 0x80 - Do not use. Reserved for future\
+          \ use.\n"
+        length: 1..1
+      write_security:
+        type: enumerator
+        values:
+          none:
+            value: 1
+            desc: No encryption required.
+          unauthenticated:
+            value: 2
+            desc: Unauthenticated encryption required.
+          authenticated:
+            value: 3
+            desc: Authenticated encryption required.
+    urcs:
+      +UEBTGCW:<conn_handle>,<value_handle>,<value>,<options>:
+        brief: Event GATT Server Write
+        api_name: Notification
+        desc: Unsolicited response code for GATT Server. This event occurs when a
+          remote client writes to an attribute.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP connection handle.
+          value_handle:
+            type: integer
+            desc: Characteristic value handle.
+          value:
+            type: byte_array
+            desc: The data as hex string. For example, 070809AABBCC
+          options:
+            type: enumerator
+            values:
+              write_with_out_response:
+                value: 0
+                desc: Write without Response performed
+              write_with_response:
+                value: 1
+                desc: Write with Response performed
+              write_long:
+                value: 2
+                desc: Write long performed
+      +UEBTGRR:<conn_handle>,<value_handle>:
+        brief: Event GATT Server Read Response
+        api_name: ReadAttribute
+        desc: Unsolicited response code for GATT Server. This event occurs when a
+          remote client reads an attribute over the air. The event should be responded
+          with ${ref:AT+UBTGRRR}.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Handle of the connected device.
+          value_handle:
+            type: integer
+            desc: Handle of the characteristic value.
+      +UEBTGIC:<conn_handle>,<char_handle>:
+        brief: Event GATT Server Indication Confirmation
+        api_name: IndicationAck
+        desc: Unsolicited response code for GATT Server. This event occurs when a
+          remote GATT client acknowledges the receipt of an indication message sent
+          using ${ref:AT+UBTGIS}.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connected device handle.
+          char_handle:
+            type: integer
+            desc: Characteristic value handle.
+    commands:
+      AT+UBTGS:
+        brief: GATT Service define
+        desc: Command to define a GATT service according to a 16-bit Service Assigned
+          Number from Bluetooth SIG or a 128-bit user defined service number.
+        syntax:
+          AT+UBTGS=<uuid>:
+            api_name: ServiceDefine
+            desc: Defines a service.
+            responses:
+              +UBTGS:<ser_handle>:
+                desc: Successful write response.
+        parameters:
+          uuid:
+            type: byte_array
+            desc: UUID of service. This can be either 16 bit or 128 bit.
+          ser_handle:
+            type: integer
+            desc: Handle of the created service.
+      AT+UBTGC:
+        brief: GATT Characteristic define
+        desc: Command to add a GATT characteristic to the most recent GATT service
+          record created with ${ref:AT+UBTGS}.
+        syntax:
+          AT+UBTGC=<uuid>,<properties>,<read_security>,<write_security>,<value>[,<max_length>]:
+            api_name: CharDefine
+            desc: Create a new characteristic in the GATT table for a GATT server.
+              The CCCD for the characteristic, if applicable, is created here. Extended
+              properties such as CPFD, CUDD, and SCCD are not supported.
+            responses:
+              +UBTGC:<value_handle>,<cccd_handle>:
+                desc: Successful write response.
+        parameters:
+          uuid:
+            type: byte_array
+            desc: UUID of characteristic. This can be either 16 bit or 128 bit.
+          value:
+            type: byte_array
+            desc: Default characteristic value before any value is pushed to it. A
+              characteristic value can be 244 bytes long.
+          max_length:
+            type: integer
+            desc: Maximum length of the characteristic in bytes. The maximum value
+              is 244 bytes.
+            valid_values: 1..244
+          value_handle:
+            type: integer
+            desc: Added characteristic handle.
+          cccd_handle:
+            type: integer
+            desc: CCCD characteristic handle. This value is zero if there is no CCCD.
+      AT+UBTGHCC:
+        brief: GATT Host Controlled Characteristic
+        desc: Create a new host controlled characteristic in the GATT table for a
+          GATT server. The CCCD for the characteristic, if applicable, is created
+          here. Extended properties such as CPFD, CUDD, and SCCD are not supported.
+        syntax:
+          AT+UBTGHCC=<uuid>,<properties>,<read_security>,<write_security>:
+            api_name: HostCharDefine
+            desc: Define a characteristic.
+            responses:
+              +UBTGHCC:<value_handle>,<cccd_handle>:
+                desc: Successful write response.
+        parameters:
+          uuid:
+            type: byte_array
+            desc: UUID of characteristic. This can be either 16 bit or 128 bit.
+          value_handle:
+            type: integer
+            desc: Value handle of the added characteristic.
+          cccd_handle:
+            type: integer
+            desc: Client Characteristic Configuration Descriptor (CCCD) handle of
+              the added characteristic. This value is zero if there is no CCCD.
+      AT+UBTGD:
+        brief: GATT Descriptor define
+        desc: Define a vendor defined descriptor. Standard Bluetooth low energy descriptors
+          such as CCCD are created while creating the characteristic in ${ref:AT+UBTGC}
+          command.
+        syntax:
+          AT+UBTGD=<uuid>,<read_security>,<write_security>,<value>[,<max_length>]:
+            api_name: DescriptorDefine
+            desc: Define descriptor.
+            responses:
+              +UBTGD:<desc_handle>:
+                desc: Successful write response.
+        parameters:
+          uuid:
+            type: byte_array
+            desc: UUID of characteristic. This can be either 16 bit or 128 bit.
+          value:
+            type: byte_array
+            desc: Descriptor value. This can be 23 bytes long.
+          max_length:
+            type: integer
+            desc: Maximum length of the descriptor in bytes. The maximum value is
+              23 bytes.
+            valid_values: 1..23
+          desc_handle:
+            type: integer
+            desc: Handle of the created descriptor.
+      AT+UBTGSA:
+        brief: GATT Service Activate
+        desc: Activate the service defined with the ${ref:AT+UBTGS} command. After
+          this command is issued, it is not possible to add more characteristics or
+          descriptors to the service.
+        syntax:
+          AT+UBTGSA:
+            api_name: ServiceActivate
+            desc: Activate current defined service.
+      AT+UBTGRRR:
+        brief: GATT Read Request Respond
+        desc: Respond to an unsolicited request to read (see ${ref:+UEBTGRR}) from
+          a remote GATT client.
+        syntax:
+          AT+UBTGRRR=<conn_handle>,<value>:
+            api_name: ReadReqResponse
+            desc: Responds to read request.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP handle of the connected device.
+          value:
+            type: byte_array
+            desc: Characteristic value. This can be 244 bytes long.
+      AT+UBTGNS:
+        brief: GATT Notification Send
+        desc: Send notifications to a remote client. This also updates the value of
+          the characteristic.
+        syntax:
+          AT+UBTGNS=<conn_handle>,<char_handle>,<value>:
+            api_name: SendNotification
+            desc: Send notification
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP handle of the connected device.
+          char_handle:
+            type: integer
+            desc: Characteristic value handle.
+          value:
+            type: byte_array
+            desc: Characteristic value. The maximum length is the current MTU size
+              - 3.
+      AT+UBTGIS:
+        brief: GATT Indication Send
+        desc: Send indication to a remote client. This also updates the value of the
+          characteristic.
+        syntax:
+          AT+UBTGIS=<conn_handle>,<char_handle>,<value>:
+            api_name: SendIndication
+            desc: Send notification
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP handle of the connected device.
+          char_handle:
+            type: integer
+            desc: Characteristic value handle.
+          value:
+            type: byte_array
+            desc: Characteristic value. The maximum length is the current MTU size
+              - 3.
+      AT+UBTGAV:
+        brief: GATT Attribute Value
+        desc: Update the value of an attribute. In case of characteristics which allow
+          indications and notifications, this command will update the value without
+          sending any indications or notifications to the remote side.
+        syntax:
+          AT+UBTGAV=<attr_handle>,<value>:
+            api_name: SetAttrValue
+            desc: Set attribute value.
+        parameters:
+          attr_handle:
+            type: integer
+            desc: Attribute handle.
+          value:
+            type: byte_array
+            desc: Characteristic value. This can be 244 bytes long.
+      AT+UBTGRRRE:
+        brief: GATT Read Request Respond with error code
+        desc: Respond to read request with application error code.
+        syntax:
+          AT+UBTGRRRE=<conn_handle>,<error_code>:
+            api_name: ReadReqError
+            desc: Respond with error code.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP handle of connected device.
+          error_code:
+            type: byte_array
+            length: 1..1
+            desc: 'Application error code. Allowed value range: 0x80-0x9F'
+      AT+UBTGWRE:
+        brief: GATT Write Respond with Error code
+        desc: Respond to write operation with application error code.
+        syntax:
+          AT+UBTGWRE=<conn_handle>,<error_code>:
+            api_name: WriteReqError
+            desc: Respond with error code.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP handle of connected device.
+          error_code:
+            type: byte_array
+            length: 1..1
+            desc: 'Application error code. Allowed value range: 0x80-0x9F'
+      AT+UBTGWRR:
+        brief: GATT Write Request Respond
+        desc: Accept write request from GATT client.
+        syntax:
+          AT+UBTGWRR=<conn_handle>:
+            api_name: WriteReqResponse
+            desc: Respond to write request.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: GAP handle of connected device.
+  SPS:
+    desc: SPS - Serial Port Service
+    parameters:
+      conn_handle:
+        type: integer
+        desc: Connection handle of remote peer
+      string_data:
+        type: string
+        desc: SPS data in string format
+        null_terminated: false
+      size:
+        type: integer
+        desc: SPS data size
+      written_length:
+        type: integer
+        desc: Data length that was written.
+    urcs:
+      +UESPSC:<conn_handle>:
+        api_name: Connect
+        brief: Event SPS Connection
+        desc: Event response for SPS Connect. Upon a successful SPS connection, conn_handle
+          will contain the connection handle of the remote peer.
+      +UESPSDC:<conn_handle>:
+        api_name: Disconnect
+        brief: Event SPS Disconnection
+        desc: Event response for SPS Connect. Upon a SPS disconnection, conn_handle
+          will contain the connection handle of the remote peer.
+      +UESPSDS:<conn_handle>,<string_data>:
+        output_payload: string
+        brief: Event SPS Data String
+        desc: Unsolicited event containing SPS data as a string received from remote
+          peer.
+      +UESPSDB:<conn_handle>{binary_data}:
+        output_payload: binary
+        brief: Event SPS Data Binary
+        desc: Unsolicited event containing SPS data in binary format.
+        parameters:
+          binary_data:
+            type: binary
+            desc: The received data.
+      +UESPSDA:<conn_handle>,<number_bytes>:
+        api_name: DataAvailable
+        brief: Event SPS Data Available
+        desc: Unsolicited event containing the number of received bytes to read.
+        parameters:
+          number_bytes:
+            type: integer
+            desc: Number of bytes available to read.
+    commands:
+      AT+USPSC:
+        brief: SPS Connect
+        desc: SPS connect on connected Bluetooth device
+        syntax:
+          AT+USPSC=<conn_handle>[,<flow_control>]:
+            api_name: Connect
+            desc: SPS connect on connected Bluetooth device
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connection handle of remote peer
+          flow_control:
+            type: integer
+            desc: 'Flow control: 0 - no flow control, 1 - flow control'
+      AT+USPS:
+        brief: SPS - Enable/Disable Service
+        desc: Enable or disable the SPS service. SPS Service will use the security
+          mode set in ${ref:AT+UBTBSM}
+        syntax:
+          AT+USPS=<service_option>:
+            api_name: SetServiceEnable
+            desc: Enables or disable the SPS Service.
+            storable: true
+          AT+USPS?:
+            api_name: GetServiceEnable
+            desc: Read if the SPS service is enabled or disabled.
+            responses:
+              +USPS:<service_option>:
+                desc: Successful read response.
+        parameters:
+          service_option:
+            type: enumerator
+            values:
+              disable:
+                value: 0
+                desc: This option disables the SPS service after saving the configuration
+                  and restarting the device. (Default)
+              enable:
+                value: 1
+                desc: "This option enables the SPS service directly.\nIf this option\
+                  \ is set, and the configuration is saved,\nSPS will be enabled after\
+                  \ reboot.\n"
+      AT+USPSPUMP:
+        visibility: hidden
+        brief: SPS Data pump
+        desc: Starts a datapump with 244 bytes to remote peer. If called while datapump
+          is enabled, the datapump on the given connection handle will stop.
+        syntax:
+          AT+USPSPUMP=<conn_handle>:
+            desc: Enable SPS datapump
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connection handle of remote peer
+      AT+USPSWS:
+        brief: SPS Write String
+        desc: Write to a peer through SPS
+        input_payload: string
+        syntax:
+          AT+USPSWS=<conn_handle>,<string_data>:
+            desc: Write SPS data
+            responses:
+              +USPSWS:<conn_handle>,<written_length>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: Successful write response
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connection handle of remote peer which has SPS enabled
+          string_data:
+            type: string
+            desc: Data encoded as ascii chars.
+            null_terminated: false
+            length: 1..1000
+      AT+USPSWB:
+        input_payload: binary
+        brief: SPS Write Binary
+        syntax:
+          AT+USPSWB=<conn_handle>{binary_data}:
+            api_name: Write
+            desc: "Writes the specified amount of data to the specified SPS connection\
+              \ in binary mode. Max 1000 bytes.\n"
+            responses:
+              +USPSWB:<conn_handle>,<written_length>:
+                at_client_ignore_params:
+                - conn_handle
+                at_client_return_param: written_length
+                desc: Successful write response
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connection handle of remote peer which has SPS enabled
+          binary_data:
+            type: binary
+            desc: The data to write.
+      AT+USPSRM:
+        brief: SPS Receive Mode
+        syntax:
+          AT+USPSRM=<read_mode>:
+            storable: true
+            api_name: SetDataMode
+            desc: Set the mode in which to receive SPS data in AT mode.
+          AT+USPSRM?:
+            api_name: GetDataMode
+            desc: Read mode set.
+            responses:
+              +USPSRM:<read_mode>:
+                desc: Successful read response.
+        parameters:
+          read_mode:
+            type: read_mode
+      AT+USPSRS:
+        brief: SPS Read String
+        output_payload: string
+        syntax:
+          AT+USPSRS=<conn_handle>,<length>:
+            desc: "Reads the specified amount of data from given connection handle.\n\
+              Note that the data should include no null terminator characters.\n"
+            responses:
+              +USPSRS:<conn_handle>,<length>,<string_data>:
+                at_client_ignore_params:
+                - conn_handle
+                desc: Successful read response.
+        parameters:
+          length:
+            type: integer
+            desc: Data bytes to read.
+            valid_values: 0..1000
+      AT+USPSRB:
+        brief: SPS Read Binary
+        output_payload: binary
+        syntax:
+          AT+USPSRB=<conn_handle>,<length>:
+            api_name: Read
+            bin_out_length_param: length
+            desc: "Reads the specified amount of data from the specified connection\
+              \ handle in binary mode.\n"
+            responses:
+              +USPSRB:<conn_handle>{binary_data}:
+                at_client_ignore_params:
+                - conn_handle
+                desc: Successful read response.
+        parameters:
+          length:
+            type: integer
+            desc: Data bytes to read.
+            valid_values: 0..1000
+          binary_data:
+            type: binary
+            desc: The available data. Please note that the number of bytes may be
+              less than requested.
+  Power:
+    commands:
+      AT+UPMDS:
+        brief: Power Management Deep Sleep
+        syntax:
+          AT+UPMDS:
+            api_name: DeepSleepWithGpioWakeup
+            desc: Enter Deep Sleep Mode with GPIO wakeup.
+          AT+UPMDS=<wakeup_mode>:
+            api_name: DeepSleep
+            desc: Enter Deep Sleep Mode with specified wakeup mode.
+        parameters:
+          wakeup_mode:
+            type: enumerator
+            desc: Selects how to wake up from deep sleep.
+            default: 0
+            values:
+              wakeup_gpio:
+                value: 0
+                desc: Wakeup by pulling the module wakeup pin low.
+              reset_pin:
+                value: 1
+                desc: Wakeup by module reset pin.
+              uart_rx:
+                value: 2
+                desc: Wakeup by module UART RX pin.
+      AT+UPMS:
+        brief: Power Management Sleep
+        syntax:
+          AT+UPMS:
+            api_name: Sleep
+            desc: "Enters sleep mode. During this mode connection will be kept and\
+              \ the host continues to receive events from the module, but the module\
+              \ will not respond to any AT commands.\nOn connection event, module\
+              \ will wake up, send URC, and go back to sleep.\nTo exit sleep mode,\
+              \ pull WAKE_UP GPIO low or send a character on the UART and wait 50ms.\n"
+  Transparent:
+    desc: "Transparent Mode AT commands. In transparent mode all data that is sent\
+      \ from the host to the UART is\nforwarded to the socket or SPS link that is\
+      \ configured for transparent mode, and the all data that arrives\non this link\
+      \ is sent to the UART.\nTransparent mode is limited to one link at a time.\n"
+    parameters:
+      link_type:
+        type: enumerator
+        values:
+          sps:
+            desc: BLE SPS Link
+            value: 0
+          socket:
+            desc: Socket
+            value: 1
+      link_type_read:
+        type: enumerator
+        values:
+          none:
+            desc: No link type set
+            value: -1
+          sps:
+            desc: BLE SPS Link
+            value: 0
+          socket:
+            desc: Socket
+            value: 1
+    commands:
+      AT+UTM:
+        brief: Transparent Mode
+        desc: Use this command to directly switch to transparent mode for a specific
+          SPS link or a socket.
+        syntax:
+          AT+UTM=<link_type>,<handle>:
+            desc: Enter Transparent Mode
+        parameters:
+          handle:
+            desc: "For SPS links, set this to the connection handle\nFor sockets,\
+              \ set this to the socket handle\n"
+            type: integer
+      AT+UTMP:
+        brief: Transparent Mode Persistent
+        desc: This command is used for automatically setting up a transparent mode
+          connection on boot.
+        syntax:
+          AT+UTMP=<link_type>,<config_id>:
+            storable: true
+            requires_reboot: true
+            desc: Set persistent transparent mode for link
+          AT+UTMP?:
+            desc: Get current persistent transparent mode configuration
+            responses:
+              +UTMP:<link_type_read>,<config_id>:
+                desc: Successful read response.
+        parameters:
+          config_id:
+            desc:
+            - For SPS, set this to the config_id returned by ${ref:AT+UBTP}.
+            type: integer
+      AT+UTMPC:
+        brief: Transparent Mode Persistent Clear
+        desc: Clears the persistent link configuration for transparent mode.
+        syntax:
+          AT+UTMPC:
+            storable: true
+            desc: Clears persistent transparent mode settings
+type_group:
+  Shared:
+    type_prefix: ''
+    param_types:
+      interface_id:
+        type: enumerator
+        values:
+          bluetooth:
+            desc: Bluetooth
+            value: 0
+      read_mode:
+        desc: Modes to read data in AT
+        type: enumerator
+        values:
+          buffered:
+            value: 0
+            desc: Buffered mode
+          direct_string:
+            value: 1
+            desc: Direct String mode
+          direct_binary:
+            value: 2
+            desc: Direct Binary Mode
+      enabled:
+        type: enumerator
+        values:
+          no:
+            value: 0
+            desc: Disabled
+          yes:
+            value: 1
+            desc: Enabled
+  bootloader:
+    type_prefix: ''
+    param_types:
+      bootloader_mode:
+        type: enumerator
+        values:
+          xmodem:
+            desc: Enter xmodem mode for u-connect software update using serial port.
+            value: 0
+          command_line:
+            desc: Enter the bootloader command line mode using serial port.
+            value: 1
+  Bluetooth:
+    type_prefix: bt
+    param_types:
+      mode:
+        type: enumerator
+        values:
+          disabled:
+            desc: Disabled.
+            value: 0
+          central:
+            desc: "Bluetooth Low Energy Central.\nIn this mode, starting advertisements,\
+              \ direct advertisements and other functions associated\nwith the Peripheral\
+              \ role is not possible.\n"
+            value: 1
+          peripheral:
+            desc: "Bluetooth Low Energy Peripheral.\nIn this mode, initiating connections,\
+              \ discovery and other functions associated with\nthe Central role is\
+              \ not possible.\n"
+            value: 2
+          central_peripheral:
+            desc: Bluetooth Low Energy Simultaneous Central and Peripheral. This is
+              the factory default.
+            value: 3
+      adv_mode:
+        type: enumerator
+        values:
+          advertisements_off:
+            desc: Set Bluetooth Advertisements off
+            value: 0
+          advertisements_on:
+            desc: Set Bluetooth Advertisements on
+            value: 1
+      security_mode:
+        type: enumerator
+        default: 0
+        values:
+          none:
+            desc: Security not required. No encryption enforced.
+            value: 0
+          unauthenticated:
+            desc: Require at least unauthenticated bonding.
+            value: 1
+          authenticated:
+            desc: Require authenticated bonding. No secure connections.
+            value: 2
+          authenticated_secure_connection:
+            desc: Require authenticated bonding. Support secure connections. Fallback
+              to simple pairing if the remote side does not support secure connections.
+            value: 3
+          authenticated_secure_connection_only:
+            desc: Require authenticated bonding. Strictly uses secure connections.
+            value: 4
+settings:
+  AtServer:
+    EchoOn:
+      id: 1
+      type: bool
+      default: true
+      desc: When set to true the AT server will echo all data
+    UseExtendedError:
+      id: 2
+      type: bool
+      default: false
+      desc: When set to true server will return error code on error
+    LineTermChar:
+      id: 3
+      type: char
+      default: \r
+      desc: Line termination character (typically '\r')
+    RespFormatChar:
+      id: 4
+      type: char
+      default: \n
+      desc: Response format character (typically '\n')
+    BackspaceChar:
+      id: 5
+      type: char
+      default: \b
+      desc: Backspace character (typically '\b')
+    EscapeChar:
+      id: 38
+      type: char
+      default: 43
+      desc: Escape sequence character
+    EscapeSequencePreTimeout:
+      id: 39
+      type: uint16_t
+      default: 1000
+      desc: Minimum time (ms) of no data activity required before the escape sequence
+        is sent
+    EscapeSequencePostTimeout:
+      id: 40
+      type: uint16_t
+      default: 1000
+      desc: Minimum time (ms) of no data activity required after the escape sequence
+        is sent
+    EscapeSequenceWithinTimeout:
+      id: 41
+      type: uint16_t
+      default: 200
+      desc: Maximum time interval (ms) between escape characteres
+  Uart:
+    BaudRate:
+      id: 6
+      type: uint32_t
+      default: 115200
+      desc: UART baudrate in bps
+    UseFlowControl:
+      id: 7
+      type: bool
+      default: false
+      desc: Set to true if HW flow control should be used (CTS/RTS)
+  Greeting:
+    Message:
+      id: 8
+      type: char[50]
+      default: +STARTUP
+      desc: Startup greeting
+    Show:
+      id: 9
+      type: uint8_t
+      default: 1
+      desc: Set to true if startup greeting should be shown on startup
+  CustomAddress:
+    Bluetooth:
+      id: 10
+      type: uMacAddress_t
+      default: 0
+      desc: Custom bluetooth address
+    WiFiSta:
+      id: 11
+      type: uMacAddress_t
+      default: 0
+      desc: Custom WiFi station address
+  Gap:
+    AdvertiseData:
+      id: 12
+      type: uByteArray_t
+      default: 0
+      desc: Advertise data
+    ConnIntervalMin:
+      id: 13
+      type: uint32_t
+      default: 24
+      desc: Connection interval minimum
+    ConnIntervalMax:
+      id: 14
+      type: uint32_t
+      default: 40
+      desc: Connection interval maximum
+    ConnPeripheralLatency:
+      id: 15
+      type: uint32_t
+      default: 0
+      desc: Connection peripheral latency
+    ConnLinklossTimeout:
+      id: 16
+      type: uint32_t
+      default: 2000
+      desc: Connection linkloss timeout
+    PreferredTxPHY:
+      id: 81
+      type: uint8_t
+      default: 0
+      desc: Preferred Transmitter PHY
+    PreferredRxPHY:
+      id: 82
+      type: uint8_t
+      default: 0
+      desc: Preferred Reciever PHY
+    IoCapabilities:
+      id: 18
+      type: uint32_t
+      default: 0
+      desc: IO Capabilities
+    SecurityMode:
+      id: 19
+      type: uint32_t
+      default: 0
+      desc: Bonding Security Mode
+    PairingMode:
+      id: 20
+      type: uint32_t
+      default: 0
+      desc: Pairing Mode
+    ChannelSoundingMode:
+      id: 129
+      type: uint32_t
+      default: 0
+      desc: Channel Sounding mode (0=off
+      1=reflector:
+      2=initiator:
+      3=both):
+    ChannelSoundingAntennas:
+      id: 130
+      type: uint32_t
+      default: 1
+      desc: Number of CS antennas (1 or 2)
+    ChannelSoundingRate:
+      id: 131
+      type: uint32_t
+      default: 0
+      desc: CS update rate (0=200ms
+      1=100ms:
+      2=5000ms):
+    LocalName:
+      id: 42
+      type: char[30]
+      default: ''
+      desc: Local name of Bluetooth device
+    ManufacturerName:
+      id: 43
+      type: char[32]
+      default: u-blox
+      desc: Manufacturer name for DIS
+    ModelName:
+      id: 44
+      type: char[21]
+      default: ''
+      desc: Model Name for DIS
+    FirmwareRevision:
+      id: 45
+      type: char[21]
+      default: ''
+      desc: Firmware revision for DIS
+    SoftwareRevision:
+      id: 46
+      type: char[21]
+      default: ''
+      desc: Software revision for DIS
+    AdvertisementMode:
+      id: 47
+      type: uint32_t
+      default: 0
+      desc: Advertisement mode
+      on or off:
+    BluetoothMode:
+      id: 50
+      type: uint32_t
+      default: '3'
+      desc: Bluetooth mode
+    CustomMaxTxPower:
+      id: 126
+      type: int8_t
+      default: 127
+      desc: Custom Max TX power in dBm
+      integer part:
+    CustomMaxTxPowerDecimal:
+      id: 127
+      type: uint8_t
+      default: 0
+      desc: Custom Max TX power in dBm
+      decimal part:
+    AdvIntervalMin:
+      id: 51
+      type: uint32_t
+      default: 1600
+      desc: Advertising interval minimum
+    AdvIntervalMax:
+      id: 52
+      type: uint32_t
+      default: 2000
+      desc: Advertising interval maximum
+    ScanInterval:
+      id: 112
+      type: uint32_t
+      default: 160
+      desc: Scan interval
+    ScanWindow:
+      id: 113
+      type: uint32_t
+      default: 128
+      desc: Scan window
+    ConnectToDirectedAdvertisements:
+      id: 124
+      type: uint32_t
+      default: 0
+      desc: Connect to directed advertisements during scanning 0 = off
+      1 = on):
+    ScanResponseData:
+      id: 59
+      type: uByteArray_t
+      default: 0
+      desc: Scan response data
+  ExtAdv[2]:
+    AdvertisementMode:
+      id: 120
+      type: uint32_t
+      default: 0
+      desc: Advertisement mode
+      on or off:
+    AdvertiseData:
+      id: 121
+      type: uByteArray_t
+      default: 0
+      desc: Extended Advertisement data
+  SPS:
+    EnableService:
+      id: 62
+      type: uint32_t
+      default: 0
+      desc: Enable SPS service on restart
+  ATReadMode:
+    IpSockets:
+      id: 60
+      type: int32_t
+      default: 0
+      desc: Data in at receive data mode
+    SpsData:
+      id: 61
+      type: int32_t
+      default: 0
+      desc: Data in AT receive mode for SPS
+  Transparent:
+    IdType:
+      id: 79
+      type: int8_t
+      default: -1
+      desc: Config ID type (SPS or socket - see uLinkType_t)
+    ConfigId:
+      id: 80
+      type: int32_t
+      default: 0
+      desc: Config ID
+  BlePersistentLink[3]:
+    RemoteAddress:
+      id: 83
+      type: uMacAddress_t
+      default: 0
+      desc: Remote BLE address to connect to
+    RemoteAddressType:
+      id: 84
+      type: uint8_t
+      default: 0
+      desc: Address type of the remote address
+    SpsConnect:
+      id: 85
+      type: bool
+      default: false
+      desc: Should SPS be connected when link is up
+    ShouldReconnect:
+      id: 97
+      type: bool
+      default: true
+      desc: BLE Connection state flag. If true the persistent ble connection will
+        try to reconnect
+  AutoPowerSave:
+    PowerSaveLevel:
+      id: 104
+      type: int8_t
+      default: 0
+      desc: Set power save level
+    PowerSaveTimeout:
+      id: 105
+      type: uint32_t
+      default: 1000
+      desc: Set power save timeout
+  RadioCoex:
+    Enable:
+      id: 122
+      type: bool
+      default: false
+      desc: Enable radio coexistence
+product:
+  model_name: NORA-B26
+  software:
+    name: u-connectXpress
+    version:
+      major: 3
+      minor: 2
+      patch: 0

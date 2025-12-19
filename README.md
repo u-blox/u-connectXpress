@@ -7,11 +7,11 @@ The source code lives in a private repository.
 
 ### [NORA-B26](https://www.u-blox.com/en/product/nora-b2-series)
 
-**Latest Version:** 3.0.1 (2025-08-13)
+**Latest Version:** 3.2.0 (2025-12-19)
 
-[![NORA-B26X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-*&label=NORA-B26X&color=blue&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.0.1)
+[![NORA-B26X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-*&label=NORA-B26X&color=blue&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.2.0)
 
-- **[AT Commands Manual](NORA-B26/3.0.1/at_commands.md)**
+- **[AT Commands Manual](NORA-B26/3.2.0/at_commands.md)**
 
 - **[Changelog](NORA-B26/CHANGELOG-NORA-B26.md)**
 
