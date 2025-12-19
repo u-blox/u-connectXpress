@@ -1,6 +1,42 @@
 # Changelog
 All notable changes to the u-connectXpress software relevant for `NORA-W36` will be documented in this file. For added or changed AT commands see at_commands_changes.md
 
+# [3.2.0] - 2025-12-19
+### Improvements
+- MQTT: Added `+UEMQDD` when incoming data is dropped (UCS_DEV_2-1554)
+- MQTT: Added `+UEMQSC` when subscribe/unsubscribe is completed (UCS_DEV_2-1554)
+- Socket: Added `AT+USOSTS` and `AT+USOSTB` for UDP send to (UCS_DEV_2-624)
+- Socket: Added `AT+USORFB` for UDP binary receive from
+- Socket: Added UDP broadcast socket option (UCS_DEV_2-1338)
+- Bluetooth: Added `AT+UBTSS2` command to configure automatic connection to directed advertisements during scanning (UCS_DEV_2-1327)
+- Bluetooth: Added new AT command for setting max output power `AT+UBTMOP` (UCS_DEV_2-1074)
+- Wi-Fi: Added new AT command for setting max output power `AT+UWMOP` (UCS_DEV_2-1070)
+
+### Changed behavior
+- MQTT: Only one outstanding command, connect, disconnect, subscribe, or publish allowed at a time. Waiting for the corresponding URC required before issuing the next command  (UCS_DEV_2-1554)
+- Bluetooth: Max number of bonded devices set to 20, oldest one dropped if a new bond is initiated when full  (UCS_DEV_2-1553)
+- Bluetooth: `AT+UBTBGD` (Background Discovery) now supports configurable discovery type, mode, and output events parameters, enabling true background scanning instead of just directed advertisement connection (UCS_DEV_2-1327)
+- Socket: `AT+USORF` renamed to `AT+USORFS`. `AT+USORF` will still work but is now obsolete and will be removed in a future release.
+
+### Fixed
+- Socket: Reentering transparent mode may fail (UCS_DEV_2-1568)
+- Bluetooth: Fixed issue where a directed advertisement could not be restarted after being stopped (UCS_DEV_2-1467)
+- Socket: Calling AT+USOL without the port parameter caused a crash
+- System: Missing OK for AT+CPWROFF command when AT echo is turned off (UCS_DEV_2-1569)
+
+### Known limitations
+- Wi-Fi: Crash may occur when AP is brought down while station is associating (UCS_DEV_2-595)
+- Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
+- SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
+- Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
+- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+- Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
+
+
+---
+
 # [3.1.0] - 2025-09-28
 ### Improvements
 - Bluetooth: Support up to 23 characteristics with notification, indication (UCS_DEV_2-1529)
