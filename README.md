@@ -32,7 +32,7 @@ Binaries can be found under releases:
 
 - **[Changelog](NORA-B27/CHANGELOG-NORA-B27.md)**
 
-- **[User Guide NORA-B27](NORA-B27/3.2.0/user_guide.md)**
+- **[User Guide NORA-B27](NORA-B27/3.3.0/user_guide.md)**
 
 ---
 
