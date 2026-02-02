@@ -18,7 +18,7 @@ Binaries can be found under releases:
 
 - **[Changelog](NORA-B26/CHANGELOG-NORA-B26.md)**
 
-- **[User Guide NORA-B26](https://www.u-blox.com/en/sho-online-documentation/nora-b26/user-guide)**
+- **[User Guide NORA-B26](NORA-B26/3.2.0/user_guide.md)**
 
 ---
 
@@ -32,7 +32,7 @@ Binaries can be found under releases:
 
 - **[Changelog](NORA-B27/CHANGELOG-NORA-B27.md)**
 
-- **[User Guide NORA-B27](https://www.u-blox.com/en/sho-online-documentation/nora-b27/user-guide)**
+- **[User Guide NORA-B27](NORA-B27/3.3.0/user_guide.md)**
 
 ---
 
@@ -46,5 +46,12 @@ Binaries can be found under releases:
 
 - **[Changelog](NORA-W36/CHANGELOG-NORA-W36.md)**
 
-- **[User Guide NORA-W36](https://www.u-blox.com/en/sho-online-documentation/nora-w36/user-guide)**
+- **[User Guide NORA-W36](NORA-W36/3.2.0/user_guide.md)**
 
+---
+
+Usefull applications for u-connectXpress:
+- s-center - Windows AT command tool for u-connectXpress https://github.com/u-blox/s-center
+- XMODEM - Example implementations for Python and Ansi-C https://github.com/u-blox/xmodem
+- ucxclient - Minimal C API for u-connectXpress AT Client ported to Windows, Linux, STM32 and more platforms https://github.com/u-blox/ucxclient
+- ucx-windows-app - ucxclient console example application for Windows https://github.com/u-blox/ucx-windows-app
