@@ -2455,7 +2455,7 @@ NORA-W36 supports AES-encrypted PKCS8 private keys with password protection:
 
 ```bash
 // Upload encrypted private key with password
-AT+USECUB=2,"secure-key","mypassword123"{binary_data}
+AT+USECUB=2,"secure-key","mypassword123"<01><length_high><length_low><certificate_data>
 ```
 
 ## TLS version configuration
@@ -3631,52 +3631,62 @@ See more information about [Binary Data](#simple-binary-data-example).
 
 ## Socket write binary
 
-`AT+USOWB=<socket_handle>{binary_data}`
+**Syntax**
 
+`AT+USOWB=<socket_handle><01><length_high><length_low><data>`
 
-Example to write socket data
+Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
+
+**Example to write socket data**
 | Nr| Instructions                          | AT command | AT event|
 |---|---------------------------------------|-----------------------------------|---|
-| 1 | Write Socket data in binary format size |    `AT+USOWB=0\x01\x00\x13Hello from NORA-W36` | `OK` |
+| 1 | Write Socket data in binary format size |    `AT+USOWB=0010013Hello from NORA-W36` | `OK` |
 
 ## Socket read binary
 
 **Syntax**
 `AT+USORB=<socket_handle>,<length>`
 
-`+USORS:<socket_handle>{binary_data}`
+**Response**
+
+`+USORB:<socket_handle><01><length_high><length_low><data>`
 
 
 **Example to read socket data**
 | Nr| Instructions                          | AT command  | AT event|
 |---|---------------------------------------|-----------------------------------|---|
 | 1 | Incoming Socket data     | | `+UESODA:0,19` |
-| 2 | Reads incoming Socket data in binary format |`AT+USORB=0,19` |   `+USORB:0\x01\x00\x13Hello from NORA-W36` |
+| 2 | Reads incoming Socket data in binary format |`AT+USORB=0,19` |   `+USORB:0010013Hello from NORA-W36` |
 
 ## SPS write binary
 
 **Syntax**
-`AT+USPSWS=<conn_handle>{binary_data}`
+
+`AT+USPSWB=<conn_handle><01><length_high><length_low><data>`
+
+Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
 
 
 **Example to write SPS data**
 | Nr| Instructions                          | AT command | AT event|
 |---|---------------------------------------|-----------------------------------|---|
-| 1 | Write SPS data in binary format size |    `AT+USPSWB=0\x01\x00\x13Hello from NORA-W36` | `OK` |
+| 1 | Write SPS data in binary format size |    `AT+USPSWB=0010013Hello from NORA-W36` | `OK` |
 
 ## SPS read binary
 
 **Syntax**
 `AT+USPSRB=<conn_handle>,<length>`
 
-`+USPSRB:<conn_handle>{binary_data}`
+**Response**
+
+`+USPSRB:<conn_handle><01><length_high><length_low><data>`
 
 
 **Example to read SPS data**
 | Nr| Instructions                          | AT command  | AT event|
 |---|---------------------------------------|-----------------------------------|---|
 | 1 | Incoming SPS data     | | `+UESPSDA:0,19` |
-| 2 | Reads incoming SPS data in binary format |`AT+USPSRB=0,19` |   `+USPSRB:0\x01\x00\x13Hello from NORA-W36` |
+| 2 | Reads incoming SPS data in binary format |`AT+USPSRB=0,19` |   `+USPSRB:0010013Hello from NORA-W36` |
 
 ## Transparent mode overview
 
@@ -3984,6 +3994,8 @@ The header always contains exactly 3 bytes in this order:
 -  **DON'T**: Add comma (`,`) before binary data
 -  **DON'T**: Add carriage return (`\r`) before binary data
 -  **DON'T**: Add any spaces or other characters before binary data
+-  **DON'T**: Add hexadecimal escape (`\x`) before binary data
+
 
 ## Simple binary data example
 
@@ -3999,17 +4011,15 @@ Let's send 2 bytes of data (`0xFF, 0xEE`) to socket 0.
 ## What you actually send:
 
 ```
-AT+USOWB=0\x01\x00\x02\xFF\xEE
+AT+USOWB=0010002FFEE
 ```
 
 **Explanation:**
 - `AT+USOWB=0` = Write to socket 0
-- `\x01` = Start marker
-- `\x00` = Length high byte (0)
-- `\x02` = Length low byte (2)
-- `\xFF\xEE` = Your 2 bytes of actual data
-
-⚠ **Note**: The curly braces `{ }` in documentation are just for clarity - **never include them in actual commands**.
+- `01` = Start marker
+- `00` = Length high byte (0)
+- `02` = Length low byte (2)
+- `FFEE` = Your 2 bytes of actual data (binary bytes 0xFF, 0xEE)
 
 ## Text message example
 
@@ -4025,12 +4035,12 @@ Let's send the text `Hello from NORA-W36` as binary data.
 ## Complete command:
 
 ```
-AT+USOWB=0\x01\x00\x13Hello from NORA-W36
+AT+USOWB=0010013Hello from NORA-W36
 ```
 
 **When you receive data back, it includes the same header:**
 ```
-+USORB:0\x01\x00\x13Hello from NORA-W36
++USORB:0010013Hello from NORA-W36
 ```
 
 ## Certificate upload example
@@ -4060,15 +4070,15 @@ You want to upload a certificate file named `ca.pem` that contains 1342 bytes of
 ## Complete certificate command structure
 
 ```text
-AT+USECUB=0,"ca.pem"\x01\x05\x3E[certificate content here]
+AT+USECUB=0,"ca.pem"01053E-----BEGIN CERTIFICATE-----...
 ```
 
 **Breakdown:**
 - `AT+USECUB=0,"ca.pem"` = Upload to slot 0, name it "ca.pem"
-- `\x01` = Binary data start marker
-- `\x05` = High byte of length (1342)
-- `\x3E` = Low byte of length (1342)
-- `[certificate content]` = The actual 1342 bytes of certificate data
+- `01` = Binary data start marker
+- `05` = High byte of length (1342)
+- `3E` = Low byte of length (1342)
+- `-----BEGIN CERTIFICATE-----...` = The actual 1342 bytes of certificate data
 
 ## Expected response
 
@@ -4079,7 +4089,7 @@ OK
 
 This confirms that 1342 bytes were successfully received and stored.
 
-```AT+USECUB=0,"ca.pem"\x01\x05\x3E-----BEGIN CERTIFICATE-----\n
+```AT+USECUB=0,"ca.pem"01053E-----BEGIN CERTIFICATE-----\n
 ABCDojCCAoqgAwIBAgIBADANBgkqhkiG9w0BAQsFADCBkDELMAkGA1UEBhMCR0Ix\n
 FzAVBgNVBAgMDlVuaXRlZCBLaW5nZG9tMQ4wDAYDVQQHDAVEZXJieTESMBAGA1UE\n
 CgwJTW9zcXVpdHRvMQswCQYDVQQLDAJDQTEWMBQGA1UEAwwNbW9zcXVpdHRvLm9y\n
