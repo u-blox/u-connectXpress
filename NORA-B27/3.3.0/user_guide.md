@@ -1017,27 +1017,32 @@ See more information about [Binary Data](#simple-binary-data-example).
 ## SPS write binary
 
 **Syntax**
-`AT+USPSWS=<conn_handle>{binary_data}`
+
+`AT+USPSWB=<conn_handle><01><length_high><length_low><data>`
+
+Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
 
 
 **Example to write SPS data**
 | Nr| Instructions                          | AT command | AT event|
 |---|---------------------------------------|-----------------------------------|---|
-| 1 | Write SPS data in binary format size |    `AT+USPSWB=0\x01\x00\x13Hello from NORA-B27` | `OK` |
+| 1 | Write SPS data in binary format size |    `AT+USPSWB=0010013Hello from NORA-B27` | `OK` |
 
 ## SPS read binary
 
 **Syntax**
 `AT+USPSRB=<conn_handle>,<length>`
 
-`+USPSRB:<conn_handle>{binary_data}`
+**Response**
+
+`+USPSRB:<conn_handle><01><length_high><length_low><data>`
 
 
 **Example to read SPS data**
 | Nr| Instructions                          | AT command  | AT event|
 |---|---------------------------------------|-----------------------------------|---|
 | 1 | Incoming SPS data     | | `+UESPSDA:0,19` |
-| 2 | Reads incoming SPS data in binary format |`AT+USPSRB=0,19` |   `+USPSRB:0\x01\x00\x13Hello from NORA-B27` |
+| 2 | Reads incoming SPS data in binary format |`AT+USPSRB=0,19` |   `+USPSRB:0010013Hello from NORA-B27` |
 
 ## Transparent mode overview
 
@@ -1129,6 +1134,8 @@ The header always contains exactly 3 bytes in this order:
 -  **DON'T**: Add comma (`,`) before binary data
 -  **DON'T**: Add carriage return (`\r`) before binary data
 -  **DON'T**: Add any spaces or other characters before binary data
+-  **DON'T**: Add hexadecimal escape (`\x`) before binary data
+
 
 ## Simple binary data example
 
@@ -1144,17 +1151,15 @@ Let's send 2 bytes of data (`0xFF, 0xEE`) via SPS.
 ## What you actually send:
 
 ```
-AT+USPSWB=0\x01\x00\x02\xFF\xEE
+AT+USPSWB=0010002FFEE
 ```
 
 **Explanation:**
 - `AT+USPSWB=0` = Write to SPS connection 0
-- `\x01` = Start marker
-- `\x00` = Length high byte (0)
-- `\x02` = Length low byte (2)
-- `\xFF\xEE` = Your 2 bytes of actual data
-
-⚠ **Note**: The curly braces `{ }` in documentation are just for clarity - **never include them in actual commands**.
+- `01` = Start marker
+- `00` = Length high byte (0)
+- `02` = Length low byte (2)
+- `FFEE` = Your 2 bytes of actual data (binary bytes 0xFF, 0xEE)
 
 ## Text message example
 
@@ -1170,12 +1175,12 @@ Let's send the text `Hello from NORA-B27` as binary data.
 ## Complete command:
 
 ```
-AT+USPSWB=0\x01\x00\x13Hello from NORA-B27
+AT+USPSWB=0010013Hello from NORA-B27
 ```
 
 **When you receive data back, it includes the same header:**
 ```
-+USPSRB:0\x01\x00\x13Hello from NORA-B27
++USPSRB:0010013Hello from NORA-B27
 ```
 
 
