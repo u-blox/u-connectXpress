@@ -2,6 +2,29 @@
 
 All notable changes to the u-connectXpress software relevant for `NORA-B26` will be documented in this file. For added or changed AT commands see at_commands_changes.md
 
+# [3.4.0] - 2026-04-21
+### Improvements
+- Bluetooth: Added AT+UBTDFD to enable filtering of incoming advertisement packages (UCS_DEV_2-1626)
+- Bluetooth: Added AT+UBTAES to set advertising interval for extended advertisements (UCS_DEV_2-1644)
+- Bluetooth: Return identity address immediately after it is available for privacy peers (UCS_DEV_2-1351)
+- Bluetooth: Added non-connectable advertisement support in AT+UBTADL (UCS_DEV_2-1149)
+- Bluetooth: Added non-connectable advertisement support in AT+UBTADE (UCS_DEV_2-1658)
+- Bluetooth: Added the AT+UBTADL=<max_connections> parameter, which lets you set how many connections can be accepted while running a legacy Bluetooth advertisement. After each connection, the advertisement automatically restarts until the specified limit is reached.
+- Bluetooth: (Experimental) Added Channel Sounding reflector role with AT+UBTCSM command (UCS_DEV_2-1400)
+
+### Changed behavior
+### Fixed
+- Bluetooth: Potential disconnection issue that could occur immediately after a connection when the device was previously bonded (UCS_DEV_2-1593)
+
+### Known limitations
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
+- SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
+- Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
+- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+
+
+---
 
 # [3.2.0] - 2025-12-19
 ### Improvements
@@ -14,7 +37,6 @@ All notable changes to the u-connectXpress software relevant for `NORA-B26` will
 - Bluetooth: `AT+UBTBGD` (Background Discovery) now supports configurable discovery type, mode, and output events parameters, enabling true background scanning instead of just directed advertisement connection (UCS_DEV_2-1327)
 - Deep Sleep: `AT+UPMDS=0` now only enables wakeup from module wakeup pin instead of also UART RX, wakeup from UART RX moved to a new `wakeup_mode` `AT+UPMDS=2`.
 - System: Upgrading to version 3.2.0 from previous versions will automatically factory restore the device due to internal storage changes. All stored settings and Bluetooth bonding information will be lost. Users should document their current configuration before upgrading.
-
 ### Fixed
 - Reconnecting to a bonded device when having +UBTBSM mode 0 did not output a +UEBTC event. (UCS_DEV_2-1534, UCS_DEV_2-1535)
 - UART framing error resulted in stopped UART reception (UCS_DEV_2-1563)
@@ -27,8 +49,6 @@ All notable changes to the u-connectXpress software relevant for `NORA-B26` will
 - Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
 - Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
 
-
----
 ## [3.0.1] 2025-08-13
 ### Improvements
 - First release of uConnectXpress for NORA-B26
