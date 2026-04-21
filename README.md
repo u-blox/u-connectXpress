@@ -10,11 +10,15 @@ Binaries can be found under releases:
 
 ### [NORA-B26](https://www.u-blox.com/en/product/nora-b2-series)
 
-**Latest Version:** 3.2.0 (2025-12-19)
+**Latest Version:** 3.4.0 (2026-04-21)
 
-[![NORA-B26X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-*&label=NORA-B26X&color=blue&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.2.0)
+[![NORA-B26X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-*&label=NORA-B26X&color=blue&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0)
 
-- **[AT Commands Manual](NORA-B26/3.2.0/at_commands.md)**
+- **[AT Commands Manual](NORA-B26/3.4.0/at_commands.md)**
+
+- **[AT Commands Changes](NORA-B26/3.4.0/at_commands_changes.md)**
+
+- **[Error Codes](NORA-B26/3.4.0/error_codes.md)**
 
 - **[Changelog](NORA-B26/CHANGELOG-NORA-B26.md)**
 
@@ -47,6 +51,24 @@ Binaries can be found under releases:
 - **[Changelog](NORA-W36/CHANGELOG-NORA-W36.md)**
 
 - **[User Guide NORA-W36](NORA-W36/3.2.0/user_guide.md)**
+
+---
+
+# u-connectXpress Experimental Releases
+
+This section contains experimental firmware variants with features under evaluation.
+
+---
+
+### [NORA-B26 Channel Sounding Initiator](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0-cs_initiator)
+
+**Version:** 3.4.0 (Experimental)
+
+[![NORA-B26X CS Initiator](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-3.4.0-cs_initiator&label=NORA-B26X%20CS%20Initiator&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0-cs_initiator)
+
+- **[AT Commands Manual](experimental/NORA-B26/3.4.0/cs_initiator/at_commands.md)**
+
+- **[Error Codes](experimental/NORA-B26/3.4.0/cs_initiator/error_codes.md)**
 
 ---
 
