@@ -11,21 +11,13 @@ and describes how the products can be configured for Bluetooth Low Energy use ca
 
 ![NORA-B27](https://content.u-blox.com/sites/default/files/2026-01/NORA-B27.png)
 
-**Quick Navigation Guide for First-Time Users:**
-
-- **Getting Started Fast** → [Quick Start Guide](#quick-start-guide) (quick setup)
-- **Bluetooth Setup** → [Bluetooth GATT server](#bluetooth-gatt-server) (peripheral mode)
-- **Data Transfer** → [Send and receive data](#send-and-receive-data) (modes explained)
-- **Troubleshooting** → [Error codes](#error-codes) (when things go wrong)
-- **AT Commands Index** → [Appendix A](#appendix) (command lookup)
-
 ## Document information
 
 | Title | NORA-B27 series u-connectXpress |
 | :------------ | ---------------- |
 | Subtitle    |  Stand-alone Bluetooth LE modules             |
 | Document type | User guide |
-| Version and date |3.3.0 22-Jan-2026 |
+| Version and date | 3.3.0 22-Jan-2026 |
 | Disclosure restriction    |C1-Public |
 
 **This document applies to the following products**
@@ -44,6 +36,8 @@ This document describes how to set up and use u-blox short range stand-alone mod
 Several u-blox short range stand-alone modules support open software variants. For more information about the available options, see the corresponding system integration manuals for u-blox short range stand-alone modules.
 For older generation modules like ODIN-W2, NINA-W15 and ANNA-B1, the [u-connectXpress user guide](https://www.u-blox.com/docs/UBX-16024251) describes the functionality of these modules.
 
+
+
 ## Getting started with s-center
 
 **Downloading and installing**
@@ -60,15 +54,15 @@ These professional grade modules operate over an extended temperature range and 
 | ------------------ | :------------ |
 |**Host**                |In this document, a host refers to the device connected to a u-blox short range stand-alone module through any of the available physical interfaces. In a real application, the host is typically a microcontroller Unit (MCU) running a customer specific application. |
 |**Module**               | In this document, module refers to a u-blox stand-alone module running the u-connectXpress software. |
-|**Remote device**    | A remote device in a wireless network connecting over the Bluetooth Low Energy or Wi-Fi interfaces supported in the module.|
+|**Remote device**    | A remote device in a wireless network connecting over the Bluetooth Low Energy interface supported in the module.|
 
 ## Bluetooth Low Energy modules
 
 u-blox compact and powerful stand-alone Bluetooth Low Energy modules are designed for the development of Internet-of-Things (IoT) applications. NORA-B27 modules include an embedded Bluetooth stack and an application for wireless data transfer. The wireless support includes Bluetooth Low Energy 6.0 with Coded PHY.
 The modules support point-to-point and point-to-multipoint configurations.
-They are delivered with u-connectXpress software that provides support for u-blox Bluetooth LE Serial Port Service, Generic Attribute Profile (GATT) server, Bluetooth beacons, Peripheral role - all configurable from a host by means of AT commands.
+They are delivered with u-connectXpress software that provides support for u-blox Bluetooth LE Serial Port Service, Generic Attribute Profile (GATT) server and client, Bluetooth beacons, Peripheral and Central role - all configurable from a host by means of AT commands.
 
-# Quick Start Guide
+# Quick start guide
 
 ## Initial setup checklist
 
@@ -78,20 +72,20 @@ Before starting with NORA-B27 configuration, ensure the following setup is compl
 
 **Essential Hardware Connections:**
 
-- ☐ **Power Supply (3.3V)** - Connect regulated 3.3V power to VCC pin
-- ☐ **Ground Connection** - Connect GND pin to your system's ground reference
-- ☐ **UART Interface** - Connect TX/RX pins between NORA-B27 and host system
+- **Power Supply (3.3V)** — connect regulated 3.3 V to VCC
+- **Ground** — connect GND to your system reference
+- **UART** — connect TX/RX between NORA-B27 and host
 
 **Recommended:**
 
-- ☐ **Reset Circuit** - Wire reset pin for hardware reset capability
-- ☐ **Bootloader Recovery Switches** - Install SW1 and SW2 for easy factory reset and bootloader access (see NORA-B27 SIM for details)
+- **Reset Circuit** — wire the reset pin for hardware reset
+- **Bootloader Recovery Switches** — install SW1 and SW2 for easy factory reset and bootloader access (see NORA-B27 SIM for details)
 
 ### Software setup
 
-- ☐ **s-center 2 Installation**: Download and install [s-center 2](https://www.u-blox.com/en/product/s-center)
-- ☐ **Serial Connection**: Configure correct COM port and baud rate (115200 default)
-- ☐ **AT Command Testing**: Verify communication with basic `AT` command
+- **s-center 2** — download and install [s-center 2](https://www.u-blox.com/en/product/s-center)
+- **Serial connection** — set the correct COM port and baud rate (115200 by default)
+- **AT command testing** — verify communication with a basic `AT` command
 
 #### UART configuration defaults
 
@@ -104,9 +98,10 @@ Before starting with NORA-B27 configuration, ensure the following setup is compl
 - **Parity**: None (8N1 format)
 - **Hardware Flow Control**: **Disabled by default** (only TX/RX/GND required)
 
-**📌 Connection Requirements:**
-- **Minimum**: TX, RX, and GND pins only
-- **Recommended for higher baud rates**: CTS/RTS pins for hardware flow control
+**Connection requirements:**
+
+- Minimum: TX, RX, and GND only
+- Recommended for higher baud rates: CTS/RTS for hardware flow control
 
 ### Initial verification commands
 
@@ -123,23 +118,6 @@ Before starting with NORA-B27 configuration, ensure the following setup is compl
 
 ### Quick Bluetooth advertising
 
-**📱 Bluetooth LE Advertisement Flow:**
-
-```
-    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-    │ 🔧 Configure    │───▶│ 📡 Advertise   │───▶│ 📲 Discoverable │
-    │   Parameters    │    │   & Beacon      │    │   by Devices    │
-    └─────────────────┘    └─────────────────┘    └─────────────────┘
-             │                       │                       │
-        Set Interval           Start Broadcast          Device Scan
-
-    ⚙️ Configuration:          📡 Broadcasting:         📱 Detection:
-
-    • Interval: 100ms         • Device name            • "NORA-B27"
-    • Legacy mode             • BLE 6.0 compliant     • RSSI signal
-    • Auto-connectable        • Low power mode        • Available services
-
-```
 
 **Basic BLE Advertising Setup:**
 
@@ -156,13 +134,11 @@ Before starting with NORA-B27 configuration, ensure the following setup is compl
 
 ### Communication problems
 
-**🔧 Hardware & Communication Troubleshooting:**
-
 | Issue | Symptom | Solution |
 |-------|---------|----------|
-| 🔇 No response to AT | Silent or garbled text | ✅ Check baud rate (115200), TX/RX/GND wiring (CTS/RTS optional) |
-|  `ERROR` responses | Commands not recognized | ✅ Check firmware version, command syntax |
-|  Connection timeouts | Commands hang | ✅ Check power supply stability, reset module |
+| No response to AT | Silent or garbled text | Check baud rate (115200), TX/RX/GND wiring (CTS/RTS optional) |
+| `ERROR` responses | Commands not recognized | Check firmware version and command syntax |
+| Connection timeouts | Commands hang | Check power supply stability, reset the module |
 
 
 ## Next steps
@@ -175,18 +151,18 @@ After successful quick start:
 
 # Key features
 
-The possibility of replacing serial cables with simple wireless connections is a key feature of u-blox modules. It allows system hosts to transfer data to one another over wireless Bluetooth connections that are established between u-blox modules in Central/Peripheral configuration.
-Depending on the module capabilities, data from each host is transferred to local u-blox modules over a serial UART interface.
-u-blox modules can, depending on module capabilities, be configured to automatically establish new connections and/or accept incoming connections using AT commands. For connected hosts, this means that physical serial cables can be replaced with more convenient wireless solutions.
 
 ## Bluetooth GATT connection
 
-![ble](https://content.u-blox.com/sites/default/files/2024-04/u-blox-bluetooth.png)
 NORA-B27 can function as a Peripheral unit, connecting to devices such as laptops, cellular phones, and tablets using the Generic Attribute Profile (GATT).
 
 ## Bluetooth SPS connection
 
-![ble](https://content.u-blox.com/sites/default/files/2024-04/u-blox-bluetooth.png)
+
+The possibility of replacing serial cables with simple wireless connections is a key feature of u-blox modules. It allows system hosts to transfer data to one another over wireless Bluetooth connections that are established between u-blox modules in Central/Peripheral configuration.
+Depending on the module capabilities, data from each host is transferred to local u-blox modules over a serial UART interface.
+u-blox modules can, depending on module capabilities, be configured to automatically establish new connections and/or accept incoming connections using AT commands. For connected hosts, this means that physical serial cables can be replaced with more convenient wireless solutions.
+
 NORA-B27 can function as a Peripheral unit, connecting to devices such as laptops, cellular phones, and tablets via the u-blox Serial Port Service (SPS).
 
 
@@ -220,8 +196,10 @@ The module is controlled using AT commands in (default) Command mode. In this mo
 |BLE Peripheral connections|1 Central connected |
 |BLE Link key storage    |30 Devices. The keys that are the least used are removed first when storage is full |
 |Data transfer modes | Buffer Mode (event and read data), Direct Mode (data in event), Transparent mode (like serial port cable replacement). Buffer Mode is Default, Transparent mode only supports one link. Transparent Mode has highest throughput, then Direct Mode and then Buffer Mode |
-|SPS MTU size | 244 bytes, 1000 bytes can be sent in AT command |
+|SPS MTU size | 244 bytes link MTU; up to 1000 bytes per AT string call (`AT+USPSWS`), 1000 bytes per AT binary call (`AT+USPSWB`) |
 
+
+The table below summarises the major third-party components built into the firmware. The authoritative Software Bill of Materials is the CycloneDX `NORA-B27X-SBOM.json` shipped alongside the binary in each release archive.
 
 |u-connectXpress software components |Versions in 3.3.0|
 |:-----------------|:------------------|
@@ -234,12 +212,9 @@ The module is controlled using AT commands in (default) Command mode. In this mo
 More information about the AT commands used in this use cases can be found in the [NORA-B27 AT command manual](https://www.u-blox.com/en/sho-online-documentation/nora-b27/at-manual).
 
 
-# AT Command Programming
+# AT command programming
 
-This chapter covers the fundamental concepts of AT command programming with NORA-B27, including command response handling, event management, and timing considerations that are essential before diving into specific protocol implementations.
-
-
-This chapter covers the fundamental concepts of event-driven programming with NORA-B27, including AT command response handling, Unsolicited Result Code (URC) event management, and data flow fundamentals that are essential before diving into specific protocol implementations.
+This chapter covers the fundamental concepts of event-driven programming with NORA-B27, including AT command response handling, Unsolicited Result Code (URC) event management, and timing considerations that are essential before diving into specific protocol implementations.
 
 ## Event-driven programming fundamentals
 
@@ -343,7 +318,7 @@ OK               // Final confirmation
 
 ## Unsolicited result code (URC) event management
 
-## Understanding urcs
+## Understanding URCs
 
 **Unsolicited Result Codes (URCs)** are events generated by NORA-B27 without being prompted by a command. They provide real-time information about module status, incoming data, and connectivity changes.
 
@@ -356,7 +331,7 @@ OK               // Final confirmation
 
 ## Critical URC categories
 
-#### Connectivity urcs
+#### Connectivity URCs
 
 ```bash
 +UEBTC:0,AAAAAAAAAAAAp             // Bluetooth connected
@@ -365,13 +340,13 @@ OK               // Final confirmation
 +UESPSDC:0       // SPS disconnected
 ```
 
-#### Data availability urcs
+#### Data availability URCs
 
 ```bash
 +UESPSDS:0,"SPS Data"              // SPS string data received
 ```
 
-#### Status change urcs
+#### Status change URCs
 
 ```bash
 +STARTUP         // Module started/restarted
@@ -441,271 +416,6 @@ if URC == "+UEBTDC:0":
 ```
 
 
-# Data Handling and Processing
-
-This chapter covers advanced data handling concepts, event processing patterns, and practical implementation strategies for building robust NORA-B27 applications.
-
-## Data flow fundamentals
-
-## Data mode overview
-
-NORA-B27 supports multiple data handling modes, each optimized for different use cases:
-
-| Data Mode | Behavior | Event Type | Best For |
-|-----------|----------|------------|----------|
-| **String Mode** | Text data only | `+UESPSDS` | JSON, XML, sensor readings |
-| **Binary Mode** | All data types | `+UESPSDB` | Files, certificates, images |
-| **Buffered Mode** | Store until read | `+UESPSDA` | Event-driven applications |
-| **Direct Mode** | Immediate delivery | `+UESPSDS`/`+UESPSDB` | Real-time applications |
-| **Transparent Mode** | UART passthrough | None (direct UART) | Legacy protocol support |
-
-## Event-data relationship
-
-**Understanding Data Event Flow:**
-
-1. **Data Arrives** at module
-2. **Module Processes** according to current mode
-3. **Event Generated** to notify host
-4. **Host Application** handles event appropriately
-
-#### Buffered mode flow
-
-```bash
-
-// Data arrives → stored in buffer
-// Event generated:
-
-+UESPSDA:0,256            // 256 bytes available on SPS connection 0
-
-// Host reads data:
-
-AT+USPSRB=0,256
-+USPSRB:0,256,"actual data content here..."
-OK
-```
-
-#### Direct mode flow
-
-```bash
-
-// Data arrives → immediately delivered
-
-+UESPSDS:0,"immediate data"         // SPS string data delivered directly
-
-// No additional read command needed
-
-```
-
-## Protocol-specific event patterns
-
-## Event categories
-
-
-#### Bluetooth SPS events
-
-```bash
-
-// SPS connection sequence:
-
-+UESPSC:0        // SPS connected
-+UESPSDS:0,"Hello"       // String data received
-+UESPSDA:0,64            // Binary data available
-+UESPSDC:0       // SPS disconnected
-```
-
-
-## Event processing best practices
-
-## Event handler design patterns
-
-#### Pattern 1: central event dispatcher
-
-```pseudocode
-function handle_event(event_string):
-
-- if event_string.startswith("+UEBTC"):
-- handle_bluetooth_connected(event_string)
-- elif event_string.startswith("+UESPSDS"):
-- handle_sps_data(event_string)
-- elif event_string.startswith("+STARTUP"):
-- handle_module_startup()
-
-```
-
-#### Pattern 2: state-based processing
-
-```pseudocode
-function process_event(event, current_state):
-
-- switch current_state:
-- case CONNECTING:
-- if event == "+UESPSC:0":
-- transition_to_state(CONNECTED)
-- case CONNECTED:
-- if event.startswith("+UESPSDA"):
-- handle_sps_data_available(event)
-
-```
-
-## Error handling strategies
-
-#### Robust event processing
-
-```pseudocode
-function safe_event_handler(event):
-
-- try:
-- process_event(event)
-- except ParseError:
-- log_error("Failed to parse event: " + event)
-
-
-// Continue processing other events
-
-    except ConnectionError:
-
-- log_error("Connection lost during event processing")
-- initiate_reconnection()
-
-```
-
-#### Event queue management
-
-```pseudocode
-
-// Buffer events during critical operations
-
-event_queue = []
-critical_operation_active = False
-
-function queue_or_process_event(event):
-
-- if critical_operation_active:
-- event_queue.append(event)
-- else:
-- process_event_immediately(event)
-
-```
-
-## Performance considerations
-
-**Event Processing Guidelines:**
-
-- **Keep handlers fast** - Long processing can cause event loss
-- **Use buffering** for high-frequency events
-- **Prioritize critical events** (connection status over data)
-- **Batch process** multiple data events when possible
-
-**Memory Management:**
-
-- **Limit event queue size** to prevent memory exhaustion
-- **Clean up resources** when connections close
-- **Monitor buffer usage** in high-throughput scenarios
-
-## Practical implementation examples
-
-## Basic event loop
-
-```bash
-
-// Simple event monitoring loop
-
-while True:
-    line = read_from_uart()
-
-    if line.startswith("+"):
-
-// This is an event (URC)
-
-        handle_event(line)
-    elif line in ["OK", "ERROR"]:
-
-// This is a command response
-
-        handle_command_response(line)
-    elif line.startswith("+STARTUP"):
-
-// Module restarted
-
-        reinitialize_module()
-```
-
-## Connection state management
-
-```bash
-
-// Track Bluetooth connection state
-
-connection_states = {
-    "bluetooth": "DISCONNECTED",
-    "sps": "DISCONNECTED"
-}
-
-// Update states based on events
-
-function update_connection_state(event):
-
-- if "+UEBTC" in event:
-- connection_states["bluetooth"] = "CONNECTED"
-- elif "+UEBTDC" in event:
-- connection_states["bluetooth"] = "DISCONNECTED"
-- elif "+UESPSC" in event:
-- connection_states["sps"] = "CONNECTED"
--                // ... etc
-
-```
-
-## Data collection pattern
-
-```bash
-
-// Collect SPS data
-
-data_sources = {
-    "sps_0": []
-}
-
-function handle_data_event(event):
-
-- if "+UESPSDS:0" in event:
-- data = extract_data(event)
-- data_sources["sps_0"].append(data)
-
-```
-
-## Troubleshooting event handling
-
-## Common issues
-
-| Problem | Symptoms | Solution |
-|---------|----------|----------|
-| **Missing Events** | Expected URCs not received | Check event flow control, verify module state |
-| **Event Overflow** | Events arriving faster than processing | Implement event queue, optimize handlers |
-| **Parse Errors** | Malformed event strings | Add robust parsing with error recovery |
-| **State Confusion** | Application state out of sync with module | Implement state verification commands |
-
-## Debugging event flow
-
-**Enable Debug Logging:**
-```bash
-
-// Log all events for analysis
-
-function debug_log_event(event):
-
-- timestamp = get_current_time()
-- log_file.write(f"{timestamp}: {event}")
-
-```
-
-**Verify Event Sources:**
-```bash
-// Check which events are actually being generated
-AT+UBTM?         // Check Bluetooth mode
-```
-
-This foundation in event-driven programming and data handling prepares you for implementing specific protocol use cases covered in subsequent chapters. Understanding these fundamentals is crucial for building robust IoT applications with NORA-B27.
-
 # Bluetooth use cases
 
 ## Bluetooth GATT use cases
@@ -724,7 +434,6 @@ The following examples use the MAC address below, this must be replaced by the r
 
 ### Bluetooth GATT server
 
-![ble](https://content.u-blox.com/sites/default/files/2024-04/u-blox-bluetooth.png)
 ![bt-gatt-server](https://content.u-blox.com/sites/default/files/2024-02/bt-gatt-server.png)
 This use case configures NORA-B27 as a Peripheral device that operates as GATT server and sends notifications.
 
@@ -734,8 +443,8 @@ This configuration works in combination with a remote Central device that acts a
 
 | Nr| Instructions                              | AT command                        | AT event              |
 |---|:-------------------------------------------|:-----------------------------------|:------------------------------|
-| 1 | Check that Bluetooth Peripheral is enabled **2: Peripheral** and **3: Central and Peripheral**. If so jump to step 6.   | `AT+UBTM?`     |   `+UBTM:2` or `+UBTM:3`         |
-| 2 | Enable Bluetooth **2: Peripheral** or **3: Central and Peripheral** | `AT+UBTM=2` or `AT+UBTM=3` | `OK` |
+| 1 | Check that Bluetooth Peripheral is enabled (**2: Peripheral**). If so jump to step 6.   | `AT+UBTM?`     |   `+UBTM:2`         |
+| 2 | Enable Bluetooth **2: Peripheral** | `AT+UBTM=2` | `OK` |
 | 3 | Store command                         | `AT&W`          | `OK` |
 | 4 | Restart                               | `AT+CPWROFF`    | `OK` |
 | 5 | Wait for NORA-B27 to start | | `+STARTUP` |
@@ -753,10 +462,12 @@ This configuration works in combination with a remote Central device that acts a
 The following Bluetooth Low Energy use case, show some functionality to get started with proprietary u-blox Serial Port Service - SPS [u-blox Serial Port Service](https://content.u-blox.com/sites/default/files/u-connectXpress-LowEnergySerialPortService_ProtocolSpec_UBX-16011192.pdf).
 
 
+Once the SPS link is up, exchange data with `AT+USPSWS` / `AT+USPSWB` (write) and `AT+USPSRS` / `AT+USPSRB` (read). See [string vs binary modes](#string-mode).
+
 ### Bluetooth SPS peripheral
 
-![ble](https://content.u-blox.com/sites/default/files/2024-04/u-blox-bluetooth.png)
 ![bt-sps-central](https://content.u-blox.com/sites/default/files/2024-02/bt-sps-peripheral.png)
+
 This use case configures NORA-B27 module as a Peripheral device that sends and receives data from another NORA-B27 module operating as a Central device. The communication between the two modules is facilitated using the proprietary [u-blox Serial Port Service](https://content.u-blox.com/sites/default/files/u-connectXpress-LowEnergySerialPortService_ProtocolSpec_UBX-16011192.pdf). It is also possible to connect to other devices that support the SPS protocol.
 This use case configuration works with a remote Central device that supports SPS.
 
@@ -764,8 +475,8 @@ This use case configuration works with a remote Central device that supports SPS
 
 | Nr| Instructions                          | AT command  |  AT events |
 |---|:---------------------------------------|:--------------------------------------|:--------------------|
-| 1 | Check that Bluetooth Peripheral is enabled. **2: Peripheral** and **3: Central and Peripheral**. If so, jump to step 6   | `AT+UBTM?`     |   `+UBTM:2` or `+UBTM:3`         |
-| 2 | Enable Bluetooth **2: Peripheral** or **3: Central and Peripheral** | `AT+UBTM=2` or `AT+UBTM=3` | `OK` |
+| 1 | Check that Bluetooth Peripheral is enabled. (**2: Peripheral**). If so, jump to step 6   | `AT+UBTM?`     |   `+UBTM:2`         |
+| 2 | Enable Bluetooth **2: Peripheral** | `AT+UBTM=2` | `OK` |
 | 3 | Store command                         | `AT&W`          | `OK` |
 | 4 | Restart                               | `AT+CPWROFF`    | `OK` |
 | 5 | Wait for NORA-B27 to startup | | `+STARTUP` |
@@ -775,40 +486,33 @@ This use case configuration works with a remote Central device that supports SPS
 | 9 | Read MTU, maximum data size on both | `AT+UBTCST=0,3` | `+UBTCST:3,247` |
 | 10 | Read RSSI (optional)   | `AT+UBTRSS=0`     | `+UBTRSS:-52` |
 | 11 | Central connects SPS (Peripheral receives connection)  |   | `+UESPSC:0` |
-| 12 | It is now possible to send and receive SPS data in [String](#string-mode) or  [Binary](#binary-mode) mode |  |  |
-| 13 | SPS and Bluetooth link is down | `+UESPSDC:0` `+UEBTDC:0` |  |
+| 12 | SPS and Bluetooth link is down | `+UESPSDC:0` `+UEBTDC:0` |  |
+
+Once the SPS link is up, exchange data with `AT+USPSWS` / `AT+USPSWB` (write) and `AT+USPSRS` / `AT+USPSRB` (read). See [string vs binary modes](#string-mode).
+
 
 
 ## Bluetooth security
 
-**Pairing**
-- Pairing is the initial process where two Bluetooth devices exchange information necessary to establish an encrypted connection
-- During pairing, devices negotiate security parameters, such as encryption keys and authentication methods
-- It ensures that communication between devices remains confidential and secure
-Think of pairing as the handshake that sets the foundation for a secure link
+Pairing establishes an encrypted link between two devices. Bonding stores the
+exchanged keys so that the same peers can reconnect securely without repeating
+the pairing flow. The relevant AT commands are:
 
-**Bonding**
-- Bonding occurs after successful pairing
-- It involves storing the information from the pairing process on both devices
-- Once bonded, devices remember each other's security credentials (keys) for future reconnections
-- Bonding eliminates the need to repeat the pairing process every time the devices reconnect
-- Essentially, bonding creates a permanent security relationship between the devices
-
-**In summary**
-- Pairing: Establishes the initial secure connection
-- Bonding: Ensures that the devices remember each other's security details for subsequent interactions
-- Remember, these processes are essential for maintaining the confidentiality and integrity of data exchanged over Bluetooth connections
+- `AT+UBTPM=1` — allow incoming pairing requests
+- `AT+UBTIOC=<cap>` — set the I/O capabilities used during pairing
+- `AT+UBTBSM=<mode>` — set the minimum security mode required for bonding
+- `AT+UBTBDL` — list bonded devices
+- `AT+UBTUB=<bd_addr>` — delete a stored bond
 
 
 ### Bluetooth security responder
 
-![ble](https://content.u-blox.com/sites/default/files/2024-04/u-blox-bluetooth.png)
 Bluetooth Security is disabled by default and must be configured and enabled before use.
 
 | Nr| Instructions                              | AT command                        | AT event              |
 |---|-------------------------------------------|-----------------------------------|------------------------------|
-| 1 | Check that Bluetooth Peripheral is enabled, **2: Peripheral** or **3: Central and Peripheral**, if so move to step 6   | `AT+UBTM?`     |   `+UBTM:2` or `+UBTM:3`         |
-| 2 | Enable Bluetooth **2: Peripheral** or **3: Central and Peripheral** | `AT+UBTM=2` or `AT+UBTM=3` | `OK` |
+| 1 | Check that Bluetooth Peripheral is enabled, (**2: Peripheral**), if so move to step 6   | `AT+UBTM?`     |   `+UBTM:2`         |
+| 2 | Enable Bluetooth **2: Peripheral** | `AT+UBTM=2` | `OK` |
 | 3 | Store command                         | `AT&W`          | `OK` |
 | 4 | Restart                               | `AT+CPWROFF`    | `OK` |
 | 5 | Wait for NORA-B27 to startup | | `+STARTUP` |
@@ -837,29 +541,6 @@ The most efficient power level is Deep sleep which is almost like a power off, n
 
 # Send and receive data
 
-## Quick mode selection guide
-
-**Not sure which mode to use?** Answer these questions:
-
-1. **What type of data are you sending?**
-   - Text/JSON → **String Mode** (human readable, easy debugging)
-   - Images/Files → **Binary Mode** (preserves exact bytes)
-   - Real-time streams → **Transparent Mode** (lowest latency)
-
-2. **Do you need to process each message separately?**
-   - Yes → **Buffered Mode** (message boundaries preserved)
-   - No → **Direct Mode** (stream of bytes)
-
-3. **How important is speed vs reliability?**
-   - Speed critical → **Direct Mode** (faster)
-   - Reliability critical → **Buffered Mode** (event-driven)
-
-**👉 Most Common Choice**: String Buffered Mode - Perfect for most IoT applications
-
----
-
-NORA-B27 provides multiple data transmission modes optimized for different use cases and performance requirements. Understanding when to use each mode is crucial for optimal application performance and reliability.
-
 ## Data mode overview
 
 ## Data format modes
@@ -881,7 +562,7 @@ NORA-B27 provides multiple data transmission modes optimized for different use c
 
 ## String mode - text and structured data
 
-**✅ Use string mode when:**
+**Use string mode when:**
 - Sending/receiving **JSON, XML, HTML, or plain text**
 - Working with **REST APIs** and web services
 - Transmitting **sensor readings** in text format
@@ -902,7 +583,7 @@ NORA-B27 provides multiple data transmission modes optimized for different use c
 
 ## Binary mode - all data types
 
-**✅ Use binary mode when:**
+**Use binary mode when:**
 - Transferring **files** (images, documents, firmware)
 - Working with **binary protocols** (custom, proprietary)
 - Data contains **null bytes** or control characters
@@ -920,7 +601,7 @@ NORA-B27 provides multiple data transmission modes optimized for different use c
 
 ## Transparent mode - maximum performance
 
-**✅ Use transparent mode when:**
+**Use transparent mode when:**
 - **Maximum throughput** is required
 - Implementing **legacy applications** (similar to old data mode)
 - **Streaming data** continuously
@@ -986,8 +667,8 @@ Example to write SPS data
 ## SPS read string
 
 **Syntax**
-`AT+USPSRS=<socket_handle>,<length>`
-`+USPSRS:<socket_handle>,<length>,<string_data>`
+`AT+USPSRS=<connection_handle>,<length>`
+`+USPSRS:<connection_handle>,<length>,<string_data>`
 
 Example to read SPS data
 | Nr| Instructions                          | AT command  | AT event|
@@ -1051,8 +732,9 @@ Transparent mode (TM) allows the NORA-B27 to act as a transparent bridge, forwar
 **Key Features:**
 - Direct UART-to-remote data forwarding
 - No AT command processing during transparent mode
-- Escape sequence `+++` to return to AT command mode
-- Support for TCP, UDP (Wi-Fi), and SPS (Bluetooth LE) connections
+- Escape sequence `+++` to return to AT command mode. Note that there should be no EOL after the escape
+sequence
+- Support for SPS (Bluetooth LE) connections
 
 **Important Limitations:**
 - Only **one active connection** allowed at a time
@@ -1098,7 +780,6 @@ OK
 - Wait **1 second** before and after sending `+++`
 - Module responds with `OK` when returning to AT mode
 
-   // gatt_client
 
 # Binary data
 
@@ -1130,11 +811,11 @@ The header always contains exactly 3 bytes in this order:
 
 ## Important rules
 
-- ✅ **DO**: Send binary data immediately after the AT command and parameters
--  **DON'T**: Add comma (`,`) before binary data
--  **DON'T**: Add carriage return (`\r`) before binary data
--  **DON'T**: Add any spaces or other characters before binary data
--  **DON'T**: Add hexadecimal escape (`\x`) before binary data
+- **Do** send binary data immediately after the AT command and parameters.
+- **Do not** add a comma (`,`) before the binary data.
+- **Do not** add a carriage return (`\r`) before the binary data.
+- **Do not** add spaces or any other characters before the binary data.
+- **Do not** add a hexadecimal escape (`\x`) before the binary data.
 
 
 ## Simple binary data example
@@ -1184,6 +865,98 @@ AT+USPSWB=0010013Hello from NORA-B27
 ```
 
 
+## Programming examples
+
+The three examples below are functionally identical: write the AT-command bytes, append the 3-byte binary header (`0x01`, length high, length low), append the payload, then send the whole buffer in one write to keep the framing intact. Open the serial port in raw, 8N1, no flow-control conversion, and **do not** terminate the command with `\r` or `\n` before the binary header.
+
+## Python example
+
+```python
+def send_binary_data(serial_port, at_command: str, payload: bytes) -> None:
+    """Send AT command + binary payload using the NORA-B27 3-byte header."""
+    if len(payload) > 0xFFFF:
+        raise ValueError("payload exceeds 65535-byte AT binary limit")
+    header = b"\x01" + len(payload).to_bytes(2, "big")
+    serial_port.write(at_command.encode("ascii") + header + payload)
+
+# Example usage
+with open("file.bin", "rb") as f:
+    payload = f.read()
+send_binary_data(serial_port, "AT+USPSWB=0", payload)
+```
+
+## C# example
+
+```csharp
+public static void SendBinaryData(SerialPort port, string atCommand, byte[] payload)
+{
+    if (payload.Length > 0xFFFF)
+        throw new ArgumentException("payload exceeds 65535-byte AT binary limit");
+
+    byte[] cmd = System.Text.Encoding.ASCII.GetBytes(atCommand);
+    byte[] frame = new byte[cmd.Length + 3 + payload.Length];
+
+    Buffer.BlockCopy(cmd, 0, frame, 0, cmd.Length);
+    frame[cmd.Length]     = 0x01;                                   // start marker
+    frame[cmd.Length + 1] = (byte)((payload.Length >> 8) & 0xFF);   // length MSB
+    frame[cmd.Length + 2] = (byte)( payload.Length       & 0xFF);   // length LSB
+    Buffer.BlockCopy(payload, 0, frame, cmd.Length + 3, payload.Length);
+
+    port.Write(frame, 0, frame.Length);                             // single write
+}
+
+// Example usage
+byte[] payload = File.ReadAllBytes("file.bin");
+SendBinaryData(port, "AT+USPSWB=0", payload);
+```
+
+## C example (POSIX)
+
+```c
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
+
+/* Returns 0 on success, -1 on error (errno set, or EMSGSIZE if too large). */
+int send_binary_data(int fd, const char *at_command,
+                     const uint8_t *payload, size_t payload_len)
+{
+    if (payload_len > 0xFFFF) { errno = EMSGSIZE; return -1; }
+
+    size_t cmd_len   = strlen(at_command);
+    size_t frame_len = cmd_len + 3 + payload_len;
+    uint8_t *frame   = (uint8_t *)malloc(frame_len);
+    if (!frame) { errno = ENOMEM; return -1; }
+
+    memcpy(frame, at_command, cmd_len);
+    frame[cmd_len]     = 0x01;                                /* start marker */
+    frame[cmd_len + 1] = (uint8_t)((payload_len >> 8) & 0xFF);/* length MSB  */
+    frame[cmd_len + 2] = (uint8_t)( payload_len       & 0xFF);/* length LSB  */
+    memcpy(frame + cmd_len + 3, payload, payload_len);
+
+    /* Loop until the full frame is written -- write() may return short. */
+    size_t sent = 0;
+    while (sent < frame_len) {
+        ssize_t n = write(fd, frame + sent, frame_len - sent);
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            free(frame);
+            return -1;
+        }
+        sent += (size_t)n;
+    }
+    free(frame);
+    return 0;
+}
+
+/* Example usage:
+ *   int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);
+ *   // ... configure termios for raw 8N1, no flow-control translation ...
+ *   send_binary_data(fd, "AT+USPSWB=0", payload, payload_len);
+ */
+```
 
 ## Common use cases
 
@@ -1238,7 +1011,6 @@ NORA-B27 uses a structured error code system organized by functional categories:
 |----------|------------|-------------|------------------|
 | **Common** | 1-22 | General system errors | Parameter validation, memory, timeouts |
 | **AT Command** | 31-51 | AT command parsing errors | Invalid syntax, arguments, formatting |
-| **Wi-Fi** | 60-71 | Wi-Fi specific errors | Connection issues, configuration problems |
 | **GATT/Bluetooth** | 91-114 | Bluetooth GATT errors | Authentication, permissions, resources |
 | **HTTP** | 160+ | HTTP protocol errors | Header issues, response problems |
 | **Socket** | 180+ | Socket communication errors | Binding, connection state issues |
@@ -1439,16 +1211,6 @@ OK
 AT+UBTAL         // Start advertising
 ```
 
-## Common error resolution patterns
-
-| Error Pattern | Quick Resolution | Prevention |
-|---------------|------------------|------------ |
-| **Parameter Errors (5, 35-39)** | Check parameter format and ranges | Validate inputs before sending commands |
-| **Connection Errors (16, 62, 67)** | Verify network status and reconnect | Monitor connection status regularly |
-| **Memory Errors (6, 107)** | Free resources, reduce concurrent operations | Implement resource management |
-| **Authentication Errors (14, 95, 98)** | Verify credentials and certificates | Use secure credential storage |
-| **Timeout Errors (9, 46)** | Increase timeouts, check network conditions | Monitor signal strength and latency |
-
 ## Error code integration with monitoring
 
 ## Automated error monitoring
@@ -1493,11 +1255,11 @@ There are two ways to start the software update:
 ## Update software by AT command
 
 - Enter XMODEM mode for u-connect software update using serial port
-- XMODEM-1K and baud rate up to 3 Mbps is supported.
+- XMODEM-1K and baud rate up to 1000000 bps is supported.
 
 | Nr| Instructions                              | AT command                        | AT event              |
 |---|-------------------------------------------|-----------------------------------|------------------------------|
-| 1 |  Start XMODEM protocol with AT command  | `AT+USYFWUS=3000000` | |
+| 1 |  Start XMODEM protocol with AT command  | `AT+USYFWUS=1000000` | |
 | 2 | Now NORA-B27 is ready to receive the software using the XMODEM or XMODEM-1K protocol | `CCCCCCCCCCC...`  | |
 | 3 | When the software has been downloaded the module will restart |  `+STARTUP`   | |
 | 4 | Check the version of the software | `AT+GMR`| `"4.0.0-041"` |
@@ -1510,20 +1272,20 @@ Consider the following points when updating the software using the bootloader:
 - A command must be sent within 10 seconds when in bootloader command line mode. Otherwise, the device reboots in normal mode
 - For the complete list of available commands, enter `?`
 - An XMODEM protocol timeout is invoked after 10 seconds if nothing is received
-- XMODEM-1K and baud rate up to 3 Mbps is supported
+- XMODEM-1K and baud rate up to 1000000 bps is supported
 
 | Nr| Instructions                              | AT command                        | Event              |
 |---|-------------------------------------------|-----------------------------------|------------------------------|
 | 1a |  Enter the bootloader  | `AT+USYBL=115200` | |
 | 1b |  Alternatively, press `SWITCH_1` and `SWITCH_2` during startup or reset to enter the bootloader reset|  | |
 | 2 |  Wait for the `>` prompt  | |`>`|
-| 3 |  Change baud rate to up to 3 Mbit/s (optional)  | `r 3000000` | |
+| 3 |  Change baud rate to up to 1000000 bps (optional)  | `r 1000000` | |
 | 4 |  Start XMODEM protocol with the command `x`  | `x`  | |
 | 5 | Now NORA-B27 is ready to receive the software using the XMODEM or XMODEM-1K protocol|  | `CCCCCCCCCCC...` |
 | 6    | Wait for the prompt to indicate that the software has been downloaded successfully | |  `>` |
 | 7    | Enter the `q` command to restart the module|  `q`  | |
 | 8 | Wait for the prompt to display that the module has restarted in AT mode |  `+STARTUP`   | |
-| 9 | Check the version of the software | `AT+GMR`| `"3.0.0-041"` |
+| 9 | Check the version of the software | `AT+GMR`| `"v3.3.0"` (matches the firmware version printed on the official release zip) |
 
 ## XMODEM protocol deep dive
 
@@ -1608,8 +1370,8 @@ Receiver → Sender:   ACK (confirms completion)
 
 Complete working XMODEM implementations for NORA-B27 firmware updates are provided in the appendices:
 
-- **[Appendix C.1: Python XMODEM Implementation](#c1-python-xmodem-implementation)** - Complete Python implementation with cross-platform support
-- **[Appendix C.2: C XMODEM Implementation](#c2-c-xmodem-implementation)** - Native Windows C implementation with COM port handling
+- **[Python XMODEM implementation](#python-xmodem-implementation)** — cross-platform Python
+- **[C XMODEM implementation](#c-xmodem-implementation)** — native Windows C with COM port handling
 
 **Key Features of Both Implementations:**
 - **Hardware Validated**: Tested with real NORA-B27 modules for firmware updates
@@ -1622,49 +1384,15 @@ Complete working XMODEM implementations for NORA-B27 firmware updates are provid
 **Usage Examples:**
 ```bash
 # Python implementation
-python xmodem.py COM3 NORA-B27X-SW-3.1.0-150.bin 115200
+python xmodem.py COM3 NORA-B27X-SW-3.3.0-<build>.bin 115200
 
 # C implementation  
-xmodem.exe COM3 NORA-B27X-SW-3.1.0-150.bin 115200
+xmodem.exe COM3 NORA-B27X-SW-3.3.0-<build>.bin 115200
 ```
 
 Both implementations use identical command-line interfaces and have been proven to work reliably with NORA-B27 hardware.
 
-### Performance comparison
-
-**Standard XMODEM vs XMODEM-1K:**
-
-| Parameter | XMODEM | XMODEM-1K |
-|-----------|--------|-----------|
-| Block Size | 128 bytes | 1024 bytes |
-| Header Size | 3 bytes | 3 bytes |
-| Error Check | 1 byte checksum | 2 bytes CRC-16 |
-| Total Overhead | 4 bytes (3.1%) | 5 bytes (0.5%) |
-| Blocks per MB | 8,192 | 1,024 |
-| ACK/NAK per MB | 8,192 | 1,024 |
-| **Efficiency** | **96.9%** | **99.5%** |
-
-**Transfer Time Example (1MB firmware at 3Mbps):**
-- **XMODEM**: ~3.5 seconds
-- **XMODEM-1K**: ~2.8 seconds (20% faster)
-
-### NORA-B27 specific implementation
-
-**Firmware Update Process:**
-1. **AT Command Mode**: Send `AT+USYFWUS=3000000` to enter XMODEM mode
-2. **Protocol Detection**: NORA-B27 sends 'C' characters requesting CRC mode
-3. **Auto-Detection**: Module automatically detects XMODEM vs XMODEM-1K from first block
-4. **High-Speed Transfer**: Supports up to 3Mbps baud rate for fast updates
-5. **Verification**: Module verifies firmware integrity before activation
-6. **Restart**: Automatic restart with new firmware after successful update
-
-**Bootloader Mode Features:**
-- **Manual Entry**: Press SWITCH_1 + SWITCH_2 during startup
-- **Command Interface**: Interactive commands (`x` for XMODEM, `r` for baud rate)
-- **Recovery Mode**: Always available even if firmware is corrupted
-- **Safety Features**: 10-second timeout prevents accidental activation
-
-# Related Information
+# Related information
 
 ## Documentation & resources
 
@@ -1674,7 +1402,7 @@ Both implementations use identical command-line interfaces and have been proven 
 - **[s-center 2 Webpage](https://www.u-blox.com/en/product/s-center)**
   Configuration and development tool for u-blox modules
 
-- **[NORA-B27 AT Command Manual](https://www.u-blox.com/en/sho-online-documentation/NORA-B27/at-manual)**
+- **[NORA-B27 AT Command Manual](https://github.com/u-blox/u-connectXpress/tree/main/NORA-B27)**
   Comprehensive AT command reference and syntax guide
 
 # Contacts
@@ -1683,167 +1411,22 @@ u-blox AG
 Address: Zürcherstrasse 68
 8800 Thalwil
 Switzerland
-For further support and contact information, visit us at **[u-blox Support](https://www.u-blox.com/support)**.
+
+**Technical support:**
+- Open a Short Range support case on the u-blox portal: [portal.u-blox.com → Short Range](https://portal.u-blox.com/s/topic/0TO2p000000Hr7eGAC/short-range)
+- Or e-mail [support@u-blox.com](mailto:support@u-blox.com)
+
+For general product information, visit [u-blox Support](https://www.u-blox.com/support).
 
 ---
 
 # Appendix
 
-
-
-## Bluetooth commands
-
-### BLE advertising commands
-
-| Command | Purpose | Section |
-|---------|---------|---------|
-| `AT+UBTALS` | BLE Advertising Parameters | [](#bluetooth-advertise) |
-| `AT+UBTAL` | BLE Advertising Start | [](#bluetooth-advertise) |
-| `AT+UBTALD` | BLE Advertising Stop | [](#bluetooth-advertise) |
-
-
-### BLE SPS commands
-
-| Command | Purpose | Section |
-|---------|---------|---------|
-| `AT+USPSWS` | SPS Write String | [](#string-mode) |
-| `AT+USPSWB` | SPS Write Binary | [](#binary-mode) |
-| `AT+USPSRS` | SPS Read String | [](#string-mode) |
-| `AT+USPSRB` | SPS Read Binary | [](#binary-mode) |
-
-
-## System and diagnostic commands
-
-### Power management
-
-| Command | Purpose | Section |
-|---------|---------|---------|
-| `AT+CPWROFF` | Module Reset/Power Off | Multiple sections |
-
-
-### Error handling
-
-| Command | Purpose | Section |
-|---------|---------|---------|
-| `AT+USYEC` | System Extended Error Code | [](#query-last-error-code) |
-| `AT+USYEE` | System Extended Errors Enable | [](#socket-error-codes-180) |
-
-### Data mode commands
-
-| Command | Purpose | Section |
-|---------|---------|---------|
-| `AT+UTM` | Transparent Mode | [](#basic-transparent-mode) |
-| `ATE0/ATE1` | Command Echo Control | [](#wi-fi-tcp-client) |
-| `AT&W` | Store Configuration (use with AT+CPWROFF) | Multiple sections |
-| `+++` | Escape Sequence (Exit Transparent Mode) | [](#basic-transparent-mode) |
-
-
-// Appendix B: Enhanced Debugging and Visual Reference Guide
-
-This appendix provides visual troubleshooting aids, standardized code examples, and enhanced debugging techniques for optimal NORA-B27 implementation and troubleshooting.
-
-## Visual status indicators and LED patterns
-
-### NORA-B27 LED status indicators
-
-**Official LED Patterns (from NORA-B27 Datasheet):**
-
-| LED Combination | Color | State | Description |
-|-----------------|-------|-------|-------------|
-| LED_BLUE = Low (0) | 🔵 Blue | Connected | Wi-Fi or Bluetooth connection established |
-| LED_RED + LED_BLUE = Low (0) | 🟣 Magenta | Connecting | Attempting Wi-Fi or Bluetooth connection |
-| LED_RED + LED_GREEN = Low (0) | 🟡 Yellow | Not Connected | No active connections |
-| LED_RED = Low (0) | 🔴 Red | Not used | Reserved for future versions |
-| LED_GREEN = Low (0) | 🟢 Green | Not used | Reserved for future versions |
-
-**Quick Status Reference:**
-- **🔵 Blue**: Connection successful - ready for data transfer
-- **🟣 Magenta**: Connection in progress - wait for completion
-- **🟡 Yellow**: No connection - initiate connection sequence
-
-**Note**: LED behavior may change in future firmware versions. Refer to latest datasheet for updates.
-
-### Connection status workflow
-
-**Visual Connection Flow:**
-```
-🟡 Yellow (Disconnected)
-        ↓
-   AT+UBTAL (Start advertising)
-        ↓
-🟣 Magenta (Advertising/Connecting)
-        ↓
-🔵 Blue (Connected)
-```
-
-**Troubleshooting with LEDs:**
-- **Stuck in Magenta**: Check advertising parameters or remote device
-- **Returns to Yellow**: Connection failed - check error codes with `AT+USYEC?`
-- **Blue achieved**: Connection successful - proceed with data operations
-
-## Standardized code example format
-
-### Command documentation standard
-
-**Standardized AT Command Format Template:**
-
-```markdown
-### Command name
-
-**Purpose:** Brief description of what the command does
-
-**Syntax:**
-```
-
-```bash
-AT+UBTM=<mode>
-```
-
-**Parameters:**
-- `mode`: Bluetooth mode (2 = Peripheral, 3 = Central+Peripheral)
-
-**Response:**
-```bash
-OK
-```
-
-**Examples:**
-```bash
-// Basic usage
-AT+UBTM=2
-OK
-
-// Error case
-AT+UBTM=99
-ERROR:5          // U_ERROR_COMMON_INVALID_PARAMETER
-```
-
-**Notes:** Mode changes require module restart to take effect
-
-
-
-## Quick reference cards
-
-### Emergency recovery commands
-
-**🆘 Module Not Responding:**
-```bash
-// Hardware reset sequence
-1. Power cycle module (3.3V off → on)
-2. Wait 5 seconds
-3. AT            // Test basic response
-4. AT+USYFR      // Factory reset
-5. AT+CPWROFF    // Restart with factory default settings
-```
-
-
-This enhanced visual reference guide provides immediate troubleshooting support with visual indicators, standardized examples, and copy-paste ready command sequences for efficient NORA-B27 development and deployment.
-
-## C.1 Python XMODEM implementation
+## Python XMODEM implementation
 
 This Python XMODEM sender implementation has been tested with real NORA-B27 hardware for firmware updates.
 
-The complete implementation is provided in the accompanying `xmodem/xmodem.py` file.
+The complete implementation is published in the [u-blox/ucx-xmodem](https://github.com/u-blox/ucx-xmodem) repository, file [xmodem.py](https://github.com/u-blox/ucx-xmodem/blob/main/xmodem.py).
 
 **Key Features:**
 - **Cross-platform**: Works on Windows, Linux, and macOS with pyserial
@@ -1862,9 +1445,9 @@ pip install pyserial
 python xmodem.py <port> <firmware_file> [baud_rate]
 
 # Examples:
-python xmodem.py COM3 NORA-B27X-SW-3.1.0-150.bin
-python xmodem.py COM3 NORA-B27X-SW-3.1.0-150.bin 115200
-python xmodem.py /dev/ttyUSB0 NORA-B27X-SW-3.1.0-150.bin  # Linux
+python xmodem.py COM3 NORA-B27X-SW-3.3.0-<build>.bin
+python xmodem.py COM3 NORA-B27X-SW-3.3.0-<build>.bin 115200
+python xmodem.py /dev/ttyUSB0 NORA-B27X-SW-3.3.0-<build>.bin  # Linux
 ```
 
 **Integration Example:**
@@ -1872,19 +1455,19 @@ python xmodem.py /dev/ttyUSB0 NORA-B27X-SW-3.1.0-150.bin  # Linux
 from xmodem import ublox_firmware_update
 
 # Update firmware with default baud rate
-success = ublox_firmware_update("COM3", "NORA-B27X-SW-3.1.0-150.bin")
+success = ublox_firmware_update("COM3", "NORA-B27X-SW-3.3.0-<build>.bin")
 
 # Update firmware with custom baud rate
-success = ublox_firmware_update("COM3", "NORA-B27X-SW-3.1.0-150.bin", 3000000)
+success = ublox_firmware_update("COM3", "NORA-B27X-SW-3.3.0-<build>.bin", 3000000)
 ```
 
-See the `xmodem/README_xmodem_python.md` file for detailed documentation.
+See [README_xmodem_python.md](https://github.com/u-blox/ucx-xmodem/blob/main/README_xmodem_python.md) for detailed documentation.
 
-## C.2 C XMODEM implementation
+## C XMODEM implementation
 
 This simplified C XMODEM sender provides the same functionality as the Python version with Windows-native serial port handling.
 
-The complete implementation is provided in the accompanying `xmodem/xmodem.c` file.
+The complete implementation is published in the [u-blox/ucx-xmodem](https://github.com/u-blox/ucx-xmodem) repository, file [xmodem.c](https://github.com/u-blox/ucx-xmodem/blob/main/xmodem.c).
 
 **Key Features:**
 - **Native Windows API**: Direct serial port handling using kernel32
@@ -1907,9 +1490,9 @@ cl /Fe:xmodem.exe xmodem.c kernel32.lib
 xmodem.exe <port> <firmware_file> [baud_rate]
 
 # Examples:
-xmodem.exe COM3 NORA-B27X-SW-3.1.0-150.bin
-xmodem.exe COM3 NORA-B27X-SW-3.1.0-150.bin 115200
-xmodem.exe COM15 NORA-B27X-SW-3.1.0-150.bin 3000000  # High COM port
+xmodem.exe COM3 NORA-B27X-SW-3.3.0-<build>.bin
+xmodem.exe COM3 NORA-B27X-SW-3.3.0-<build>.bin 115200
+xmodem.exe COM15 NORA-B27X-SW-3.3.0-<build>.bin 3000000  # High COM port
 ```
 
-See the `xmodem/README_xmodem_c.md` file for detailed documentation.
+See [README_xmodem_c.md](https://github.com/u-blox/ucx-xmodem/blob/main/README_xmodem_c.md) for detailed documentation.
