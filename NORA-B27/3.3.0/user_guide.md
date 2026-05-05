@@ -146,7 +146,7 @@ Before starting with NORA-B27 configuration, ensure the following setup is compl
 After successful quick start:
 1. **Explore Bluetooth use cases** → [Bluetooth use cases](#bluetooth-use-cases)
 2. **Understand data modes** → [Send and receive data](#send-and-receive-data)
-3. **Advanced features** → [Bluetooth security configuration](#pairing-and-bonding)
+3. **Advanced features** → [Bluetooth security configuration](#bluetooth-security)
 
 
 # Key features
@@ -209,7 +209,7 @@ The table below summarises the major third-party components built into the firmw
 
 
 
-More information about the AT commands used in this use cases can be found in the [NORA-B27 AT command manual](https://www.u-blox.com/en/sho-online-documentation/nora-b27/at-manual).
+More information about the AT commands used in this use cases can be found in the [NORA-B27 AT command manual](https://github.com/u-blox/u-connectXpress/blob/main/NORA-B27/3.3.0/at_commands.md).
 
 
 # AT command programming
@@ -246,7 +246,7 @@ NORA-B27 generates several categories of events:
 
 Every AT command generates predictable response patterns that your application must handle:
 
-#### Synchronous responses (immediate)
+### Synchronous responses (immediate)
 
 ```bash
 
@@ -261,7 +261,7 @@ AT+UBTBDL
 OK
 ```
 
-#### Asynchronous responses (delayed)
+### Asynchronous responses (delayed)
 
 ```bash
 
@@ -280,7 +280,7 @@ OK
 
 ## Response parsing best practices
 
-## Command response validation
+### Command response validation
 
 #### Always check for ok/error
 
@@ -331,7 +331,7 @@ OK               // Final confirmation
 
 ## Critical URC categories
 
-#### Connectivity URCs
+### Connectivity URCs
 
 ```bash
 +UEBTC:0,AAAAAAAAAAAAp             // Bluetooth connected
@@ -340,13 +340,13 @@ OK               // Final confirmation
 +UESPSDC:0       // SPS disconnected
 ```
 
-#### Data availability URCs
+### Data availability URCs
 
 ```bash
 +UESPSDS:0,"SPS Data"              // SPS string data received
 ```
 
-#### Status change URCs
+### Status change URCs
 
 ```bash
 +STARTUP         // Module started/restarted
@@ -354,7 +354,7 @@ OK               // Final confirmation
 
 ## URC handling strategies
 
-#### Strategy 1: event-driven state machine
+### Strategy 1: event-driven state machine
 
 ```bash
 
@@ -377,7 +377,7 @@ if URC == "+UEBTDC:0":
 
 ```
 
-#### Strategy 2: data-driven processing
+### Strategy 2: data-driven processing
 
 ```bash
 
@@ -396,7 +396,7 @@ if URC == "+UESPSDA:0,*":
 
 ```
 
-#### Strategy 3: error recovery
+### Strategy 3: error recovery
 
 ```bash
 
@@ -745,7 +745,7 @@ sequence
 
 The `AT+UTM` command enters transparent mode on an existing connection.
 
-### Command syntax
+### Basic transparent mode command syntax
 ```
 AT+UTM=<link_type>,<handle>
 ```
@@ -1396,13 +1396,13 @@ Both implementations use identical command-line interfaces and have been proven 
 
 ## Documentation & resources
 
-- **[NORA-B27 Product Page](https://www.u-blox.com/en/product/NORA-B27-series)**
+- **[NORA-B27 Product Page](https://www.u-blox.com/en/product/nora-b2-series)**
   Complete product information, specifications, and ordering details
 
 - **[s-center 2 Webpage](https://www.u-blox.com/en/product/s-center)**
   Configuration and development tool for u-blox modules
 
-- **[NORA-B27 AT Command Manual](https://github.com/u-blox/u-connectXpress/tree/main/NORA-B27)**
+- **[NORA-B27 AT Command Manual](https://github.com/u-blox/u-connectXpress/blob/main/NORA-B27/3.3.0/at_commands.md)**
   Comprehensive AT command reference and syntax guide
 
 # Contacts
