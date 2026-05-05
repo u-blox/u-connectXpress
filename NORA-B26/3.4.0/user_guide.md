@@ -17,7 +17,7 @@ and describes how the products can be configured for Bluetooth Low Energy use ca
 | :------------ | ---------------- |
 | Subtitle    |  Stand-alone Bluetooth LE modules             |
 | Document type | User guide |
-| Version and date | 3.4.0 21-Apr-2026 |
+| Version and date | 3.4.0 05-May-2026 |
 | Disclosure restriction    |C1-Public |
 
 **This document applies to the following products**
