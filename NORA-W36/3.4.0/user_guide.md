@@ -332,7 +332,7 @@ The table below summarises the major third-party components built into the firmw
 |TLS certificates | Up to 8 certifications (or certificate chains) can be stored. Certificates can be maximum 15360 bytes. |
 |TLS Extensions | Server name (SNI) Max fragment length: 4096 (4) |
 
-More information about the AT commands used in this use cases can be found in the [NORA-W36 AT command manual](https://www.u-blox.com/en/sho-online-documentation/nora-w36/at-manual).
+More information about the AT commands used in this use cases can be found in the [NORA-W36 AT command manual](https://github.com/u-blox/u-connectXpress/blob/main/NORA-W36/3.4.0/at_commands.md).
 
 
 # AT command programming
@@ -369,7 +369,7 @@ NORA-W36 generates several categories of events:
 
 Every AT command generates predictable response patterns that your application must handle:
 
-#### Synchronous responses (immediate)
+### Synchronous responses (immediate)
 
 ```bash
 
@@ -388,7 +388,7 @@ AT+UWSNST?
 OK
 ```
 
-#### Asynchronous responses (delayed)
+### Asynchronous responses (delayed)
 
 ```bash
 
@@ -408,7 +408,7 @@ OK
 
 ## Response parsing best practices
 
-## Command response validation
+### Command response validation
 
 #### Always check for ok/error
 
@@ -471,7 +471,7 @@ OK
 
 ## Critical URC categories
 
-#### Connectivity URCs
+### Connectivity URCs
 
 ```bash
 +UEBTC:0,AAAAAAAAAAAAp             // Bluetooth connected
@@ -482,7 +482,7 @@ OK
 +UEWLD:0,4       // Wi-Fi link down (reason code)
 ```
 
-#### Data availability URCs
+### Data availability URCs
 
 ```bash
 +UESODA:0,128            // 128 bytes available on socket 0
@@ -491,7 +491,7 @@ OK
 +UEMQDA:0        // MQTT data available
 ```
 
-#### Status change URCs
+### Status change URCs
 
 ```bash
 +STARTUP         // Module started/restarted
@@ -503,7 +503,7 @@ OK
 
 ## URC handling strategies
 
-#### Strategy 1: event-driven state machine
+### Strategy 1: event-driven state machine
 
 ```bash
 
@@ -526,7 +526,7 @@ if URC == "+UEBTDC:0":
 
 ```
 
-#### Strategy 2: data-driven processing
+### Strategy 2: data-driven processing
 
 ```bash
 
@@ -545,7 +545,7 @@ if URC == "+UESODA:0,*":
 
 ```
 
-#### Strategy 3: error recovery
+### Strategy 3: error recovery
 
 ```bash
 
@@ -844,7 +844,7 @@ AT+UWSSW=<interface_id>,<password>,<wpa_threshold>
 
 The following section provides detailed documentation for key Wi-Fi station commands using the standardized format:
 
-#### AT+UWSCP - Wi-Fi station connection parameters
+### AT+UWSCP - Wi-Fi station connection parameters
 
 **Purpose:** Configure SSID for Wi-Fi station connection
 
@@ -869,7 +869,7 @@ AT+UWSCP=0,"Office_WiFi_5G"        // Set SSID with special characters
 - Channel selection is automatic during connection
 - Settings can be stored with `AT&W` followed by `AT+CPWROFF` to ensure safe flash storage
 
-#### AT+UWSSW - Wi-Fi station security/password
+### AT+UWSSW - Wi-Fi station security/password
 
 **Purpose:** Set WPA/WPA2/WPA3 password and security threshold
 
@@ -893,7 +893,7 @@ AT+UWSSW=0,"SecurePass123",1       // WPA3 only
 
 **Response:** `OK` on success, `ERROR` on invalid parameters
 
-#### AT+UWSC - Wi-Fi station connect
+### AT+UWSC - Wi-Fi station connect
 
 **Purpose:** Initiate connection to configured Wi-Fi network
 
@@ -920,7 +920,7 @@ AT+UWSC=0
 - `ERROR:8` - Connection timeout
 - `ERROR:16` - Authentication failed
 
-#### AT+UWSDC - Wi-Fi station disconnect
+### AT+UWSDC - Wi-Fi station disconnect
 
 **Purpose:** Disconnect from current Wi-Fi network
 
@@ -941,7 +941,7 @@ AT+UWSDC
 
 ## Wi-Fi station troubleshooting
 
-#### Common connection issues
+### Common connection issues
 
 | Issue | Symptoms | Possible Causes | Solutions |
 |-------|----------|-----------------|-----------|
@@ -950,7 +950,7 @@ AT+UWSDC
 | No IP address | `+UEWLU` received but no `+UEWSNU` | DHCP issues, network config | Check router DHCP settings, try static IP |
 | Frequent disconnections | Intermittent connectivity | Signal interference, power save | Disable power save, check for interference |
 
-#### Debug commands
+### Debug commands
 
 | Command | Purpose | Example Response |
 |---------|---------|------------------|
@@ -960,7 +960,7 @@ AT+UWSDC
 | `AT+UWSNST?` | Check network status | `+UWSNST:0,192.168.1.179` + more params |
 | `AT+UWSSC` | Scan for Wi-Fi networks | `+UWSSC:<bssid>,<ssid>,<channel>,<rssi>,...` |
 
-#### Step-by-step troubleshooting
+### Step-by-step troubleshooting
 
 1. **Test Basic Communication**
    ```
@@ -1361,7 +1361,7 @@ openssl rsa -in client.key -text -noout | grep "Private-Key"
 ```
 Expected output: `RSA Private-Key: (4096 bit, 2 primes)` or `RSA Private-Key: (2048 bit, 2 primes)`
 
-## Security recommendations
+## TLS security recommendations
 
 **Key Size Selection:**
 - **2048-bit**: Minimum recommended, faster processing, suitable for most IoT applications
@@ -1768,7 +1768,7 @@ AT+UMQCP=0,"broker.example.com",1883,"device123","user","pass"
 | 7 | - | Monitor keep-alive and adjust if needed |
 | 8 | - | Review broker logs for additional error details |
 
-## Performance optimization
+## MQTT performance optimization
 
 **Connection Parameters:**
 
@@ -2187,14 +2187,14 @@ The HTTP client returns standard HTTP status codes to indicate request results:
 
 ## HTTP client best practices
 
-## Performance optimization
+## HTTP performance optimization
 
 - **Connection Reuse**: Keep HTTP client connected for multiple requests to same server
 - **Compression**: Use `Accept-Encoding: gzip` header when supported
 - **Chunked Transfer**: For large uploads, consider chunked transfer encoding
 - **Timeout Settings**: Configure appropriate timeout values for your use case
 
-## Security recommendations
+## HTTP security recommendations
 
 - **Always use HTTPS** for sensitive data transmission
 - **Validate server certificates** using proper CA certificates
@@ -2832,7 +2832,7 @@ sequence
 
 The `AT+UTM` command enters transparent mode on an existing connection.
 
-### Command syntax
+### Basic transparent mode command syntax
 ```
 AT+UTM=<link_type>,<handle>
 ```
@@ -2953,7 +2953,7 @@ Persistent Transparent Mode (TMP) automatically enters transparent mode on start
 - Ideal for applications requiring immediate data forwarding after power-on
 - Same single-connection limitation applies
 
-### Command syntax
+### Persistent transparent mode command syntax
 ```
 AT+UTMP=<link_type>,<config_id>
 ```
@@ -3530,7 +3530,7 @@ Signal strength: -45 dBm (Excellent)
 
 ## Iperf performance testing
 
-## Overview
+### Iperf overview
 
 Iperf is a network performance measurement tool that can measure maximum TCP and UDP bandwidth performance. NORA-W36 supports Iperf version 2 protocol as both client and server.
 
@@ -3569,9 +3569,7 @@ Iperf is a network performance measurement tool that can measure maximum TCP and
 
 **Purpose:** Run NORA-W36 as an Iperf server to receive performance tests from external clients.
 
-## PC iperf client setup
-
-#### Setting up PC iperf client
+### Setting up PC iperf client
 
 **TCP Client:**
 
@@ -3589,7 +3587,7 @@ From PC command line:
 iperf -c <NORA-W36_IP> -p 5001 -u -t 10 -b 10M
 ```
 
-#### NORA-W36 server examples
+### NORA-W36 server examples
 
 **TCP Server:**
 
@@ -3612,9 +3610,7 @@ iperf -c <NORA-W36_IP> -p 5001 -u -t 10 -b 10M
 
 **Purpose:** Use NORA-W36 as an Iperf client to test performance against external servers.
 
-## PC iperf server setup
-
-#### Setting up PC iperf server
+### Setting up PC iperf server
 
 **TCP Server:**
 
@@ -3630,7 +3626,7 @@ iperf -s -p 5001
 iperf -s -u -p 5001
 ```
 
-#### NORA-W36 client examples
+### NORA-W36 client examples
 
 **TCP Client Test:**
 
@@ -4260,13 +4256,13 @@ Both implementations use identical command-line interfaces and have been proven 
 
 ## Documentation & resources
 
-- **[NORA-W36 Product Page](https://www.u-blox.com/en/product/NORA-W36-series)**
+- **[NORA-W36 Product Page](https://www.u-blox.com/en/product/nora-w36-series)**
   Complete product information, specifications, and ordering details
 
 - **[s-center 2 Webpage](https://www.u-blox.com/en/product/s-center)**
   Configuration and development tool for u-blox modules
 
-- **[NORA-W36 AT Command Manual](https://github.com/u-blox/u-connectXpress/tree/main/NORA-W36)**
+- **[NORA-W36 AT Command Manual](https://github.com/u-blox/u-connectXpress/blob/main/NORA-W36/3.4.0/at_commands.md)**
   Comprehensive AT command reference and syntax guide
 
 # Contacts
