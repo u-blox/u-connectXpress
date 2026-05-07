@@ -2732,7 +2732,7 @@ The binary mode should be used when binary content is transmitted, like files an
 
 See [Binary data](#simple-binary-data-example) for more information about the format of the data.
 
-> **Binary AT-command framing in one line.** Every binary command (`…B`) is followed **immediately** — no `,`, no space, no `\r` — by a 3-byte header `01 <lenMSB> <lenLSB>` and then the raw payload bytes. The `0x01` (SOH) IS the separator between the comma-separated parameter list and the binary block. Sending the same command in string form (with `,` and `"..."`) instead returns **`ERROR:47`** (`U_AT_STATUS_BIN_CMD_EXEC_AS_STD_CMD`).
+> **Binary AT-command framing in one line.** Every binary command (`…B`) is followed **immediately** by a 3-byte header `01 <lenMSB> <lenLSB>` and then the raw payload bytes. Commas inside the parameter list are normal — the rule is that the **last** parameter butts straight up against the `0x01` (SOH) byte: no trailing `,`, no space, no `\r`. The `0x01` IS the separator between the parameter list and the binary block. Sending the same command in string form (with a trailing `,"..."` instead of the SOH frame) returns **`ERROR:47`** (`U_AT_STATUS_BIN_CMD_EXEC_AS_STD_CMD`).
 
 **Socket receive mode**
 
@@ -2763,7 +2763,7 @@ See more information about [Binary Data](#simple-binary-data-example).
 
 Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
 
-> **This is a binary AT command.** The `<01><lenMSB><lenLSB><data>` block is sent **immediately** after the last comma-separated parameter — no `,`, no space, no `\r` between them. See [Binary data](#simple-binary-data-example) for the full frame layout. Sending it in string form returns `ERROR:47`.
+> **This is a binary AT command.** The `<01><lenMSB><lenLSB><data>` block is sent **immediately** after the last parameter — no trailing `,`, no space, no `\r` between them. See [Binary data](#simple-binary-data-example) for the full frame layout. Sending it in string form returns `ERROR:47`.
 
 **Example to write socket data** — payload `Hello from NORA-W36` (19 bytes = `0x0013`):
 
@@ -2804,7 +2804,7 @@ The textual short-hand `AT+USOWB=0010013Hello from NORA-W36` you may see in olde
 
 Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
 
-> **This is a binary AT command.** The `<01><lenMSB><lenLSB><data>` block is sent **immediately** after the last comma-separated parameter — no `,`, no space, no `\r` between them. See [Binary data](#simple-binary-data-example). Sending it in string form returns `ERROR:47`.
+> **This is a binary AT command.** The `<01><lenMSB><lenLSB><data>` block is sent **immediately** after the last parameter — no trailing `,`, no space, no `\r` between them. See [Binary data](#simple-binary-data-example). Sending it in string form returns `ERROR:47`.
 
 **Example to write SPS data** — payload `Hello from NORA-W36` (19 bytes = `0x0013`):
 
@@ -3135,13 +3135,13 @@ The header always contains exactly 3 bytes in this order:
 
 ## Important rules
 
-- **Do** send binary data immediately after the AT command and parameters.
-- **Do not** add a comma (`,`) before the binary data.
+- **Do** send the binary data immediately after the last parameter of the AT command.
+- **Do not** add a *trailing* comma (`,`) after the last parameter — the SOH byte (`0x01`) is the separator. Commas *between* parameters earlier in the list are normal (see the certificate example below).
 - **Do not** add a carriage return (`\r`) before the binary data.
 - **Do not** add spaces or any other characters before the binary data.
 - **Do not** add a hexadecimal escape (`\x`) before the binary data.
 
-> **If you send a binary command in string form** (with `,"..."` instead of the SOH-framed block) the module replies with **`ERROR:47`** (`U_AT_STATUS_BIN_CMD_EXEC_AS_STD_CMD`). That error means "this is a `…B` command — use the binary frame on this page."
+> **If you send a binary command in string form** (with a trailing `,"..."` instead of the SOH-framed block) the module replies with **`ERROR:47`** (`U_AT_STATUS_BIN_CMD_EXEC_AS_STD_CMD`). That error means "this is a `…B` command — use the binary frame on this page."
 
 
 ## Simple binary data example
