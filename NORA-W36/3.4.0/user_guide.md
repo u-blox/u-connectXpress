@@ -17,7 +17,7 @@ and describes how the products can be configured for Wi-Fi and Bluetooth Low Ene
 | :------------ | ---------------- |
 | Subtitle    |  Stand-alone multiradio modules             |
 | Document type | User guide |
-| Version and date | 3.4.0 05-May-2026 |
+| Version and date | 3.4.0 07-May-2026 |
 | Disclosure restriction    |C1-Public |
 
 **This document applies to the following products**
@@ -2732,6 +2732,8 @@ The binary mode should be used when binary content is transmitted, like files an
 
 See [Binary data](#simple-binary-data-example) for more information about the format of the data.
 
+> **Binary AT-command framing in one line.** Every binary command (`…B`) is followed **immediately** — no `,`, no space, no `\r` — by a 3-byte header `01 <lenMSB> <lenLSB>` and then the raw payload bytes. The `0x01` (SOH) IS the separator between the comma-separated parameter list and the binary block. Sending the same command in string form (with `,` and `"..."`) instead returns **`ERROR:47`** (`U_AT_STATUS_BIN_CMD_EXEC_AS_STD_CMD`).
+
 **Socket receive mode**
 
 **Syntax**
@@ -2761,10 +2763,21 @@ See more information about [Binary Data](#simple-binary-data-example).
 
 Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
 
-**Example to write socket data**
-| Nr| Instructions                          | AT command | AT event|
-|---|---------------------------------------|-----------------------------------|---|
-| 1 | Write Socket data in binary format size |    `AT+USOWB=0010013Hello from NORA-W36` | `OK` |
+> **This is a binary AT command.** The `<01><lenMSB><lenLSB><data>` block is sent **immediately** after the last comma-separated parameter — no `,`, no space, no `\r` between them. See [Binary data](#simple-binary-data-example) for the full frame layout. Sending it in string form returns `ERROR:47`.
+
+**Example to write socket data** — payload `Hello from NORA-W36` (19 bytes = `0x0013`):
+
+```text
+ascii :  A  T  +  U  S  O  W  B  =  0   │             │  H  e  l  l  o     f  r  o  m     NORA-W36
+hex   : 41 54 2B 55 53 4F 57 42 3D 30   │ 01 00 13    │  48 65 6C 6C 6F 20 66 72 6F 6D 20 …
+                                         └─ SOH ─┼─ len ─┘
+```
+
+* The first 10 bytes are the AT command + the `0` socket handle (a normal parameter list, but with **no trailing comma**).
+* `01 00 13` is the binary header: `SOH`, length high, length low.
+* The 19 payload bytes follow with no separator and no `\r`.
+
+The textual short-hand `AT+USOWB=0010013Hello from NORA-W36` you may see in older docs is the same three header bytes printed as ASCII hex digits — that is **not** what goes on the wire. Send the raw bytes.
 
 ## Socket read binary
 
@@ -2775,12 +2788,13 @@ Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data
 
 `+USORB:<socket_handle><01><length_high><length_low><data>`
 
+> **Binary response.** The reply contains the 3-byte header (`01 <lenMSB> <lenLSB>`) followed by the raw payload bytes — no `,` between header and data. See [Binary data](#simple-binary-data-example).
 
 **Example to read socket data**
 | Nr| Instructions                          | AT command  | AT event|
 |---|---------------------------------------|-----------------------------------|---|
 | 1 | Incoming Socket data     | | `+UESODA:0,19` |
-| 2 | Reads incoming Socket data in binary format |`AT+USORB=0,19` |   `+USORB:0010013Hello from NORA-W36` |
+| 2 | Reads incoming Socket data in binary format |`AT+USORB=0,19` |   `+USORB:0` + `01 00 13` + `Hello from NORA-W36` (19 raw payload bytes) |
 
 ## SPS write binary
 
@@ -2790,11 +2804,17 @@ Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data
 
 Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data length, and `<data>` is your actual data.
 
+> **This is a binary AT command.** The `<01><lenMSB><lenLSB><data>` block is sent **immediately** after the last comma-separated parameter — no `,`, no space, no `\r` between them. See [Binary data](#simple-binary-data-example). Sending it in string form returns `ERROR:47`.
 
-**Example to write SPS data**
-| Nr| Instructions                          | AT command | AT event|
-|---|---------------------------------------|-----------------------------------|---|
-| 1 | Write SPS data in binary format size |    `AT+USPSWB=0010013Hello from NORA-W36` | `OK` |
+**Example to write SPS data** — payload `Hello from NORA-W36` (19 bytes = `0x0013`):
+
+```text
+ascii :  A  T  +  U  S  P  S  W  B  =  0   │             │  H  e  l  l  o     f  r  o  m     NORA-W36
+hex   : 41 54 2B 55 53 50 53 57 42 3D 30   │ 01 00 13    │  48 65 6C 6C 6F 20 66 72 6F 6D 20 …
+                                            └─ SOH ─┼─ len ─┘
+```
+
+The textual short-hand `AT+USPSWB=0010013Hello from NORA-W36` is the same three header bytes printed as ASCII hex — not the on-wire form. Send the raw bytes.
 
 ## SPS read binary
 
@@ -2805,12 +2825,13 @@ Where `<01>` is the start marker, `<length_high><length_low>` is the 2-byte data
 
 `+USPSRB:<conn_handle><01><length_high><length_low><data>`
 
+> **Binary response.** The reply contains the 3-byte header (`01 <lenMSB> <lenLSB>`) followed by the raw payload bytes — no `,` between header and data. See [Binary data](#simple-binary-data-example).
 
 **Example to read SPS data**
 | Nr| Instructions                          | AT command  | AT event|
 |---|---------------------------------------|-----------------------------------|---|
 | 1 | Incoming SPS data     | | `+UESPSDA:0,19` |
-| 2 | Reads incoming SPS data in binary format |`AT+USPSRB=0,19` |   `+USPSRB:0010013Hello from NORA-W36` |
+| 2 | Reads incoming SPS data in binary format |`AT+USPSRB=0,19` |   `+USPSRB:0` + `01 00 13` + `Hello from NORA-W36` (19 raw payload bytes) |
 
 ## Transparent mode overview
 
@@ -3120,6 +3141,8 @@ The header always contains exactly 3 bytes in this order:
 - **Do not** add spaces or any other characters before the binary data.
 - **Do not** add a hexadecimal escape (`\x`) before the binary data.
 
+> **If you send a binary command in string form** (with `,"..."` instead of the SOH-framed block) the module replies with **`ERROR:47`** (`U_AT_STATUS_BIN_CMD_EXEC_AS_STD_CMD`). That error means "this is a `…B` command — use the binary frame on this page."
+
 
 ## Simple binary data example
 
@@ -3134,16 +3157,22 @@ Let's send 2 bytes of data (`0xFF, 0xEE`) to socket 0.
 
 ## What you actually send:
 
-```
-AT+USOWB=0010002FFEE
+On the wire (each cell is one byte; `│` separates the AT-command region, the 3-byte SOH header and the payload):
+
+```text
+ascii :  A  T  +  U  S  O  W  B  =  0   │             │
+hex   : 41 54 2B 55 53 4F 57 42 3D 30   │ 01 00 02    │ FF EE
+                                         └─ SOH ─┼─ len ─┘   ↑ payload (2 bytes)
 ```
 
 **Explanation:**
-- `AT+USOWB=0` = Write to socket 0
-- `01` = Start marker
-- `00` = Length high byte (0)
-- `02` = Length low byte (2)
-- `FFEE` = Your 2 bytes of actual data (binary bytes 0xFF, 0xEE)
+
+- `AT+USOWB=0` (10 ASCII bytes) = write to socket 0
+- `01` = SOH start marker
+- `00 02` = length = 2 bytes (big-endian)
+- `FF EE` = your 2 raw payload bytes
+
+Note: there is **no comma, no `\r`** between `=0` and `01`. The textual short-hand `AT+USOWB=0010002FFEE` you might see in old docs is the same bytes printed as ASCII hex digits — that is **not** what travels down the UART.
 
 ## Text message example
 
@@ -3158,13 +3187,17 @@ Let's send the text `Hello from NORA-W36` as binary data.
 
 ## Complete command:
 
-```
-AT+USOWB=0010013Hello from NORA-W36
+```text
+ascii :  A  T  +  U  S  O  W  B  =  0   │             │  H  e  l  l  o     f  r  o  m     NORA-W36
+hex   : 41 54 2B 55 53 4F 57 42 3D 30   │ 01 00 13    │  48 65 6C 6C 6F 20 66 72 6F 6D 20 …
+                                         └─ SOH ─┼─ len ─┘   ↑ 19 payload bytes
 ```
 
 **When you receive data back, it includes the same header:**
-```
-+USORB:0010013Hello from NORA-W36
+
+```text
+resp  :  +  U  S  O  R  B  :  0          │             │  H  e  l  l  o   …
+hex   : 2B 55 53 4F 52 42 3A 30          │ 01 00 13    │  48 65 6C 6C 6F …
 ```
 
 ## Certificate upload example
@@ -3194,15 +3227,17 @@ You want to upload a certificate file named `ca.pem` that contains 1342 bytes of
 ## Complete certificate command structure
 
 ```text
-AT+USECUB=0,"ca.pem"01053E-----BEGIN CERTIFICATE-----...
+ascii :  A  T  +  U  S  E  C  U  B  =  0  ,  "  c  a  .  p  e  m  "   │             │  -  -  -  -  -  B  E  G  I  N  …
+hex   : 41 54 2B 55 53 45 43 55 42 3D 30 2C 22 63 61 2E 70 65 6D 22   │ 01 05 3E    │  2D 2D 2D 2D 2D 42 45 47 49 4E …
+                                                                       └─ SOH ─┼─ len ─┘   ↑ 1342 PEM bytes
 ```
 
 **Breakdown:**
-- `AT+USECUB=0,"ca.pem"` = Upload to slot 0, name it "ca.pem"
-- `01` = Binary data start marker
-- `05` = High byte of length (1342)
-- `3E` = Low byte of length (1342)
-- `-----BEGIN CERTIFICATE-----...` = The actual 1342 bytes of certificate data
+
+- `AT+USECUB=0,"ca.pem"` = upload to slot 0, name it `ca.pem`. The closing `"` is the last byte of the parameter list — no comma, no `\r` after it.
+- `01` = SOH binary start marker
+- `05 3E` = length = 1342 bytes (big-endian)
+- `-----BEGIN CERTIFICATE-----…` = the actual 1342 PEM bytes, sent verbatim (no escaping)
 
 ## Expected response
 
