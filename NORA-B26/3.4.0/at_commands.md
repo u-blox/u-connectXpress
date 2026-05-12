@@ -118,7 +118,7 @@ Firmware version: v3.4.0
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1 AT Commands](#u_61-at-commands)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1\.1 AT\+UBTCSM \- Bluetooth Channel Sounding Mode \(experimental\)](#atubtcsm)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2 Unsolicited Response Codes](#u_62-unsolicited-response-codes)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2\.1 \+UEBTCSS \- Event Bluetooth Channel Sounding Status](#uebtcss)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2\.1 \+UEBTCSS \- Event Bluetooth Channel Sounding Status \(experimental\)](#uebtcss)<br>
 [7 GATT client](#gatt-client)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7\.1 AT Commands](#u_71-at-commands)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7\.1\.1 AT\+UBTGPSD \- GATT Primary Services Discover](#atubtgpsd)<br>
@@ -2131,9 +2131,11 @@ Set Channel Sounding mode (disable, reflector).
 | [+UEBTCSS](#uebtcss) | Event Bluetooth Channel Sounding Status |
 
 <a name="uebtcss" id="uebtcss"></a>
-### **6.2.1 +UEBTCSS - Event Bluetooth Channel Sounding Status**
+### **6.2.1 +UEBTCSS - Event Bluetooth Channel Sounding Status (experimental)**
 
 Unsolicited event reporting Channel Sounding state changes.
+
+> **Experimental:** This unsolicited response code is experimental and may change or be removed in a future release.
 
 
 **Syntax**<br>

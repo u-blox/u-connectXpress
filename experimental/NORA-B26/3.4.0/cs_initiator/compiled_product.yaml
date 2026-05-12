@@ -14,7 +14,7 @@ config:
   DEFAULT_BAUDRATE: 115200
   DEFAULT_FLOW_CONTROL: 0
   HAS_CHANNEL_SOUNDING: 1
-  HAS_CHANNEL_SOUNDING_INITIATOR: 0
+  HAS_CHANNEL_SOUNDING_INITIATOR: 1
   HAS_CHANNEL_SOUNDING_RAW_DISTANCE: 0
   HAS_CHANNEL_SOUNDING_IQ_SAMPLE: 1
   HAS_CHANNEL_SOUNDING_DISTANCE_ESTIMATION: 0
@@ -1999,8 +1999,41 @@ command_groups:
             desc: Clear any previously set max Bluetooth Max Output Power level.
   Channel Sounding:
     urcs:
+      +UEBTCSIQ:<conn_handle>,<antenna>,<valid_channels>{binary_data}:
+        api_name: CsIqSample
+        experimental: true
+        output_payload: binary
+        brief: Event Bluetooth Channel Sounding Combined PCT Data
+        desc: "Unsolicited event with combined Phase Correction Term (PCT) data from\n\
+          Channel Sounding procedure. The combined PCT is the complex multiplication\n\
+          of local and remote PCT values per channel, encoding the round-trip phase:\n\
+          \  iPct = iLocal * iRemote - qLocal * qRemote\n  qPct = iLocal * qRemote\
+          \ + iRemote * qLocal\nThis is the value used by distance estimation algorithms\
+          \ (IFFT, phase slope).\nSee Bluetooth Core Spec 6.0, Vol 6, Part A, Section\
+          \ 6 for the PCT definition.\nOne URC is emitted per antenna path with valid\
+          \ data. When two antennas are configured\n(AT+UBTCSA=2), two URCs are generated\
+          \ per measurement cycle, one for each antenna path.\nOnly channels with\
+          \ non-zero combined PCT values are included in the binary payload.\nEach\
+          \ channel entry is 9 bytes: channelIndex(uint8) followed by iPct(int32)\
+          \ and\nqPct(int32) in little-endian byte order.\nTotal payload size is valid_channels\
+          \ x 9 bytes.\n"
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connection handle.
+          antenna:
+            type: integer
+            desc: Antenna path index (0 or 1).
+          valid_channels:
+            type: integer
+            desc: Number of valid channels in the binary payload.
+          binary_data:
+            type: binary
+            desc: Combined PCT data. Each entry is 9 bytes (1 byte channel index +
+              2 x int32 little-endian).
       +UEBTCSS:<conn_handle>,<channel_sounding_event>,<hci_status>:
         api_name: CsStatus
+        experimental: true
         brief: Event Bluetooth Channel Sounding Status
         desc: Unsolicited event reporting Channel Sounding state changes.
         parameters:
@@ -2014,7 +2047,6 @@ command_groups:
     commands:
       AT+UBTCSM:
         brief: Bluetooth Channel Sounding Mode
-        visibility: external
         experimental: true
         desc: Set Channel Sounding mode (disable, reflector).
         syntax:
@@ -2050,6 +2082,112 @@ command_groups:
         parameters:
           channel_sounding_antennas:
             type: channel_sounding_antennas
+      AT+UBTCSRT:
+        brief: Bluetooth Channel Sounding Update Rate
+        experimental: true
+        desc: "Set the Channel Sounding measurement interval for initiator role.\n\
+          The value specifies how many connection intervals elapse between consecutive\n\
+          CS procedures. Actual measurement periodicity depends on the negotiated\n\
+          connection interval for the link (see ${ref:AT+UBTCS}).\nA minimum connection\
+          \ interval of 10 ms is recommended to ensure sufficient\nairtime for CS\
+          \ subevent scheduling. Shorter intervals may cause CS procedures\nto be\
+          \ dropped by the controller.\n"
+        syntax:
+          AT+UBTCSRT=<channel_sounding_rate>:
+            storable: true
+            api_name: SetChannelSoundingRate
+            desc: Writes the Channel Sounding interval in connection intervals.
+          AT+UBTCSRT?:
+            api_name: GetChannelSoundingRate
+            desc: Read current Channel Sounding interval in connection intervals.
+            responses:
+              +UBTCSRT:<channel_sounding_rate>:
+                desc: Successful read response for AT+UBTCSRT?
+        parameters:
+          channel_sounding_rate:
+            type: channel_sounding_rate
+      AT+UBTCSP:
+        brief: Bluetooth Channel Sounding Procedure
+        experimental: true
+        desc: "Start or stop the Channel Sounding ranging procedure for initiator\
+          \ role on a connection.\nThe connection must be bonded (encrypted) before\
+          \ starting the procedure. Use ${ref:AT+UBTB} to\nbond the connection if\
+          \ needed. If security is insufficient, the command returns an authentication\
+          \ error.\nThis command triggers the full Channel Sounding setup sequence\
+          \ (GATT discovery, capability exchange,\nconfig creation, security enable,\
+          \ and procedure enable) when starting, or stops an active procedure.\nThe\
+          \ ${ref:+UEBTCSS} URC reports progress and results are reported in dedicated\
+          \ URCs.\n"
+        syntax:
+          AT+UBTCSP=<conn_handle>,<enable>:
+            api_name: SetChannelSoundingProcedure
+            desc: Enable (1) or disable (0) Channel Sounding ranging procedure on
+              a connection.
+          AT+UBTCSP=<conn_handle>:
+            api_name: GetChannelSoundingProcedure
+            desc: Read Channel Sounding procedure state for a connection.
+            responses:
+              +UBTCSP:<channel_sounding_procedure_state>:
+                desc: Channel Sounding procedure state for the connection.
+        parameters:
+          conn_handle:
+            type: integer
+            desc: Connection handle.
+          enable:
+            type: enumerator
+            values:
+              disable:
+                desc: Stop Channel Sounding ranging procedure.
+                value: 0
+              enable:
+                desc: Start Channel Sounding ranging procedure.
+                value: 1
+          channel_sounding_procedure_state:
+            type: channel_sounding_procedure_state
+      AT+UBTCSIQ:
+        brief: Bluetooth Channel Sounding PCT Reporting
+        experimental: true
+        desc: "Enable or disable combined PCT (Phase Correction Term) reporting during\
+          \ Channel\nSounding procedures. When enabled, a ${ref:+UEBTCSIQ} unsolicited\
+          \ event with binary\npayload is generated per antenna path per measurement\
+          \ containing the combined\nPCT data (complex multiplication of local and\
+          \ remote phase correction terms).\nPCT reporting is disabled by default.\n"
+        syntax:
+          AT+UBTCSIQ=<iq_enable>:
+            storable: true
+            api_name: SetChannelSoundingIqSamples
+            desc: Enable (1) or disable (0) IQ sample reporting.
+          AT+UBTCSIQ?:
+            api_name: GetChannelSoundingIqSamples
+            desc: Read current IQ sample reporting state.
+            responses:
+              +UBTCSIQ:<iq_enable>:
+                desc: Successful read response for AT+UBTCSIQ?
+        parameters:
+          iq_enable:
+            type: iq_enable
+      AT+UBTCSREF:
+        brief: Bluetooth Channel Sounding Reference PCT Preset
+        experimental: true
+        desc: "Select a hardcoded reference PCT (combined Phase Correction Term) data\n\
+          preset for Channel Sounding debug. When a preset is active, real IQ measurement\n\
+          data is replaced with the hardcoded values, cycling through stored measurements.\n\
+          Set to 0 to disable and use real measurement data.\nRequires PCT reporting\
+          \ to be enabled (AT+UBTCSIQ=1).\n"
+        syntax:
+          AT+UBTCSREF=<cs_reference_preset>:
+            storable: true
+            api_name: SetChannelSoundingReferencePreset
+            desc: Set reference PCT data preset.
+          AT+UBTCSREF?:
+            api_name: GetChannelSoundingReferencePreset
+            desc: Read current reference PCT data preset.
+            responses:
+              +UBTCSREF:<cs_reference_preset>:
+                desc: Successful read response for AT+UBTCSREF?
+        parameters:
+          cs_reference_preset:
+            type: cs_reference_preset
   GATT client:
     desc: GATT Client
     parameters:
@@ -2989,6 +3127,9 @@ type_group:
           reflector:
             desc: Enable Channel Sounding as reflector.
             value: 1
+          initiator:
+            desc: Enable Channel Sounding as initiator.
+            value: 2
       channel_sounding_antennas:
         type: enumerator
         default: 1
@@ -2999,6 +3140,11 @@ type_group:
           two:
             desc: Use two antennas for Channel Sounding.
             value: 2
+      channel_sounding_rate:
+        type: integer
+        default: 20
+        valid_values: 1..65535
+        desc: Number of connection intervals between Channel Sounding procedures.
       iq_enable:
         type: enumerator
         default: 0
@@ -3218,6 +3364,30 @@ settings:
       type: uint32_t
       default: 1
       desc: Number of CS antennas (1 or 2)
+    ChannelSoundingRate:
+      id: 131
+      type: uint32_t
+      default: 20
+      desc: CS procedure interval in number of connection intervals
+    ChannelSoundingDistanceOffset:
+      id: 137
+      type: int32_t
+      default: 0
+      desc: CS distance offset in mm (subtracted from measurements)
+    ChannelSoundingIqEnable:
+      id: 142
+      type: uint32_t
+      default: 0
+      desc: CS combined PCT reporting (0=disabled
+      1=enabled):
+    ChannelSoundingRefPreset:
+      id: 147
+      type: uint32_t
+      default: 0
+      desc: CS reference PCT preset (0=disabled
+      1=500mm:
+      2=1000mm:
+      3=10000mm):
     LocalName:
       id: 42
       type: char[30]

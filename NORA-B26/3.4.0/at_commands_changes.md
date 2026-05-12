@@ -14,7 +14,7 @@ This document shows the differences between **u-connectXpress 3.2.0 for NORA-B26
 
 #### Channel Sounding
 
-- **+UEBTCSS:<conn_handle>,<channel_sounding_event>,<hci_status>** - Event Bluetooth Channel Sounding Status
+- **+UEBTCSS:\<conn_handle\>,\<channel_sounding_event\>,\<hci_status\>** - Event Bluetooth Channel Sounding Status
 
 
 ## ✅ Added Commands

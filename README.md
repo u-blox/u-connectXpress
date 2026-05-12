@@ -1,4 +1,4 @@
-# u-connectXpress Releases
+# Official Releases
 
 This repository is dedicated to **releases of u-connectXpress** — binaries, manuals, and changelogs for each supported platform.
 The source code lives in a private repository.
@@ -54,7 +54,7 @@ Binaries can be found under releases:
 
 ---
 
-# u-connectXpress Experimental Releases
+# Experimental Releases
 
 This section contains experimental firmware variants with features under evaluation.
 
@@ -72,7 +72,7 @@ This section contains experimental firmware variants with features under evaluat
 
 ---
 
-Usefull applications for u-connectXpress:
+Useful applications for u-connectXpress:
 - s-center - Windows AT command tool for u-connectXpress https://github.com/u-blox/s-center
 - XMODEM - Example implementations for Python and Ansi-C https://github.com/u-blox/xmodem
 - ucxclient - Minimal C API for u-connectXpress AT Client ported to Windows, Linux, STM32 and more platforms https://github.com/u-blox/ucxclient

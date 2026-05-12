@@ -2001,6 +2001,7 @@ command_groups:
     urcs:
       +UEBTCSS:<conn_handle>,<channel_sounding_event>,<hci_status>:
         api_name: CsStatus
+        experimental: true
         brief: Event Bluetooth Channel Sounding Status
         desc: Unsolicited event reporting Channel Sounding state changes.
         parameters:
@@ -2014,7 +2015,6 @@ command_groups:
     commands:
       AT+UBTCSM:
         brief: Bluetooth Channel Sounding Mode
-        visibility: external
         experimental: true
         desc: Set Channel Sounding mode (disable, reflector).
         syntax:

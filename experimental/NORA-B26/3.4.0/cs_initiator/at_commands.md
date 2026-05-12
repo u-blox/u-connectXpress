@@ -117,8 +117,13 @@ Firmware version: v3.4.0
 [6 Channel Sounding](#channel-sounding)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1 AT Commands](#u_61-at-commands)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1\.1 AT\+UBTCSM \- Bluetooth Channel Sounding Mode \(experimental\)](#atubtcsm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1\.2 AT\+UBTCSRT \- Bluetooth Channel Sounding Update Rate \(experimental\)](#atubtcsrt)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1\.3 AT\+UBTCSP \- Bluetooth Channel Sounding Procedure \(experimental\)](#atubtcsp)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1\.4 AT\+UBTCSIQ \- Bluetooth Channel Sounding PCT Reporting \(experimental\)](#atubtcsiq)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.1\.5 AT\+UBTCSREF \- Bluetooth Channel Sounding Reference PCT Preset \(experimental\)](#atubtcsref)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2 Unsolicited Response Codes](#u_62-unsolicited-response-codes)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2\.1 \+UEBTCSS \- Event Bluetooth Channel Sounding Status](#uebtcss)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2\.1 \+UEBTCSIQ \- Event Bluetooth Channel Sounding Combined PCT Data \(experimental\)](#uebtcsiq)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6\.2\.2 \+UEBTCSS \- Event Bluetooth Channel Sounding Status \(experimental\)](#uebtcss)<br>
 [7 GATT client](#gatt-client)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7\.1 AT Commands](#u_71-at-commands)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7\.1\.1 AT\+UBTGPSD \- GATT Primary Services Discover](#atubtgpsd)<br>
@@ -2098,6 +2103,10 @@ This event is generated during background discovery when a device is found. The 
 | AT Command | Description |
 | ----------|----------|
 | [AT+UBTCSM](#atubtcsm) | Bluetooth Channel Sounding Mode |
+| [AT+UBTCSRT](#atubtcsrt) | Bluetooth Channel Sounding Update Rate |
+| [AT+UBTCSP](#atubtcsp) | Bluetooth Channel Sounding Procedure |
+| [AT+UBTCSIQ](#atubtcsiq) | Bluetooth Channel Sounding PCT Reporting |
+| [AT+UBTCSREF](#atubtcsref) | Bluetooth Channel Sounding Reference PCT Preset |
 
 <a name="atubtcsm" id="atubtcsm"></a>
 ### **6.1.1 AT+UBTCSM - Bluetooth Channel Sounding Mode (experimental)**
@@ -2121,19 +2130,176 @@ Set Channel Sounding mode (disable, reflector).
 **Defined values**<br>
 | Parameter | Type | Description |
 | ----------|----------|----------|
-| channel\_sounding\_mode | enumerator | Valid values:<br>0: Disable Channel Sounding.<br>1: Enable Channel Sounding as reflector.<br><br>Default value: 0 |
+| channel\_sounding\_mode | enumerator | Valid values:<br>0: Disable Channel Sounding.<br>1: Enable Channel Sounding as reflector.<br>2: Enable Channel Sounding as initiator.<br><br>Default value: 0 |
+
+<a name="atubtcsrt" id="atubtcsrt"></a>
+### **6.1.2 AT+UBTCSRT - Bluetooth Channel Sounding Update Rate (experimental)**
+
+Set the Channel Sounding measurement interval for initiator role.
+The value specifies how many connection intervals elapse between consecutive
+CS procedures. Actual measurement periodicity depends on the negotiated
+connection interval for the link (see [AT+UBTCS](#atubtcs)).
+A minimum connection interval of 10 ms is recommended to ensure sufficient
+airtime for CS subevent scheduling. Shorter intervals may cause CS procedures
+to be dropped by the controller.
+
+
+> **Experimental:** This AT command is experimental and may change or be removed in a future release.
+
+
+**Syntax**<br>
+| <div style="width:350px">AT Command</div> | Description |
+| ----------|----------|
+| `AT+UBTCSRT=<channel_sounding_rate>` | Writes the Channel Sounding interval in connection intervals.<br><br>Notes:<br>Can be stored using [AT&W](#atw). |
+| `AT+UBTCSRT?` | Read current Channel Sounding interval in connection intervals. |
+
+| <div style="width:350px">Response</div> | Description |
+| ----------|----------|
+| `+UBTCSRT:<channel_sounding_rate>` | Successful read response for AT+UBTCSRT? |
+
+
+**Defined values**<br>
+| Parameter | Type | Description |
+| ----------|----------|----------|
+| channel\_sounding\_rate | integer | Number of connection intervals between Channel Sounding procedures.<br><br>Valid values: 1..65535<br><br>Default value: 20 |
+
+<a name="atubtcsp" id="atubtcsp"></a>
+### **6.1.3 AT+UBTCSP - Bluetooth Channel Sounding Procedure (experimental)**
+
+Start or stop the Channel Sounding ranging procedure for initiator role on a connection.
+The connection must be bonded (encrypted) before starting the procedure. Use [AT+UBTB](#atubtb) to
+bond the connection if needed. If security is insufficient, the command returns an authentication error.
+This command triggers the full Channel Sounding setup sequence (GATT discovery, capability exchange,
+config creation, security enable, and procedure enable) when starting, or stops an active procedure.
+The [+UEBTCSS](#uebtcss) URC reports progress and results are reported in dedicated URCs.
+
+
+> **Experimental:** This AT command is experimental and may change or be removed in a future release.
+
+
+**Syntax**<br>
+| <div style="width:350px">AT Command</div> | Description |
+| ----------|----------|
+| `AT+UBTCSP=<conn_handle>,<enable>` | Enable (1) or disable (0) Channel Sounding ranging procedure on a connection. |
+| `AT+UBTCSP=<conn_handle>` | Read Channel Sounding procedure state for a connection. |
+
+| <div style="width:350px">Response</div> | Description |
+| ----------|----------|
+| `+UBTCSP:<channel_sounding_procedure_state>` | Channel Sounding procedure state for the connection. |
+
+
+**Defined values**<br>
+| Parameter | Type | Description |
+| ----------|----------|----------|
+| conn\_handle | integer | Connection handle. |
+| enable | enumerator | Valid values:<br>0: Stop Channel Sounding ranging procedure.<br>1: Start Channel Sounding ranging procedure. |
+| channel\_sounding\_procedure\_state | enumerator | Valid values:<br>0: No Channel Sounding procedure active.<br>1: Channel Sounding procedure setup in progress.<br>2: Channel Sounding ranging procedure active. |
+
+<a name="atubtcsiq" id="atubtcsiq"></a>
+### **6.1.4 AT+UBTCSIQ - Bluetooth Channel Sounding PCT Reporting (experimental)**
+
+Enable or disable combined PCT (Phase Correction Term) reporting during Channel
+Sounding procedures. When enabled, a [+UEBTCSIQ](#uebtcsiq) unsolicited event with binary
+payload is generated per antenna path per measurement containing the combined
+PCT data (complex multiplication of local and remote phase correction terms).
+PCT reporting is disabled by default.
+
+
+> **Experimental:** This AT command is experimental and may change or be removed in a future release.
+
+
+**Syntax**<br>
+| <div style="width:350px">AT Command</div> | Description |
+| ----------|----------|
+| `AT+UBTCSIQ=<iq_enable>` | Enable (1) or disable (0) IQ sample reporting.<br><br>Notes:<br>Can be stored using [AT&W](#atw). |
+| `AT+UBTCSIQ?` | Read current IQ sample reporting state. |
+
+| <div style="width:350px">Response</div> | Description |
+| ----------|----------|
+| `+UBTCSIQ:<iq_enable>` | Successful read response for AT+UBTCSIQ? |
+
+
+**Defined values**<br>
+| Parameter | Type | Description |
+| ----------|----------|----------|
+| iq\_enable | enumerator | Valid values:<br>0: Disable combined PCT reporting.<br>1: Enable combined PCT reporting.<br><br>Default value: 0 |
+
+<a name="atubtcsref" id="atubtcsref"></a>
+### **6.1.5 AT+UBTCSREF - Bluetooth Channel Sounding Reference PCT Preset (experimental)**
+
+Select a hardcoded reference PCT (combined Phase Correction Term) data
+preset for Channel Sounding debug. When a preset is active, real IQ measurement
+data is replaced with the hardcoded values, cycling through stored measurements.
+Set to 0 to disable and use real measurement data.
+Requires PCT reporting to be enabled (AT+UBTCSIQ=1).
+
+
+> **Experimental:** This AT command is experimental and may change or be removed in a future release.
+
+
+**Syntax**<br>
+| <div style="width:350px">AT Command</div> | Description |
+| ----------|----------|
+| `AT+UBTCSREF=<cs_reference_preset>` | Set reference PCT data preset.<br><br>Notes:<br>Can be stored using [AT&W](#atw). |
+| `AT+UBTCSREF?` | Read current reference PCT data preset. |
+
+| <div style="width:350px">Response</div> | Description |
+| ----------|----------|
+| `+UBTCSREF:<cs_reference_preset>` | Successful read response for AT+UBTCSREF? |
+
+
+**Defined values**<br>
+| Parameter | Type | Description |
+| ----------|----------|----------|
+| cs\_reference\_preset | enumerator | Valid values:<br>0: Use real measurement data.<br>1: Hardcoded reference at 500 mm.<br>2: Hardcoded reference at 1000 mm.<br>3: Hardcoded reference at 10000 mm.<br><br>Default value: 0 |
 
 <a name="u_62-unsolicited-response-codes" id="u_62-unsolicited-response-codes"></a>
 ## **6.2 Unsolicited Response Codes**
 
 | Unsolicited Response Code | Description |
 | ----------|----------|
+| [+UEBTCSIQ](#uebtcsiq) | Event Bluetooth Channel Sounding Combined PCT Data |
 | [+UEBTCSS](#uebtcss) | Event Bluetooth Channel Sounding Status |
 
+<a name="uebtcsiq" id="uebtcsiq"></a>
+### **6.2.1 +UEBTCSIQ - Event Bluetooth Channel Sounding Combined PCT Data (experimental)**
+
+Unsolicited event with combined Phase Correction Term (PCT) data from
+Channel Sounding procedure. The combined PCT is the complex multiplication
+of local and remote PCT values per channel, encoding the round-trip phase:
+  iPct = iLocal * iRemote - qLocal * qRemote
+  qPct = iLocal * qRemote + iRemote * qLocal
+This is the value used by distance estimation algorithms (IFFT, phase slope).
+See Bluetooth Core Spec 6.0, Vol 6, Part A, Section 6 for the PCT definition.
+One URC is emitted per antenna path with valid data. When two antennas are configured
+(AT+UBTCSA=2), two URCs are generated per measurement cycle, one for each antenna path.
+Only channels with non-zero combined PCT values are included in the binary payload.
+Each channel entry is 9 bytes: channelIndex(uint8) followed by iPct(int32) and
+qPct(int32) in little-endian byte order.
+Total payload size is valid_channels x 9 bytes.
+
+
+> **Experimental:** This unsolicited response code is experimental and may change or be removed in a future release.
+
+
+**Syntax**<br>
+```+UEBTCSIQ:<conn_handle>,<antenna>,<valid_channels>{binary_data}```
+
+
+**Defined values**<br>
+| Parameter | Type | Description |
+| ----------|----------|----------|
+| conn\_handle | integer | Connection handle. |
+| antenna | integer | Antenna path index (0 or 1). |
+| valid\_channels | integer | Number of valid channels in the binary payload. |
+| binary\_data | binary | Combined PCT data. Each entry is 9 bytes (1 byte channel index + 2 x int32 little-endian). |
+
 <a name="uebtcss" id="uebtcss"></a>
-### **6.2.1 +UEBTCSS - Event Bluetooth Channel Sounding Status**
+### **6.2.2 +UEBTCSS - Event Bluetooth Channel Sounding Status (experimental)**
 
 Unsolicited event reporting Channel Sounding state changes.
+
+> **Experimental:** This unsolicited response code is experimental and may change or be removed in a future release.
 
 
 **Syntax**<br>
