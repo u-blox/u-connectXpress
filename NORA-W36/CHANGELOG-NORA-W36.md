@@ -1,6 +1,28 @@
 # Changelog
 All notable changes to the u-connectXpress software relevant for `NORA-W36` will be documented in this file. For added or changed AT commands see at_commands_changes.md
 
+# [3.4.1] - 2026-05-27
+### Improvements
+### Changed behavior
+### Fixed
+- Wi-Fi Station: Static IP configuration not saved (UCS_DEV_2-1673)
+
+### Known limitations
+- Wi-Fi: Crash may occur when AP is brought down while station is associating (UCS_DEV_2-595)
+- Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
+- SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
+- Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
+- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+- Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
+- Serial: UART baudrate 38400 bps not working (UCS_DEV_2-1622)
+
+
+
+
+---
+
 # [3.4.0] - 2026-04-24
 ### Improvements
 - Bluetooth: Added AT+UBTDFD to enable filtering of incoming advertisement packages (UCS_DEV_2-1626)

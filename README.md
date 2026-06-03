@@ -42,11 +42,11 @@ Binaries can be found under releases:
 
 ### [NORA-W36](https://www.u-blox.com/en/product/nora-w36-series)
 
-**Latest Version:** 3.4.0 (2026-04-24)
+**Latest Version:** 3.4.1 (2026-05-27)
 
-[![NORA-W36X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-W36X-*&label=NORA-W36X&color=green&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36X-3.4.0)
+[![NORA-W36X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-W36X-*&label=NORA-W36X&color=green&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36X-3.4.1)
 
-- **[AT Commands Manual](NORA-W36/3.4.0/at_commands.md)**
+- **[AT Commands Manual](NORA-W36/3.4.1/at_commands.md)**
 
 - **[Changelog](NORA-W36/CHANGELOG-NORA-W36.md)**
 
