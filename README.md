@@ -60,15 +60,15 @@ This section contains experimental firmware variants with features under evaluat
 
 ---
 
-### [NORA-B26 Channel Sounding Initiator](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0-cs_initiator)
+### [NORA-B26 Channel Sounding Initiator](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.5.0-143-cs_initiator)
 
-**Version:** 3.4.0 (Experimental)
+**Version:** 3.5.0-143 (Experimental)
 
-[![NORA-B26X CS Initiator](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-3.4.0-cs_initiator&label=NORA-B26X%20CS%20Initiator&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0-cs_initiator)
+[![NORA-B26X CS Initiator](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-3.5.0-143-cs_initiator&label=NORA-B26X%20CS%20Initiator&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.5.0-143-cs_initiator)
 
-- **[AT Commands Manual](experimental/NORA-B26/3.4.0/cs_initiator/at_commands.md)**
+- **[AT Commands Manual](experimental/NORA-B26/3.5.0/3.5.0-143/cs_initiator/at_commands.md)**
 
-- **[Error Codes](experimental/NORA-B26/3.4.0/cs_initiator/error_codes.md)**
+- **[Error Codes](experimental/NORA-B26/3.5.0/3.5.0-143/cs_initiator/error_codes.md)**
 
 ---
 
