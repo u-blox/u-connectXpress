@@ -12,19 +12,15 @@ Binaries can be found under releases:
 
 <!-- shiplog:NORA-B26 -->
 
-**Latest Version:** 3.4.0 (2026-04-21)
+**Latest Version:** 3.5.0 (2026-10-13)
 
-[![NORA-B26X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B26X-*&label=NORA-B26X&color=blue&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0)
+[![NORA-B26 Latest](https://img.shields.io/static/v1?label=NORA-B26&message=3.5.0&color=green&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26-3.5.0)
 
-- **[AT Commands Manual](NORA-B26/3.4.0/at_commands.md)**
+- **[AT Commands Manual](NORA-B26/3.5.0/at_commands.md)**
 
-- **[AT Commands Changes](NORA-B26/3.4.0/at_commands_changes.md)**
-
-- **[Error Codes](NORA-B26/3.4.0/error_codes.md)**
+- **[Error Codes](NORA-B26/3.5.0/error_codes.md)**
 
 - **[Changelog](NORA-B26/CHANGELOG-NORA-B26.md)**
-
-- **[User Guide NORA-B26](NORA-B26/3.4.0/user_guide.md)**
 
 <!-- /shiplog:NORA-B26 -->
 
