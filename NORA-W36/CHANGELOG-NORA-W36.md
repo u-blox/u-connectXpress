@@ -1,5 +1,48 @@
 # Changelog
 All notable changes to the u-connectXpress software relevant for `NORA-W36` will be documented in this file. For added or changed AT commands see at_commands_changes.md
+This includes new features, behavior changes, bug fixes, and known limitations that may impact users.
+For a detailed list of added or changed AT commands see at_commands_changes.md
+This project adheres to Semantic Versioning (MAJOR.MINOR.PATCH).
+
+# [3.5.0] - 2026-10-13
+### Improvements
+- HTTP: `AT+UHTCGBB` now supports reading up to 2048 bytes per call, greatly improving HTTP download throughput (UCS2-1700)
+- Power: `AT+UPMS` light sleep mode that keeps Wi-Fi connections and supports baudrates above 115200. Wake up with the WAKE_UP pin or UART. Requires Bluetooth to be disabled (`AT+UBTM=0`) (UCS2-1462)
+- System: The Host Wakeup pin can be set to indicate the transparent-mode connection status with `AT+USYHWP`.
+- MDNS: Added automatic name conflict handling with the unsolicited event `+UEMDCD:<conflict_type>,<previous_name>,<new_name>`, reporting the conflict type and the old and new names after automatic renaming.
+- Socket: Erroneous comma sign before binary header removed for `+UESODB` and `+UESODBF` (UCS2-1722)
+
+### Changed behavior
+- HTTP: `AT+UHTCTLS` alone now decides whether TLS is enabled for a HTTP session.
+
+### Fixed
+- Network: UDP port 5353 was bound at startup even when unused (UCS_DEV_2-1704)
+- Network: Corrected NTP mode behavior and preserved updated system time across reboot
+- HTTP: A response header larger than the read window could be parsed wrongly, running on into the body. This hit, for example, servers sending large Content-Security-Policy headers.
+- HTTP: A custom request header was not null-terminated
+- HTTP: A remote socket close could make the next request in a completed session fail
+- Socket: A TLS transparent read could stall or trigger a watchdog reset (UCS2-1699).
+- Socket: A socket close could deadlock under heavy load.
+- Socket: A failed non-blocking connect could hang forever.
+- Socket: When UDP socket buffers run out (`ENOBUFS`), the send is retried instead of dropping data.
+- System: At high socket throughput, URCs could come out cut in half (for example `+UESODS`), resulting in lost payload bytes on the host
+- SPS: A client with flow control now waits for the server's credit notification.
+- SPS: Fixed an assert when a disconnect happens while the credit timer runs.
+- SPS: Fixed an overflow in the credit calculation.
+- Bluetooth: An MTU exchange that arrived early could leave SPS at MTU 23, which lowered throughput.
+- Bluetooth: Fixed a race while ATT was being torn down
+- UART: Fixed rare data corruption at baudrates <= 115200
+
+### Known limitations
+- Wi-Fi: Crash may occur when AP is brought down while station is associating (UCS_DEV_2-595)
+- Network: TCP “No Delay” feature reduces throughput (UCS_DEV_2-833)
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
+- SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
+- Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
+- Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
+- Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
+- Serial: UART baudrate 38400 bps not working (UCS_DEV_2-1622)
 
 # [3.4.1] - 2026-05-27
 ### Improvements
@@ -14,18 +57,14 @@ All notable changes to the u-connectXpress software relevant for `NORA-W36` will
 - System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
 - SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
 - Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
-- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+- Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
 - Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
 - Serial: UART baudrate 38400 bps not working (UCS_DEV_2-1622)
 
-
-
-
 ---
-
 # [3.4.0] - 2026-04-24
 ### Improvements
-- Bluetooth: Added AT+UBTDFD to enable filtering of incoming advertisement packages (UCS_DEV_2-1626)
+- Bluetooth: Added AT+UBTDFD to enable filtering of incoming advertisement packets (UCS_DEV_2-1626)
 - Wi-Fi: Default SSID removed for both Station and Access Point (UCS_DEV_2-1573)
 - Wi-Fi: Default authentication mode changed from OPEN to WPA2 (UCS_DEV_2-1573)
 - Socket: All binary read/write commands now support up to 1460 bytes (UCS_DEV_2-901)
@@ -49,7 +88,7 @@ All notable changes to the u-connectXpress software relevant for `NORA-W36` will
 - System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
 - SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
 - Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
-- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+- Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
 - Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
 - Serial: UART baudrate 38400 bps not working (UCS_DEV_2-1622)
 
@@ -87,13 +126,13 @@ All notable changes to the u-connectXpress software relevant for `NORA-W36` will
 - System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
 - SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
 - Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
-- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+- Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
 - Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
 
 
 ---
 
-# [3.1.0] - 2025-09-28
+# [3.1.0] - 2025-09-26
 ### Improvements
 - Bluetooth: Support up to 23 characteristics with notification, indication (UCS_DEV_2-1529)
 - Security: Support for TLS 1.3 added
@@ -115,7 +154,7 @@ All notable changes to the u-connectXpress software relevant for `NORA-W36` will
 - System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
 - SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
 - Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
-- Bluetooth: Only one advertisement can by activated at the same time (UCS_DEV_2-1470)
+- Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
 - Security: TLS extension SNI (Server Name Identification) is not supported for EAP-TLS (UCS_DEV_2-1543)
 
 ---

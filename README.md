@@ -48,15 +48,15 @@ Binaries can be found under releases:
 
 <!-- shiplog:NORA-W36 -->
 
-**Latest Version:** 3.4.1 (2026-05-27)
+**Latest Version:** 3.5.0 (2026-10-13)
 
-[![NORA-W36X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-W36X-*&label=NORA-W36X&color=green&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36X-3.4.1)
+[![NORA-W36 Latest](https://img.shields.io/static/v1?label=NORA-W36&message=3.5.0&color=green&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.5.0)
 
-- **[AT Commands Manual](NORA-W36/3.4.1/at_commands.md)**
+- **[AT Commands Manual](NORA-W36/3.5.0/at_commands.md)**
+
+- **[Error Codes](NORA-W36/3.5.0/error_codes.md)**
 
 - **[Changelog](NORA-W36/CHANGELOG-NORA-W36.md)**
-
-- **[User Guide NORA-W36](NORA-W36/3.4.0/user_guide.md)**
 
 <!-- /shiplog:NORA-W36 -->
 
