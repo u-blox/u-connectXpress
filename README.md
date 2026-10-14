@@ -30,15 +30,15 @@ Binaries can be found under releases:
 
 <!-- shiplog:NORA-B27 -->
 
-**Latest Version:** 3.3.0 (2026-01-20)
+**Latest Version:** 3.5.0 (2026-10-13)
 
-[![NORA-B27X Latest](https://img.shields.io/github/v/release/u-blox/u-connectXpress?filter=NORA-B27X-*&label=NORA-B27X&color=blue&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B27X-3.3.0)
+[![NORA-B27 Latest](https://img.shields.io/static/v1?label=NORA-B27&message=3.5.0&color=green&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B27-3.5.0)
 
-- **[AT Commands Manual](NORA-B27/3.3.0/at_commands.md)**
+- **[AT Commands Manual](NORA-B27/3.5.0/at_commands.md)**
+
+- **[Error Codes](NORA-B27/3.5.0/error_codes.md)**
 
 - **[Changelog](NORA-B27/CHANGELOG-NORA-B27.md)**
-
-- **[User Guide NORA-B27](NORA-B27/3.3.0/user_guide.md)**
 
 <!-- /shiplog:NORA-B27 -->
 
