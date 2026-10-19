@@ -155,7 +155,6 @@ The module starts in AT (command) mode. Switch to transparent mode with an AT co
 |MQTT Connections    |1 Connection (client) |
 |BLE Central connections |3 Peripherals connected |
 |BLE Peripheral connections|1 Central connected |
-|BLE Scatternet connections (C+P)| Central with 1 Peripheral connected, advertising and allow incoming connection as Peripheral |
 |BLE Link key storage    |20 Devices. The keys that are the least used are removed first when storage is full |
 |Coexistence Wi-Fi, BLE and TLS |Max  1 TLS client, 1 BLE, 2 TCP Client|
 |Data transfer modes | Buffer Mode (event and read data), Direct Mode (data in event), Transparent mode (like serial port cable replacement). Buffer Mode is Default, Transparent mode only supports one link. Transparent Mode has highest throughput, then Direct Mode and then Buffer Mode |
@@ -318,21 +317,22 @@ NORA-W36 operates as a Peripheral that accepts an SPS connection. It works with 
 
 ### SPS host tools and protocol documentation
 
-The [u-blox/sps](https://github.com/u-blox/sps) repository documents the SPS GATT protocol and provides a Python reference implementation for hosts that talk SPS directly over Bluetooth LE, for example a PC or Raspberry Pi connecting to NORA-W36.
+The [u-blox/sps](https://github.com/u-blox/sps) repository documents the SPS GATT protocol and provides reference implementations of the credit-based flow control in Python, C and C# for hosts that talk SPS directly over Bluetooth LE, for example a PC or Raspberry Pi connecting to NORA-W36.
 
 | Resource | Content |
 |----------|---------|
 | [SPS_PROTOCOL.md](https://github.com/u-blox/sps/blob/main/SPS_PROTOCOL.md) | Service and characteristic UUIDs, credit-based flow control, connection procedure |
 | [SPS_UBLOX_CONFIG.md](https://github.com/u-blox/sps/blob/main/SPS_UBLOX_CONFIG.md) | Configuring u-blox modules for SPS with AT commands |
 | [SPS_CLIENT_PYTHON.md](https://github.com/u-blox/sps/blob/main/SPS_CLIENT_PYTHON.md), [SPS_SERVER_PYTHON.md](https://github.com/u-blox/sps/blob/main/SPS_SERVER_PYTHON.md) | Python client ([bleak](https://pypi.org/project/bleak/)) and server ([bless](https://pypi.org/project/bless/)) |
-| [SPS_CLIENT_C.md](https://github.com/u-blox/sps/blob/main/SPS_CLIENT_C.md), [SPS_SERVER_C.md](https://github.com/u-blox/sps/blob/main/SPS_SERVER_C.md) | C implementation outline for any BLE stack |
-| [sps.py](https://github.com/u-blox/sps/blob/main/sps.py) | Command line tool and library |
+| [SPS_CLIENT_C.md](https://github.com/u-blox/sps/blob/main/SPS_CLIENT_C.md), [SPS_SERVER_C.md](https://github.com/u-blox/sps/blob/main/SPS_SERVER_C.md) | C implementation ([c/sps.c](https://github.com/u-blox/sps/blob/main/c/sps.c)) for any BLE stack |
+| [SPS_CSHARP.md](https://github.com/u-blox/sps/blob/main/SPS_CSHARP.md) | C# implementation ([csharp/Sps.cs](https://github.com/u-blox/sps/blob/main/csharp/Sps.cs)) behind a transport interface |
+| [python/sps.py](https://github.com/u-blox/sps/blob/main/python/sps.py) | Command line tool and library |
 
 ```bash
 pip install bleak bless
-python sps.py scan --sps-only                  # find SPS devices
-python sps.py client -a AA:BB:CC:DD:EE:FF      # connect as SPS client (central)
-python sps.py server -n "My-Device"            # run as SPS server (peripheral)
+python python/sps.py scan --sps-only                  # find SPS devices
+python python/sps.py client -a AA:BB:CC:DD:EE:FF      # connect as SPS client (central)
+python python/sps.py server -n "My-Device"            # run as SPS server (peripheral)
 ```
 
 ## Bluetooth advertise
@@ -347,6 +347,8 @@ NORA-W36 operates as a Peripheral and GATT client towards an Apple iPhone using 
 | 4 | Discover the services and look for **180A** (Device Information) | `AT+UBTGPSD=0` | `+UBTGPSD:0,1,5,1800` `+UBTGPSD:0,6,9,1801` `+UBTGPSD:0,10,14,180A` `+UBTGPSD:0,15,19,D0611E78BBB44591A5F8487910AE4366` `+UBTGPSD:0,20,24,9FA480E0496745429390D343DC5D04AE` `+UBTGPSD:0,25,28,180F` `+UBTGPSD:0,29,34,1805` `+UBTGPSD:0,35,44,7905F431B5CE4E99A40F4B1E122D00D0` `+UBTGPSD:0,45,56,89D3502B0F36433A8EF4C502AD55F8DC` |
 | 5 | Discover the characteristics and look for **2A29** (Manufacturer Name String) | `AT+UBTGSCD=0,10,14` | `+UBTGSCD:0,11,02,12,2A29` `+UBTGSCD:0,13,02,14,2A24` |
 | 6 | Read the Manufacturer Name String (**Apple Inc.**) on handle 12  | `AT+UBTGR=0,12`  | `+UBTGR:0,12,4170706C6520496E632E` |
+
+The examples in this chapter use the default Bluetooth LE advertising interval, a compromise between discoverability and power consumption. A module that advertises, as a beacon or GATT server, must adapt the interval to its clients and the desired behavior. For example, a Windows PC scans with a very low duty cycle and may need a shorter advertising interval (`AT+UBTALS`) to discover the module smoothly.
 
 ## Advertising options
 
@@ -726,7 +728,7 @@ Publish, subscribe, read and disconnect as in [MQTT client without TLS](#mqtt-cl
 
 | Nr| Instructions                              | AT command                        | AT event              |
 |---|-------------------------------------------|-----------------------------------|------------------------------|
-| 1 | Configure host, port, client ID, user name and password             | `AT+UMQCP=0,"mqtt.thingstream.io",8883,"device:78e3d356-876f-483b-872f-3485853fAAAA","HMVK8C09FQP245O2BBBB","ofYyBB/L3GkPvo060J6Dv+t+mfrh0XpGMcf7CCCC"`| `OK` |
+| 1 | Configure host, port, client ID, user name and password             | `AT+UMQCP=0,"mqtt.thingstream.io",8883,"device:<client_id>","<username>","<password>"`| `OK` |
 | 2 | Write the CA root certificate using [binary data](#simple-binary-data-example) | `AT+USECUB=0,"AmazonRootCA1.pem"{binary_content}` **Note**: Brackets { } should NOT be sent | `OK` |
 | 3 | Set up TLS 1.2 with the CA certificate only (no client certificate)                  | `AT+UMQTLS=0,1,"AmazonRootCA1.pem"`| `OK` |
 | 4 | Connect                    | `AT+UMQC=0`                            | `OK` then `+UEMQC:0` |
@@ -1481,7 +1483,7 @@ success = ublox_firmware_update("COM3", "NORA-W36X-SW-3.5.0-<build>.bin", 300000
 - **[s-center 2](https://www.u-blox.com/en/product/s-center)** — configuration and development tool for u-blox modules
 - **[NORA-W36 AT Command Manual](https://github.com/u-blox/u-connectXpress/blob/main/NORA-W36/3.5.0/at_commands.md)** — AT command reference
 - **[u-blox/u-connectXpress](https://github.com/u-blox/u-connectXpress)** — firmware releases, AT command manuals and changelogs
-- **[u-blox/sps](https://github.com/u-blox/sps)** — Serial Port Service protocol documentation and Python tools
+- **[u-blox/sps](https://github.com/u-blox/sps)** — Serial Port Service protocol documentation and Python, C and C# implementations
 - **[u-blox/ucx-xmodem](https://github.com/u-blox/ucx-xmodem)** — XMODEM-1K firmware update tools
 
 # Contacts
