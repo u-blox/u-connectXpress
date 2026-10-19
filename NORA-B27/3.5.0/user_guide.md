@@ -217,21 +217,22 @@ NORA-B27 operates as a Peripheral that accepts an SPS connection. It works with 
 
 ### SPS host tools and protocol documentation
 
-The [u-blox/sps](https://github.com/u-blox/sps) repository documents the SPS GATT protocol and provides a Python reference implementation for hosts that talk SPS directly over Bluetooth LE, for example a PC or Raspberry Pi connecting to NORA-B27.
+The [u-blox/sps](https://github.com/u-blox/sps) repository documents the SPS GATT protocol and provides reference implementations of the credit-based flow control in Python, C and C# for hosts that talk SPS directly over Bluetooth LE, for example a PC or Raspberry Pi connecting to NORA-B27.
 
 | Resource | Content |
 |----------|---------|
 | [SPS_PROTOCOL.md](https://github.com/u-blox/sps/blob/main/SPS_PROTOCOL.md) | Service and characteristic UUIDs, credit-based flow control, connection procedure |
 | [SPS_UBLOX_CONFIG.md](https://github.com/u-blox/sps/blob/main/SPS_UBLOX_CONFIG.md) | Configuring u-blox modules for SPS with AT commands |
 | [SPS_CLIENT_PYTHON.md](https://github.com/u-blox/sps/blob/main/SPS_CLIENT_PYTHON.md), [SPS_SERVER_PYTHON.md](https://github.com/u-blox/sps/blob/main/SPS_SERVER_PYTHON.md) | Python client ([bleak](https://pypi.org/project/bleak/)) and server ([bless](https://pypi.org/project/bless/)) |
-| [SPS_CLIENT_C.md](https://github.com/u-blox/sps/blob/main/SPS_CLIENT_C.md), [SPS_SERVER_C.md](https://github.com/u-blox/sps/blob/main/SPS_SERVER_C.md) | C implementation outline for any BLE stack |
-| [sps.py](https://github.com/u-blox/sps/blob/main/sps.py) | Command line tool and library |
+| [SPS_CLIENT_C.md](https://github.com/u-blox/sps/blob/main/SPS_CLIENT_C.md), [SPS_SERVER_C.md](https://github.com/u-blox/sps/blob/main/SPS_SERVER_C.md) | C implementation ([c/sps.c](https://github.com/u-blox/sps/blob/main/c/sps.c)) for any BLE stack |
+| [SPS_CSHARP.md](https://github.com/u-blox/sps/blob/main/SPS_CSHARP.md) | C# implementation ([csharp/Sps.cs](https://github.com/u-blox/sps/blob/main/csharp/Sps.cs)) behind a transport interface |
+| [python/sps.py](https://github.com/u-blox/sps/blob/main/python/sps.py) | Command line tool and library |
 
 ```bash
 pip install bleak bless
-python sps.py scan --sps-only                  # find SPS devices
-python sps.py client -a AA:BB:CC:DD:EE:FF      # connect as SPS client (central)
-python sps.py server -n "My-Device"            # run as SPS server (peripheral)
+python python/sps.py scan --sps-only                  # find SPS devices
+python python/sps.py client -a AA:BB:CC:DD:EE:FF      # connect as SPS client (central)
+python python/sps.py server -n "My-Device"            # run as SPS server (peripheral)
 ```
 
 ## Advertising options
@@ -629,7 +630,7 @@ success = ublox_firmware_update("COM3", "NORA-B27X-SW-3.5.0-<build>.bin", 300000
 - **[s-center 2](https://www.u-blox.com/en/product/s-center)** — configuration and development tool for u-blox modules
 - **[NORA-B27 AT Command Manual](https://github.com/u-blox/u-connectXpress/blob/main/NORA-B27/3.5.0/at_commands.md)** — AT command reference
 - **[u-blox/u-connectXpress](https://github.com/u-blox/u-connectXpress)** — firmware releases, AT command manuals and changelogs
-- **[u-blox/sps](https://github.com/u-blox/sps)** — Serial Port Service protocol documentation and Python tools
+- **[u-blox/sps](https://github.com/u-blox/sps)** — Serial Port Service protocol documentation and Python, C and C# implementations
 - **[u-blox/ucx-xmodem](https://github.com/u-blox/ucx-xmodem)** — XMODEM-1K firmware update tools
 
 # Contacts
