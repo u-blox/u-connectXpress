@@ -277,7 +277,6 @@ The module is controlled using AT commands in (default) Command mode. In this mo
 |MQTT Connections    |1 Connection (client) |
 |BLE Central connections |3 Peripherals connected |
 |BLE Peripheral connections|1 Central connected |
-|BLE Scatternet connections (C+P)| Central with 1 Peripheral connected, advertising and allow incoming connection as Peripheral |
 |BLE Link key storage    |20 Devices. The keys that are the least used are removed first when storage is full |
 |Coexistence Wi-Fi, BLE and TLS |Max  1 TLS client, 1 BLE, 2 TCP Client|
 |Data transfer modes | Buffer Mode (event and read data), Direct Mode (data in event), Transparent mode (like serial port cable replacement). Buffer Mode is Default, Transparent mode only supports one link. Transparent Mode has highest throughput, then Direct Mode and then Buffer Mode |
@@ -697,6 +696,10 @@ This use case configuration is used in combination with Apple iPhone using the A
 | 9 | Discover Services and look for **180A** that is the Device Information | `AT+UBTGPSD=0` | `+UBTGPSD:0,1,5,1800` `+UBTGPSD:0,6,9,1801` `+UBTGPSD:0,10,14,180A` `+UBTGPSD:0,15,19,D0611E78BBB44591A5F8487910AE4366` `+UBTGPSD:0,20,24,9FA480E0496745429390D343DC5D04AE` `+UBTGPSD:0,25,28,180F` `+UBTGPSD:0,29,34,1805` `+UBTGPSD:0,35,44,7905F431B5CE4E99A40F4B1E122D00D0` `+UBTGPSD:0,45,56,89D3502B0F36433A8EF4C502AD55F8DC` |
 | 10 | Discover all Service Characteristics and look for the attribute **2A29**, which describes the Manufacturer Name String characteristics | `AT+UBTGSCD=0,10,14` | `+UBTGSCD:0,11,02,12,2A29` `+UBTGSCD:0,13,02,14,2A24` |
 | 11 | Read the Manufacturer Name String **Apple Inc.** characteristics on handle 12  | `AT+UBTGR=0,12`  | `+UBTGR:0,12,4170706C6520496E632E` (Apple Inc.) |
+
+👉 The examples in this chapter use the default Bluetooth LE advertising interval, which is chosen as a compromise between discoverability and power consumption. When the module is acting as an advertiser,
+that is beacon or GATT server, it is important to adapt this to the clients and the desired behavior of the system. 
+For example a Windows PC has a very low duty cycle when scanning for Bluetooth devices and may require the module to advertise with a shorter advertising interval to get a smooth experience.
 
 ### Advertising options (since 3.4.0)
 
@@ -1890,9 +1893,9 @@ The parameters and values necessary for the use case include:
 **Parameters and values**
 - Host: mqtt.thingstream.io
 - Port: 8883 (TLS)
-- Client ID: device:78e3d356-876f-483b-872f-3485853fAAAA
-- Username: HMVK8C09FQP245O2BBBB
-- Password: ofYyBB/L3GkPvo060J6Dv+t+mfrh0XpGMcf7CCCC
+- Client ID: device:<client_id>
+- Username: <username>
+- Password: <password>
 - CA Root certificate: AmazonRootCA1.pem
 - Client certificate: -
 - Client private key: -
@@ -1901,7 +1904,7 @@ Before connecting to MQTT, set up Wi-Fi Connection like in steps 1-5 in [Wi-Fi s
 
 | Nr| Instructions                              | AT command                        | AT event              |
 |---|-------------------------------------------|-----------------------------------|------------------------------|
-| 1 | Configure the MQTT host, port, client-ID, username and password             | `AT+UMQCP=0,"mqtt.thingstream.io",8883,"device:78e3d356-876f-483b-872f-3485853fAAAA","HMVK8C09FQP245O2BBBB","ofYyBB/L3GkPvo060J6Dv+t+mfrh0XpGMcf7CCCC"`| `OK` |
+| 1 | Configure the MQTT host, port, client-ID, username and password             | `AT+UMQCP=0,"mqtt.thingstream.io",8883,"device:<client_id>","<username>","<password>"`| `OK` |
 | 2 | Write X.509 CA Root certificate using [Binary data](#simple-binary-data-example) | `AT+USECUB=0,"AmazonRootCA1.pem"{binary_content}` **Note**: Brackets { } should NOT be sent | `OK` |
 | 3 | Set up TLS connection config. Thingstream doesn´t use a client certificate or key  - only the root CA.                  | `AT+UMQTLS=0,1,"AmazonRootCA1.pem"`| `OK` |
 | 4 | Connect to MQTT broker                    | `AT+UMQC=0`                            | `+UEMQC:0` |
