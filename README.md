@@ -118,6 +118,22 @@ This section contains firmware variants with features under evaluation.
 
 <!-- /shiplog:evaluation:NORA-B26 -->
 
+<!-- shiplog:evaluation:NORA-B27 -->
+
+### [NORA-B27](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B27-3.6.0-012)
+
+**Version:** 3.6.0-012 (Evaluation)
+
+[![NORA-B27 Evaluation](https://img.shields.io/static/v1?label=NORA-B27&message=3.6.0-012&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B27-3.6.0-012)
+
+- **[AT Commands Manual](evaluation/NORA-B27/3.6.0/3.6.0-012/at_commands.md)**
+
+- **[Error Codes](evaluation/NORA-B27/3.6.0/3.6.0-012/error_codes.md)**
+
+---
+
+<!-- /shiplog:evaluation:NORA-B27 -->
+
 <!-- shiplog:insert:evaluation -->
 
 Useful applications for u-connectXpress:
