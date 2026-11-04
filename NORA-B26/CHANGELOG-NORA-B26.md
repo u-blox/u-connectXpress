@@ -5,6 +5,21 @@ This includes new features, behavior changes, bug fixes, and known limitations t
 For a detailed list of added or changed AT commands see at_commands_changes.md
 This project adheres to Semantic Versioning (MAJOR.MINOR.PATCH).
 
+# [3.5.1] - 2026-11-03
+### Improvements
+### Changed behavior
+### Fixed
+- Power: Fixed increased power consumption during sleep introduced in version 3.5.0.
+
+### Known limitations
+- Bluetooth: GATT read/write with authentication fails if bond not pre-established (UCS_DEV_2-851)
+- System: Partial escape sequence never timeout. If you, in transparent mode, send a message that contains part of the escape sequence for leaving transparent mode, such as ++, this will not be transmitted to peer until yet another character is sent. (UCS_DEV_2-1490)
+- SPS: Some SPS data sent in persistent mode will be lost when remote disconnects. Data sent over a persistent SPS link after the remote device stops acking BLE data until local device receives a BLE disconnect will be  lost. The window of lost data will be the BLE supervision timeout if for example the remote device is reset. (UCS_DEV_2-1487)
+- Bluetooth: The longest advertisement data for extended advertisement is limited to 226 bytes. (UCS_DEV_2-1471)
+- Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
+
+---
+
 # [3.5.0] - 2026-10-13
 ### Improvements
 - System: The Host Wakeup pin can be set to indicate the transparent-mode connection status with `AT+USYHWP`.
@@ -90,4 +105,3 @@ This project adheres to Semantic Versioning (MAJOR.MINOR.PATCH).
 - Bluetooth: Only one advertisement can be activated at the same time (UCS_DEV_2-1470)
 
 ---
-
