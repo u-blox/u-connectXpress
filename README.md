@@ -88,15 +88,15 @@ This section contains firmware variants with features under evaluation.
 
 <!-- shiplog:evaluation:NORA-W36 -->
 
-### [NORA-W36](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.6.0-012)
+### [NORA-W36](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.6.0-019)
 
-**Version:** 3.6.0-012 (Evaluation)
+**Version:** 3.6.0-019 (Evaluation)
 
-[![NORA-W36 Evaluation](https://img.shields.io/static/v1?label=NORA-W36&message=3.6.0-012&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.6.0-012)
+[![NORA-W36 Evaluation](https://img.shields.io/static/v1?label=NORA-W36&message=3.6.0-019&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.6.0-019)
 
-- **[AT Commands Manual](evaluation/NORA-W36/3.6.0/3.6.0-012/at_commands.md)**
+- **[AT Commands Manual](evaluation/NORA-W36/3.6.0/3.6.0-019/at_commands.md)**
 
-- **[Error Codes](evaluation/NORA-W36/3.6.0/3.6.0-012/error_codes.md)**
+- **[Error Codes](evaluation/NORA-W36/3.6.0/3.6.0-019/error_codes.md)**
 
 ---
 
