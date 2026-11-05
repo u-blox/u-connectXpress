@@ -134,6 +134,22 @@ This section contains firmware variants with features under evaluation.
 
 <!-- /shiplog:evaluation:NORA-B27 -->
 
+<!-- shiplog:evaluation:NORA-W36-sockets_8 -->
+
+### [NORA-W36 sockets_8](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.6.0-024-sockets_8)
+
+**Version:** 3.6.0-024 (Evaluation)
+
+[![NORA-W36-sockets_8 Evaluation](https://img.shields.io/static/v1?label=NORA-W36-sockets_8&message=3.6.0-024&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-W36-3.6.0-024-sockets_8)
+
+- **[AT Commands Manual](evaluation/NORA-W36/3.6.0/3.6.0-024/sockets_8/at_commands.md)**
+
+- **[Error Codes](evaluation/NORA-W36/3.6.0/3.6.0-024/sockets_8/error_codes.md)**
+
+---
+
+<!-- /shiplog:evaluation:NORA-W36-sockets_8 -->
+
 <!-- shiplog:insert:evaluation -->
 
 Useful applications for u-connectXpress:
