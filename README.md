@@ -104,15 +104,15 @@ This section contains firmware variants with features under evaluation.
 
 <!-- shiplog:evaluation:NORA-B26 -->
 
-### [NORA-B26](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26-3.6.0-012)
+### [NORA-B26](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26-3.6.0-035)
 
-**Version:** 3.6.0-012 (Evaluation)
+**Version:** 3.6.0-035 (Evaluation)
 
-[![NORA-B26 Evaluation](https://img.shields.io/static/v1?label=NORA-B26&message=3.6.0-012&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26-3.6.0-012)
+[![NORA-B26 Evaluation](https://img.shields.io/static/v1?label=NORA-B26&message=3.6.0-035&color=orange&logo=u-blox&logoColor=white)](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26-3.6.0-035)
 
-- **[AT Commands Manual](evaluation/NORA-B26/3.6.0/3.6.0-012/at_commands.md)**
+- **[AT Commands Manual](evaluation/NORA-B26/3.6.0/3.6.0-035/at_commands.md)**
 
-- **[Error Codes](evaluation/NORA-B26/3.6.0/3.6.0-012/error_codes.md)**
+- **[Error Codes](evaluation/NORA-B26/3.6.0/3.6.0-035/error_codes.md)**
 
 ---
 
